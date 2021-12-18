@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Sources, sinks, and population regulation - Solutions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ecology Course</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./PopulationDynamics.html">1. Excercise: Population Dynamics</a>
+    </li>
+    <li>
+      <a href="./PopulationDynamicsSolutions.html">1. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./StructuredPopulations.html">2. Excercise: Structured Populations</a>
+    </li>
+    <li>
+      <a href="./StructuredPopulationsSolutions.html">2. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./Competition.html">3. Excercise: Competition</a>
+    </li>
+    <li>
+      <a href="./CompetitionSolutions.html">3. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./PredatorPrey.html">4. Excercise: Predator-Prey Interactions</a>
+    </li>
+    <li>
+      <a href="./PredatorPreySolutions.html">4. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./Pulliam.html">5. Excercise: Sources, sinks, and population regulation</a>
+    </li>
+    <li>
+      <a href="./PulliamSolutions.html">5. Excercise: Solutions</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="sources-sinks-and-population-regulation---solutions" class="section level1 tabset">
+<h1>Sources, sinks, and population regulation - Solutions</h1>
+<div id="basic-model" class="section level2">
+<h2>Basic model</h2>
+<p>In this exercise, we reanalyze the model by Pulliam (1988, The American Naturalist 132:652-661). My code is inspired by Chapter 4 of the book <strong>A Primer of Ecology with R</strong> (2009) by M. Henry H. Stevens that analyzes this model using the framework of population projection matrices that you got to know when studying structured populations. I recommend Stevens’ book if you are interested in getting more deeply into ecological modelling with R. The book is available from the Uppsala University Library as a <a href="https://link-springer-com.ezproxy.its.uu.se/book/10.1007%2F978-0-387-89882-7">pdf</a>. Note that in order to access the book from the library you have to be logged into the UU network.</p>
+<p>So far, we have only considered closed populations. In contrast, one could imagine a population governed by births plus immigration, and deaths plus emigration (a BIDE model). Ron Pulliam (1988) proposed a simple model that includes all four components of BIDE to investigate the dynamics of a single species occupying habitats of different quality and where individuals can disperse between habitats. This can give rise to source-sink dynamics.</p>
+<p>The general idea of source-sink populations is that spatially separated subpopulations that together form a meta-population, occupy distinct habitats with different intrinisic dynamics due to births and deaths. Thus, the population dynamics in each habitat is goverened by its own growth factor <span class="math inline">\(\lambda\)</span>. In addition, individuals can immigrate and emigrate from one habitat (or subpopulation) to another. Therefore, the number of individuals we observe in a particular habitat is not only due to the habitat specific <span class="math inline">\(\lambda\)</span>, but also due to the amount of immigration <span class="math inline">\(I\)</span> and emigration <span class="math inline">\(E\)</span>. Assuming two habitats and a pre-breeding census (we count only adult individuals just before reproduction takes place) we can write general discrete time recursions for the dynamics as follows,</p>
+<p><span class="math display">\[
+\begin{align}
+  N_1(t+1)&amp;=N_1(t)\lambda_1 + I_1 - E_1\\
+  N_2(t+1)&amp;=N_2(t)\lambda_2 + I_2 - E_2.
+\end{align}
+\]</span></p>
+<p>Subpopulations with more births than deaths (<span class="math inline">\(\lambda &gt; 1\)</span>), and with more emigration than immigration (<span class="math inline">\(E &gt; I\)</span>), are referred to as <em>source populations</em>. Subpopulations with fewer births than deaths (<span class="math inline">\(\lambda &lt; 1\)</span>), and with more immigration than emigration (<span class="math inline">\(I &gt; E\)</span>) are referred to as <em>sink populations</em>.</p>
+<p>Next, let us be more specific about <span class="math inline">\(\lambda_i\)</span>, <span class="math inline">\(I_i\)</span> and <span class="math inline">\(E_i\)</span>. We follow the populations with a pre-breeding census, that is, we count adults just before reproduction takes place. See figure 1 in Pulliam (1988) for the considered life cycle. Adults in habitat <span class="math inline">\(i\)</span> produce <span class="math inline">\(\beta_i\)</span> offspring, which survive with probability <span class="math inline">\(P_J\)</span> to the next census. After reproduction, adults survive until the next census with probability <span class="math inline">\(P_A\)</span>. If we assume that the two habitats only differ in the number of offspring adults can produce, then we can write the habitat specific growth factors <span class="math inline">\(\lambda_i\)</span> as</p>
+<p><span class="math display">\[
+\begin{align}
+  \lambda_1 &amp;= \beta_1 P_J+ P_A\\
+  \lambda_2 &amp;= \beta_2 P_J+ P_A.
+\end{align}
+\]</span></p>
+<p>Follwing Pulliam, we assume that habitat 1 is a source (<span class="math inline">\(\lambda_1&gt;1\)</span>) while habitat 2 is a sink (<span class="math inline">\(\lambda_2&lt;1\)</span>). Furthermore, we assume that each habitat allows for a fixed maximal number of territories and only individuals with territories are able to reproduce. For habitat 1 we denote this maximal number of territories with <span class="math inline">\(k\)</span> (Pulliam’s <span class="math inline">\(\hat n\)</span>). If <span class="math inline">\(n_1&gt;k\)</span> individuals occupy habitat 1, then the probability for an individual to obtain a territory equals <span class="math inline">\(k/n_1\)</span>. Thus, the expected number of offspring per individual depends on population size in the following manner,</p>
+<p><span class="math display">\[
+\beta(n_1)=
+\begin{cases}
+          \beta_1 \quad &amp;\text{if} \,\, n_1 &lt; k\\
+          \beta_1\frac{k}{n_1} \quad &amp;\text{if} \,\, n_1 &gt; k. \\
+     \end{cases}
+\]</span></p>
+<p>Thus, without emigration the population dynamics in habitat 1 are given by</p>
+<p><span class="math display">\[
+n_1(t+1) = n_1(t)[\beta(n_1(t))P_J+P_A]
+\]</span></p>
+<p>We can program the piecewise defined function <span class="math inline">\(\beta(n)\)</span> in R as</p>
+<pre class="r"><code>beta &lt;- function (n1) {
+  if (n1 &lt; k) {beta1}
+  else {beta1*k/n1}
+}</code></pre>
+<p>Let’s test this function. Convince yourself that the result is correct.</p>
+<pre class="r"><code>k &lt;- 100
+beta1 &lt;- 50
+
+beta(13) # this gives the value of beta given n1=13</code></pre>
+<pre><code>## [1] 50</code></pre>
+<pre class="r"><code>beta(200) # this gives the value of beta given n1=200</code></pre>
+<pre><code>## [1] 25</code></pre>
+<p>Let us investigate the population dynamics in habitat 1 under the assumption that there is no emigration. We start by writing a function that gives the population size one time step into the future as a function of the populatin size now.</p>
+<pre class="r"><code>nextpop &lt;- function(n1){
+  n1*(beta(n1)*PJ+PA)
+}</code></pre>
+<p>Let’s test this function.</p>
+<pre class="r"><code>PJ &lt;- 0.01
+PA &lt;- 0.8
+
+nextpop(10)</code></pre>
+<pre><code>## [1] 13</code></pre>
+<p>Let us now iterate this function to produce a time series. This can be done elegantly in the following manner.</p>
+<pre class="r"><code>timeseries &lt;- function(n0, maxtime) {# defines a function called &quot;time series&quot; with arguments n0 and maxtime
+  out &lt;- rep(n0, maxtime + 1) # creates a vector in which the time series will be stored
+  for (i in seq_len(maxtime)) out[i+1] &lt;- nextpop(out[i]) # iterates the function in a for-loop
+  out # gives the result
+}
+
+example &lt;- timeseries(1, 50) # applies our new function assuming n0=1 for 50 time steps
+
+plot(example, ylab = &quot;population size&quot;, xlab = &quot;time&quot;) # plot of the time series</code></pre>
+<p><img src="PulliamSolutions_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Oh wou, this looks like logistic growth. But is it really? Anyway, it seems the population reaches an equilibrium <span class="math inline">\(n_1^*\)</span>. Pulliam (1988) derives the value of this equilibrium analytically (his equation (7)). Compare your simulation result with his formula. For this you have to compare the population size at the end of your simulation with the values the Pulliam’s equation (7) produces if you plug your parameter values into his equation. Vary your parameters to check whether your equilibrium number still agrees with Pulliam’s formula.</p>
+<p><span style="color:red">Using our notation, Pulliam’s formula reads <span class="math display">\[
+n_1^* = k\frac{P_J\beta_1}{1-P_A}.
+\]</span> Using for example the parameters from above (<span class="math inline">\(k=100\)</span>, <span class="math inline">\(\beta_1=50\)</span>, <span class="math inline">\(P_J=0.01\)</span>, <span class="math inline">\(P_A=0.8\)</span>) we find <span class="math inline">\(n_1^*= 250\)</span>, which agrees exactly with the result of our simulations. The same holds true for other parameter values.</span></p>
+</div>
+<div id="adding-migration-from-the-source-to-the-sink" class="section level2">
+<h2>Adding migration from the source to the sink</h2>
+<p>Next, we add migration to this model. Specifically, we assume that all adult individuals in habitat 1 that do not manage to obtain a territory migrate into the rather empty habitat 2. This strategy is adaptive for individuals that do not obtain a territory in habitat 1 despite the fact that <span class="math inline">\(\lambda&lt;1\)</span>, because little reproduction is better than no reproduction. This results in the population size in habitat 1 to be equal to the number of territories, <span class="math inline">\(n_1^*=k\)</span>. With this assumption the emigration <span class="math inline">\(E_1\)</span> from habitat 1 to 2 and the immigration <span class="math inline">\(I_2\)</span> into habitat 2 from habitat 1 is given by</p>
+<p><span class="math display">\[
+E_1 = I_2 = k(\beta_1 P_J + P_A) - k = k(\lambda_1 - 1).
+\]</span></p>
+<p>We can now write the the population dynamics in the two habitats as a system of two coupled difference equations.</p>
+<p><span class="math display">\[
+\begin{align}
+  k&amp;=k(\beta_1P_J + P_A) - I_{21} = k \lambda_1-k(\lambda_1-1) = k\\
+  n_2(t+1)&amp;=n_2(t)(\beta_2P_J + P_A) + I_{21} = n_2(t)\lambda_2 + k(\lambda_1 - 1)
+\end{align}
+\]</span></p>
+<p>We can write these equations in matrix notation and use the tools that we learned when we investigated structured populations. In fact, this is a structured population but it is not structured with respect to age or size but with respect to space.</p>
+<p><span class="math display">\[
+  \begin{pmatrix}
+    n_1(t+1)\\
+    n_2(t+1)
+  \end{pmatrix}
+  =\begin{pmatrix}
+    k\\
+    n_2(t+1)
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1 &amp; 0\\
+    \lambda_1-1 &amp; \lambda_2
+  \end{pmatrix}
+  \begin{pmatrix}
+    k\\
+    n_2(t)
+  \end{pmatrix}
+\]</span></p>
+<p>The main question we want to answer with this model is the following: How are the individuals in the population distributed over the two habitats? Specifically, how does the answer to this question depends on the reproductive factors <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> in the two habitats?</p>
+<p>Let us start by defining the parameter values.</p>
+<pre class="r"><code>PA &lt;- 0.7
+PJ &lt;- 0.01
+beta1 &lt;- 31
+beta2 &lt;- 0
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>n0 &lt;- c(k, 0) # vector of intitial population densities. Note that the population size in habitat 1 is assumed to have reached carrying capacity</code></pre>
+<p>Next, let us define the population projection matrix in R and a function that allows us to project the population vector one time step into the future.</p>
+<pre class="r"><code>tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE) # transition matrix
+
+nextpop2dim &lt;- function(n){ # population vector at the next time step obtained by mulitplying matrix with current populatin vector
+  tr.mat%*%n
+}
+
+nextpop2dim(n0) # let&#39;s test our new function</code></pre>
+<pre><code>##      [,1]
+## [1,]  100
+## [2,]    1</code></pre>
+<p>Finally, let produce a timeseries based our population projection matrix.</p>
+<pre class="r"><code>timeseries &lt;- function(n0, maxtime) {# defines a function called &quot;time series&quot; with arguments n0 and maxtime
+  out &lt;- matrix(c(rep(n0[1], maxtime+1), rep(n0[2], maxtime+1)), nrow = 2, byrow = TRUE) # creates a vector in which the time series is stored
+  for (i in seq_len(maxtime)) out[,i+1] &lt;- nextpop2dim(out[,i]) # iterates the function in a for-loop for &quot;maxtime&quot; time steps
+  out # gives the result
+}
+
+maxtime &lt;- 70
+data &lt;- timeseries(n0, maxtime) # applies the function
+
+plot(data[1,],  type = &#39;l&#39;, ylab = &quot;population size&quot;, xlab = &quot;time&quot;, col=&quot;red&quot;, ylim = c(0,150)) # plots the number of individuals in habitat 1
+lines(data[2,], col=&quot;blue&quot;, type=&#39;l&#39;) # plots the number of individuals in habitat 2
+legend(&quot;top&quot;, legend=c(&quot;habitat1&quot;, &quot;habitat2&quot;), col=c(&quot;red&quot;, &quot;blue&quot;), lty=c(1,1), bty=&quot;n&quot;, horiz=TRUE, cex=0.9)</code></pre>
+<p><img src="PulliamSolutions_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>We are interested in the equilibrium densities, i.e., the final values of the time series, and the proportions of individuals in the two habitats. The equilibrium proportions are given by</p>
+<p><span class="math display">\[
+\begin{align}
+  p_1^*&amp;=\frac{n_1^*}{n_1^*+n_2^*}\\
+  p_2^*&amp;=\frac{n_2^*}{n_1^*+n_2^*},
+\end{align}
+\]</span></p>
+<p>and we can compute them as follows</p>
+<pre class="r"><code># Proportion in habitat 1
+data[,maxtime+1] # final population vector in our time series</code></pre>
+<pre><code>## [1] 100.000000   3.333333</code></pre>
+<pre class="r"><code>data[1, maxtime+1]/(sum(data[, maxtime+1])) # proportion of individuals occupying the source habitat</code></pre>
+<pre><code>## [1] 0.9677419</code></pre>
+<pre class="r"><code># Proportion in habitat 2
+data[, maxtime+1] # final population vector in our time series</code></pre>
+<pre><code>## [1] 100.000000   3.333333</code></pre>
+<pre class="r"><code>data[2, maxtime+1]/(sum(data[, maxtime+1])) # proportion of individuals occupying the sink habitat</code></pre>
+<pre><code>## [1] 0.03225806</code></pre>
+<p>With this code at hand, please address the following questions:</p>
+<ol style="list-style-type: decimal">
+<li>How do the frequencies with which the population is distributed over the two habitats depend on the fecundities in the source (<span class="math inline">\(\beta_1\)</span>) and the sink (<span class="math inline">\(\beta_2\)</span>)?</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Obtain the frequency <span class="math inline">\(p_1^*\)</span> of individuals occupying habitat 1 by increasing <span class="math inline">\(\beta_1\)</span> in steps of 5. Can you make a plot with the values of <span class="math inline">\(\beta_1\)</span> on the x-axis and the equilibrium frequency <span class="math inline">\(p_1^*\)</span> on the y-axis?</li>
+</ol>
+<p><span style="color:red">Below, we plot the frequency of individuals occupying habitat 1 for five different values of the frecundity in habitat 1, namely, <span class="math inline">\(\beta_1=31, 36, 41, 46, 51\)</span>. We see that the frequency of individuals in habitat 1 is a monotonically decreasing function of the fecundity in habitat 1. This may sound paradoxically: the higher the fecundity, the lower the proportion of individuals occupying the habitat. The reason is that the increased fecundity exclusively benefits habitat 2, the sink habitat, due to an increased production of individuals emigrating from the source to the sink.</span></p>
+<pre class="r"><code>beta1 &lt;- 31
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>data.1 &lt;- timeseries(n0, maxtime) # applies the function
+freq.1 &lt;- data.1[1,maxtime+1]/(sum(data.1[,maxtime+1])) # proportion of individuals occupying the source
+
+beta1 &lt;- 36
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.06</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>data.2 &lt;- timeseries(n0, maxtime) # applies the function
+freq.2 &lt;- data.2[1,maxtime+1]/(sum(data.2[,maxtime+1])) # proportion of individuals occupying the source
+
+beta1 &lt;- 41
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.11</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>data.3 &lt;- timeseries(n0, maxtime) # applies the function
+freq.3 &lt;- data.3[1,maxtime+1]/(sum(data.3[,maxtime+1])) # proportion of individuals occupying the source
+
+beta1 &lt;- 46
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.16</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>data.4 &lt;- timeseries(n0, maxtime) # applies the function
+freq.4 &lt;- data.4[1,maxtime+1]/(sum(data.4[,maxtime+1])) # proportion of individuals occupying the source
+
+beta1 &lt;- 51
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.21</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>data.5 &lt;- timeseries(n0, maxtime) # applies the function
+freq.5 &lt;- data.5[1,maxtime+1]/(sum(data.5[,maxtime+1])) # proportion of individuals occupying the source
+
+freqs &lt;- c(freq.1, freq.2, freq.3, freq.4, freq.5)
+beta1s &lt;- c(31, 36, 41, 46, 51)
+plot(beta1s, freqs, ylab = &quot;frequency in habitat 1&quot;, xlab = expression(beta[1]))</code></pre>
+<p><img src="PulliamSolutions_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Obtain the frequency <span class="math inline">\(p_1^*\)</span> of individuals occupying habitat 1 by increasing <span class="math inline">\(\beta_2\)</span> in steps of 5. Can you make a plot with the values of <span class="math inline">\(\beta_2\)</span> on the x-axis and the equilibrium frequency <span class="math inline">\(p_1^*\)</span> on the y-axis?</li>
+</ol>
+<p><span style="color:red">Below, we plot the frequency of individuals occupying habitat 1 for five different values of the frecundity in habitat 2, namely, <span class="math inline">\(\beta_2=0, 5, 10, 15, 20\)</span>. We see that the frequency of individuals in habitat 1 is a monotonically decreasing function of the fecundity in habitat 2. Note that with all of the above values of <span class="math inline">\(\beta_2\)</span> habitat 2 remains a sink. But increasing the fecundity in the sink makes the sink less severe and therefore increases the proportion of individuals occupying the sink habitat.</span></p>
+<pre class="r"><code>beta1 &lt;- 31
+beta2 &lt;- 0
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<pre class="r"><code>data.1 &lt;- timeseries(n0, maxtime) # applies the function
+freq.1 &lt;- data.1[1,maxtime+1]/(sum(data.1[,maxtime+1])) # proportion of individuals occupying the source
+freq.1</code></pre>
+<pre><code>## [1] 0.9677419</code></pre>
+<pre class="r"><code>data.1[1,maxtime+1]</code></pre>
+<pre><code>## [1] 100</code></pre>
+<pre class="r"><code>sum(data.1[,maxtime+1])</code></pre>
+<pre><code>## [1] 103.3333</code></pre>
+<pre class="r"><code>data.1[,maxtime+1]</code></pre>
+<pre><code>## [1] 100.000000   3.333333</code></pre>
+<pre class="r"><code>beta2 &lt;- 5
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.75</code></pre>
+<pre class="r"><code>data.2 &lt;- timeseries(n0, maxtime) # applies the function
+freq.2 &lt;- data.2[1,maxtime+1]/(sum(data.2[,maxtime+1])) # proportion of individuals occupying the source
+
+beta2 &lt;- 10
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.8</code></pre>
+<pre class="r"><code>data.3 &lt;- timeseries(n0, maxtime) # applies the function
+freq.3 &lt;- data.3[1,maxtime+1]/(sum(data.3[,maxtime+1])) # proportion of individuals occupying the source
+
+beta2 &lt;- 15
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.85</code></pre>
+<pre class="r"><code>data.4 &lt;- timeseries(n0, maxtime) # applies the function
+freq.4 &lt;- data.4[1,maxtime+1]/(sum(data.4[,maxtime+1])) # proportion of individuals occupying the source
+
+beta2 &lt;- 20
+tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE)
+(l1 &lt;- PA + PJ*beta1) # check whether lambda_1&gt;1, this has to be true otherwise habitat 1 is not a source</code></pre>
+<pre><code>## [1] 1.01</code></pre>
+<pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
+<pre><code>## [1] 0.9</code></pre>
+<pre class="r"><code>data.5 &lt;- timeseries(n0, maxtime) # applies the function
+freq.5 &lt;- data.5[1,maxtime+1]/(sum(data.5[,maxtime+1])) # proportion of individuals occupying the source
+
+freqs &lt;- c(freq.1, freq.2, freq.3, freq.4, freq.5)
+beta1s &lt;- c(0, 5, 10, 15, 20)
+plot(beta1s, freqs, ylab = &quot;frequency in habitat 1&quot;, xlab = expression(beta[2]))</code></pre>
+<p><img src="PulliamSolutions_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Sumerize the two main messages you have learned from studying the paper by Pulliam (1988).</li>
+</ol>
+<p>Your personal answer.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Do you have critical points about this paper?</li>
+</ol>
+<p>Your personal answer.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Your are given the opportunity to work on this topic during your master’s thesis, either theoretically or empirically. What questions or extension would you like to address?</li>
+</ol>
+<p>Your personal answer.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

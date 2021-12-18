@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Predator-prey dynamics - Solutions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ecology Course</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./PopulationDynamics.html">1. Excercise: Population Dynamics</a>
+    </li>
+    <li>
+      <a href="./PopulationDynamicsSolutions.html">1. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./StructuredPopulations.html">2. Excercise: Structured Populations</a>
+    </li>
+    <li>
+      <a href="./StructuredPopulationsSolutions.html">2. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./Competition.html">3. Excercise: Competition</a>
+    </li>
+    <li>
+      <a href="./CompetitionSolutions.html">3. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./PredatorPrey.html">4. Excercise: Predator-Prey Interactions</a>
+    </li>
+    <li>
+      <a href="./PredatorPreySolutions.html">4. Excercise: Solutions</a>
+    </li>
+    <li>
+      <a href="./Pulliam.html">5. Excercise: Sources, sinks, and population regulation</a>
+    </li>
+    <li>
+      <a href="./PulliamSolutions.html">5. Excercise: Solutions</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="predator-prey-dynamics---solutions" class="section level1 tabset">
+<h1>Predator-prey dynamics - Solutions</h1>
+<div id="basic-predator-prey-model" class="section level2">
+<h2>Basic predator-prey model</h2>
+<p>In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in <em>contiuous time</em> in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called <em>numerical integration</em>. Luckily, an R-package exists that allows us to do just that.</p>
+<p>Thus, before you can start you have to install and load the package <strong>deSolve</strong> into R. In order to install this package click on <strong>Packages</strong> at the menu bar of the bottom right window of your workspace in R-Studio. Then press <strong>Install</strong> and search for the package <strong>deSolve</strong> and follow the instructions. In order load the package execute the following code:</p>
+<pre class="r"><code>library(deSolve)</code></pre>
+<p>In the lecture, you got to know the Lotka-Volterra predator-prey model, which can be written as</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\mathrm{d}R}{\mathrm{d}t} &amp; =rR-aRC\\
+\frac{\mathrm{d}C}{\mathrm{d}t} &amp; =eaRC-dC
+\end{align}
+\]</span></p>
+<p>where <em>R</em> and <em>C</em> denote the density of resources and consumers, respectively. Furthermore, <em>r</em> denotes the intrinsic growth rate of the resource, <em>a</em> the feeding efficiency of the consumer on the resource, <em>e</em> the conversion efficiency of resource individuals into consumer individuals and <em>d</em> the consumer death rate. In the next step, we define a function in R that describes this system of coupled ordinary differential equations and that will later allow us to simulate the dynamics that ensue from these equations.</p>
+<pre class="r"><code>predpreyLV &lt;- function(t, y, params) {
+  R &lt;- y[1]
+  C &lt;- y[2]
+  with(as.list(params), {
+          dR.dt &lt;- r * R - a * R * C
+          dC.dt &lt;- e * a * R * C - d * C
+          return(list(c(dR.dt, dC.dt)))
+  })
+}</code></pre>
+<p>In order to be able to analyze the dynamics described by these equations, we have to choose values for the parameters. You can change these values at any time.</p>
+<pre class="r"><code>r &lt;- 2
+a &lt;- 0.5
+e &lt;- 0.5
+d &lt;- 0.35</code></pre>
+<p>Before we can start to simulate the dynamics we have to additionally specify the initial population densities of the prey and predator population. Also these values can be changed at any time.</p>
+<pre class="r"><code>R0 &lt;- 2
+C0 &lt;- 6</code></pre>
+<p>Now we are ready simulate the dynamics for the above set of parameters. The following code produces a plot with time on the x-axis and the resource and consumer density on the y-axis. The solid line shows the density of resources and the hatched line the density of consumers.</p>
+<pre class="r"><code>params1 &lt;- c(r = r, a = a, e = e, d = d)
+MaxTime &lt;- 60 # length of the time series, can be changed at any time
+Time &lt;- seq(0, MaxTime, by = 0.1) # here we produce a sequence of time points at which we will determine the population densities
+LV.out &lt;- ode(c(R0, C0), Time, predpreyLV, params1) # here we call the function &quot;ode&quot; that does the hard work of numerical integration and which is part of the package &quot;deSolve&quot;
+
+matplot(Time, (LV.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Density&quot;, xlab=&quot;Time&quot;)
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Let us run (and plot) the same model as above twice more, but with somewhat different starting densities — everything else is the same.</p>
+<pre class="r"><code>R02 &lt;- 2
+C02 &lt;- 5
+LV.out2 &lt;- ode(c(R02, C02), Time, predpreyLV, params1)
+matplot(Time, (LV.out2[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Density&quot;, xlab=&quot;Time&quot;)
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>R03 &lt;- 2
+C03 &lt;- 4
+LV.out3 &lt;- ode(c(R03, C03), Time, predpreyLV, params1)
+matplot(Time, (LV.out3[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Density&quot;, xlab=&quot;Time&quot;)
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p>Instead of looking at these simulations as time series, we can also look at them in a phase-plane diagram.</p>
+<pre class="r"><code>plot(LV.out[, 2], LV.out[, 3], type = &quot;l&quot;,  lty = 1, col = &quot;red&quot;, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+points(R0, C0, cex = 1.5, pch = 19, col = &quot;red&quot;) # adds a dot to show the starting density
+lines(LV.out2[, 2], LV.out2[, 3], lty = 1, col = &quot;blue&quot;) # adds the second simulation to the plot
+points(R02, C02, cex = 1.5 ,pch = 19, col = &quot;blue&quot;) # adds a dot to show the starting density
+lines(LV.out3[, 2], LV.out3[, 3], lty = 1, col = &quot;green&quot;) # adds the third simulation to the plot
+points(R03, C03, cex = 1.5, pch = 19, col = &quot;green&quot;) # adds a dot to show the starting density
+
+legend(&quot;topright&quot;, c(expression(&quot;simulation 1&quot;), expression(&quot;simulation 2&quot;), expression(&quot;simulation 3&quot;)), lty = 1, col = c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;), bty = &quot;n&quot;)
+
+abline(h = r/a, lty = 2) # iso-cline for the resource, which is a horizontal line
+abline(v = d/(e * a), lty = 2) # iso-cline for the consumer, which is a vertical line</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li>What do you observe?</li>
+</ol>
+<p><span style="color:red">Trajectories are “closed orbits”, that is, the dynamics starting at initial densities <em>(R0, C0)</em> go back to exactly the same densities, and so forth. The population population cycles repeat themselves in an identical manner.</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>How do the different starting conditions affect the dynamics?</li>
+</ol>
+<p><span style="color:red">The starting conditions affect the <em>amplitude</em> of the population cycles.</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li>In which direction does the time series “travel” along these lines, clockwise or counter-clockwise? You can figure this out by looking that time-series plots.</li>
+</ol>
+<p><span style="color:red">Counter-clockwise.</span></p>
+<ol start="4" style="list-style-type: decimal">
+<li>What is your conclusion about the dynamics of this model? Summerize them here.</li>
+</ol>
+<p><span style="color:red">This model shows sustained population cycles. The different cycles resulting from different initial conditions are “neutral” in the sense that they are neither attracting or repelling. Biologically, this seems unrealistic. Environmental and demograhphic stochasticity would moved the population dynamics across the cycles of different amplitude and the populatin is likely to go extinct in the long run when the population dynamics moves due to chance close to one of the axex where the population dynamics of one species is very low.</span></p>
+</div>
+<div id="prey-species-with-logistic-growth" class="section level2">
+<h2>Prey species with logistic growth</h2>
+<p>In the Lotka-Volterra consumer-resource model shown above the resource grows exponentially in the absence of a consumer (make yourself clear that this is true based on the equation) and the consumer feeds on the resource according to a linear functional response. In particular, the first assumption is unrealistic. Thus, let us modify the model by assuming the the resource grows logistically in the absence of a consumer:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\mathrm{d}R}{\mathrm{d}t}&amp;=Rr\bigg(1-\frac{R}{K}\bigg)-aRC\\
+\frac{\mathrm{d}C}{\mathrm{d}t}&amp;=eaRC-dC
+\end{align}
+\]</span></p>
+<p>Let’s define the corresponding function:</p>
+<pre class="r"><code>predprey.log.prey &lt;- function(t, y, p) {
+  R &lt;- y[1]
+  C &lt;- y[2]
+    with(as.list(p), {
+    dR.dt &lt;- r * R * (1 - R / k) - a * R * C
+    dC.dt &lt;- e * a * R * C - d * C
+    return(list(c(dR.dt, dC.dt)))
+  })
+}</code></pre>
+<p>To be able to compare the dynamics of this new model we choose the same parameters as above to which we have to add a value for the one new parameter, the resource carrying capacity <em>k</em>.</p>
+<pre class="r"><code>r &lt;- 2
+e &lt;- 0.5
+a &lt;- 0.5
+d &lt;- 0.35
+k &lt;- 10</code></pre>
+<p>Let us run (and plot) the model. We do this for two different initial population vectors (results shown in black and red for the first and second initial densities, respectively).</p>
+<pre class="r"><code>params.log.prey1 &lt;- c(a = a, r = r, d = d, e = e, k = k)
+MaxTime &lt;- 50
+R0 &lt;- 2 # initial density for resource species
+C0 &lt;- 6 # initial density for consumer species
+
+Time &lt;- seq(0, MaxTime, by = 0.2)
+log.prey.out &lt;- ode(c(R0, C0), Time, predprey.log.prey, params.log.prey1)
+
+R0 &lt;- 3 # alternative initial density for resource species
+C0 &lt;- 5 # alternative initial density for consumer species
+
+Time &lt;- seq(0, MaxTime, by = 0.2)
+log.prey.out.2 &lt;- ode(c(R0, C0), Time, predprey.log.prey, params.log.prey1)
+
+matplot(Time, (log.prey.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;)
+lines(Time, (log.prey.out.2[, 2]), type = &quot;l&quot;, lty = 1, col=&quot;red&quot;, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;)
+lines(Time, (log.prey.out.2[, 3]), type = &quot;l&quot;, lty = 2, col=&quot;red&quot;, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;)
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>plot(log.prey.out[, 2], log.prey.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, xlim = c(0,3), ylim = c(1,6))
+lines(log.prey.out.2[, 2], log.prey.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = &quot;red&quot;, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+abline(a = r/a, b = -r/(a*k), lty = 2) # resource isocline, a straight line with negative slope
+abline(v = d / (e * a), lty = 2) # consumer isocline, a vertical line</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li><p>What do you observe?</p></li>
+<li><p>Vary the starting densities. How does this affect the long dynamics of the model?</p></li>
+<li><p>How does your conclusion about the dynamics of this model differ from the first model without logistic resource growth?</p></li>
+</ol>
+<p><span style="color:red">The equilibrium at which consumers and resources coexists becomes a stable equilibrium. It is an attractor of the cyclic dynamics regardless of the initial population vector. The predator and prey dynamics oscillate but the amplitude of these oscillations decreases. Thus, this model does not seems to be able to explain the long-term population dynamical cycles that some consumer-resource systems show in nature.</span></p>
+</div>
+<div id="rosenzweig-macarthur-model" class="section level2">
+<h2>Rosenzweig-MacArthur model</h2>
+<p>Finally, let us make one more modification to the model. Instead of a linear functional response it is more realistic that consumers have a type-II functional response. This means that the amount of resources a consumer individual can take up saturates with increasing resource density due to consumers spending an increasing amount of time <em>handling</em> prey items. This version of the predator-prey model is also knows as the <em>Rosenzweig-MacArthur model</em>. The modified equations are:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\mathrm{d}R}{\mathrm{d}t}&amp;=Rr\bigg(1-\frac{R}{K}\bigg)-\frac{aCR}{1+ahR}\\
+\frac{\mathrm{d}C}{\mathrm{d}t}&amp;=\frac{eaRC}{1+ahR}-dC
+\end{align}
+\]</span> The corresponding function in R is as follows.</p>
+<pre class="r"><code>predprey.RosMac &lt;- function(t, y, p) {
+  R &lt;- y[1]
+  C &lt;- y[2]
+    with(as.list(p), {
+    dR.dt &lt;- r * R * (1 - R / k) - a * C * R/(1 + a * h * R)
+    dC.dt &lt;- e * a * R * C/(1 + a * h * R) - d * C
+    return(list(c(dR.dt, dC.dt)))
+  })
+}</code></pre>
+<p>Again, we keep the parameter values as above with one additional parameter, the handling time <em>h</em>.</p>
+<pre class="r"><code>r &lt;- 2
+e &lt;- 0.5
+a &lt;- 0.5
+d &lt;- 0.35
+k &lt;- 10
+h &lt;- 0.35</code></pre>
+<p>Let us run the model and plot the resulting time series.</p>
+<pre class="r"><code>params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+MaxTime &lt;- 150 # you can increase MaxTime if you think the dynamics have not yet reached their &quot;endpoint&quot;
+Time &lt;- seq(0, MaxTime, by = 0.2)
+
+R0 &lt;- 2 # initial resource density
+C0 &lt;- 2 # initial consumer density
+RosMac.out &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+
+R0 &lt;- 2 # initial resource density
+C0 &lt;- 3.5 # initial consumer density
+RosMac.out.2 &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+
+matplot(Time, (RosMac.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;) # time series plot for first initial population vector
+lines(Time, (RosMac.out.2[, 2]), type = &quot;l&quot;, lty = 1, col=&quot;red&quot;) # time series plot for alternative initial population vector
+lines(Time, (RosMac.out.2[, 3]), type = &quot;l&quot;, lty = 2, col=&quot;red&quot;)
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>plot(RosMac.out[, 2], RosMac.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+lines(RosMac.out.2[, 2], RosMac.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = &quot;red&quot;, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;) # consumer isocline, a vertical line
+# to produce the graph for the resource isocline requires a bit more work since the now becomes a &quot;curve&quot; instead of a straight line
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<p>In the following, please investigate this model in a bit more detail by varying parameters and observing how the model responds. More specifically,</p>
+<ol style="list-style-type: decimal">
+<li>Start by describing how the dynamics of this model differ from those of the previous two models. Also investiage the effect of changing the initial population densities.</li>
+</ol>
+<p><span style="color:red">With the above parameter values the joint consumer and resource population dynamics approach a <em>limit cycle</em>. From then onwards, the dynamics follow the pattern of a typical consumer-resource cycle with the consumer dynamics lagging one quarter of a cycle length behind the dynamics of the resource. The same limit cycle is approached independent of the initial conditions. If the initial condition lies outside the limit cycle, the dynamics first spiral inwards to apprach the limit cycle (black curves above), and if the initial condition lies inside the limit cycle, the dynamics first spiral outwards to apprach the limit cycle (red curves above). In summary, this model can potentially explain the sustained oscillations that we obverve in the time series of consumer-resource systems.</span></p>
+<pre class="r"><code>d &lt;- 0.5 # higher consumer death rate that moves the consumer isocline further to the right
+params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+MaxTime &lt;- 150 # you can increase MaxTime if you think the dynamics have not yet reached their &quot;endpoint&quot;
+Time &lt;- seq(0, MaxTime, by = 0.2)
+
+R0 &lt;- 2 # initial resource density
+C0 &lt;- 2 # initial consumer density
+RosMac.out &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+
+R0 &lt;- 2 # initial resource density
+C0 &lt;- 3.5 # initial consumer density
+RosMac.out.2 &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+
+matplot(Time, (RosMac.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;) # time series plot for first initial population vector
+lines(Time, (RosMac.out.2[, 2]), type = &quot;l&quot;, lty = 1, col=&quot;red&quot;) # time series plot for alternative initial population vector
+lines(Time, (RosMac.out.2[, 3]), type = &quot;l&quot;, lty = 2, col=&quot;red&quot;)
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>plot(RosMac.out[, 2], RosMac.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+lines(RosMac.out.2[, 2], RosMac.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = &quot;red&quot;, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;) # consumer isocline, a vertical line
+# to produce the graph for the resource isocline requires a bit more work since the now becomes a &quot;curve&quot; instead of a straight line
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Note that with current the parameters the consumer isocline (the vertical line) intersects with the resource isocline <em>to the left of the maximum of the resource isocline</em>. What happens if we move the position of the consumer isocline further to the right so that it intersects with the resource isocline to the right of the maximum of the resource isocline? You can do this by increasing the value of the consumer death rate <em>d</em>. Describe how this changes the dynamics.</li>
+</ol>
+<p><span style="color:red">Increasing the value of the consumer mortality rate <em>d</em> such that the consumer isocline intersects to the right of the maximum of the resource isocline with the resource isocline has a strong effect on the dynamics. The joint population dynamics now reach the equilibrium point where the two isocline intersec. From then onwards the system shows no oscillations any longer. These dynamics are similar to those of the above model with a logistically growing resource and a consumer feeding with a type-I functional response. This outcome is independent of the initial conditions (as shown by the red and black lines above).</span></p>
+<pre class="r"><code>d &lt;- 0.9 # higher consumer death rate that moves the consumer isocline even further to the right
+params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+MaxTime &lt;- 150 # you can increase MaxTime if you think the dynamics have not yet reached their &quot;endpoint&quot;
+Time &lt;- seq(0, MaxTime, by = 0.2)
+
+R0 &lt;- 2 # initial resource density
+C0 &lt;- 2 # initial consumer density
+RosMac.out &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+
+matplot(Time, (RosMac.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;) # time series plot for first initial population vector
+legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>plot(RosMac.out[, 2], RosMac.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;) # consumer isocline, a vertical line
+# to produce the graph for the resource isocline requires a bit more work since the now becomes a &quot;curve&quot; instead of a straight line
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>What happends if you increase the value of the consumer death rate <span class="math inline">\(d\)</span> even more so that the consumer isocline moves so much to the right that it does not at all intersect with the resource isocline?</li>
+</ol>
+<p><span style="color:red">If the consumer mortality rate <em>d</em> is increased even further such that the consumer isocline is moved further to the right until it does not intersect with the resource isocline anymore, then the dynamics become very simple. The consumer population goes extinct and the resource population reached its carrying capacity.</span></p>
+<pre class="r"><code>library(gridExtra)</code></pre>
+<pre class="r"><code>d &lt;- 0.35 # original value of the consumer death rate
+R0 &lt;- 2 # initial resource density
+C0 &lt;- 2 # initial consumer density
+
+k &lt;- 8 # resource carrying capacity
+params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+RosMac.out.2 &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+plot(RosMac.out.2[, 2], RosMac.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+legend(&quot;topright&quot;, c(expression(&quot;K=8&quot;)))
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;)
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code>k &lt;- 10 # increased resource carrying capacity
+params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+RosMac.out.2 &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+plot(RosMac.out.2[, 2], RosMac.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+legend(&quot;topright&quot;, c(expression(&quot;K=10&quot;)))
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;)
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<pre class="r"><code>k &lt;- 12 # increased resource carrying capacity
+params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+RosMac.out.2 &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+plot(RosMac.out.2[, 2], RosMac.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+legend(&quot;topright&quot;, c(expression(&quot;K=12&quot;)))
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;)
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
+<pre class="r"><code>k &lt;- 14 # increased resource carrying capacity
+params.RosMac &lt;- c(a = a, r = r, d = d, e = e, k = k, h = h)
+RosMac.out.2 &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac)
+plot(RosMac.out.2[, 2], RosMac.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
+legend(&quot;topright&quot;, c(expression(&quot;K=14&quot;)))
+abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;)
+R &lt;- 0:k
+Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
+RisoStable &lt;- eval(Riso)
+lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource isocline</code></pre>
+<p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-17-4.png" width="672" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Go back to the original parameters with <em>d=0.35</em>. Now gradually increase the value of the resource carrying capacity <em>K</em> to ever larger values. What do you observe?</li>
+</ol>
+<p><span style="color:red">Above we show the population dynamics on the face plane as resulting from five different values for the consumer carrying capacity <em>K</em>, namely <em>K=8, 10, 12</em> and <em>14</em>. For <em>K=8</em> the dynamics reach a stable equilibrium point. For the remaining three values of <em>K</em> the dynamics reach a stable limit cycle. The amplitude of this limit cycle increases with increasing <em>K</em>-values, causing that the limit cycle gets closer the the coordinate axes of the phase plane where the density of either the resource or the consumer is very low. At these population densities the rare species is prone to extinction to either demograhic or environmental stochasticity. Thus, increasing the producutivity of the resource (as captured by <em>K</em>) destabilizes the consumer-resource system. The phenomenon is known as the <em>paradox of enrichment</em>.</span></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

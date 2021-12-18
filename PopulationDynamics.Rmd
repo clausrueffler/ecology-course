@@ -1,0 +1,43 @@
+---
+pagetitle: 'Exercise: Population Dynamics'
+output: 
+  html_document:
+    toc: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exercise: Population Dynamics {.tabset}
+
+## Question 1
+You are studying a closed population of beetles consisting of 3000 individuals. You register 400 births and 150 deaths during one month. Calculate *r* and *lambda* and predict the population size after 6 months.
+
+## Question 2
+You estimate the size of a flatworm population to be the following at five consecutive days: 100, 158, 315, 398 and 794 individuals. Plot the natural logarithm (i.e., to the base e, where e is Eulers number) of the population size and estimate *r*. You can plot the data by hand on a piece of paper, or by using EXCEL or R.
+
+## Question 3
+An isolated population of elk (a species of deer) in Washington state increased from 1975 to 1993 as follows:
+
+$$
+\begin{align*}
+    1975 &\,\,\,\,\, 8  & 1986 &\,\,\,\,\, 68 \\
+    1976 &\,\,\,\,\, 13 & 1987 &\,\,\,\,\, 67 \\
+    1977 &\,\,\,\,\, 14 & 1988 &\,\,\,\,\, 72 \\
+    1979 &\,\,\,\,\, 15 & 1989 &\,\,\,\,\, 79 \\
+    1981 &\,\,\,\,\, 20 & 1990 &\,\,\,\,\, 94 \\
+    1982 &\,\,\,\,\, 21 & 1991 &\,\,\,\,\, 110 \\
+    1983 &\,\,\,\,\, 27 & 1992 &\,\,\,\,\, 146 \\
+    1984 &\,\,\,\,\, 40 & 1993 &\,\,\,\,\, 179 \\
+    1985 &\,\,\,\,\, 54 &&
+\end{align*}
+$$
+
+Plot these data as function of time. What shape of population growth is shown by these data? Could one fit the logistic equation to these data? Use a discrete-time model to calculate the net reproductive ratio *lambda* for this population.
+
+## Question 4
+Suppose that a butterfly population shows logistic growth with *K = 500* and *r = 0.1* individuals/(individuals*month). What is the maximal population growth rate for this population?
+
+## Question 5
+A fisher is maximizing their fishing yield by maintaining a population of logistically growing lake trout at the density where the population growth rate is fastest. For the population in question this occurs at a density of 500 individuals. Predict the realized population growth rate after the population has been stocked with an additional 600 fish. Assume that for the trout $r=0.005$ individuals/(individual*day).

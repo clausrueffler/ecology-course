@@ -1,0 +1,38 @@
+
+name: "Ecology Course"
+title: "Ecology Course"
+type: inverse
+left:
+  - text: "Exercises"
+    menu:
+      - text: "1. Excercise: Population Dynamics"
+        href: ./PopulationDynamics.html
+      - text: "1. Excercise: Solutions"
+        href: ./PopulationDynamicsSolutions.html        
+      - text: "2. Excercise: Structured Populations"
+        href: ./StructuredPopulations.html
+      - text: "2. Excercise: Solutions"
+        href: ./StructuredPopulationsSolutions.html
+      - text: "3. Excercise: Competition"
+        href: ./Competition.html
+      - text: "3. Excercise: Solutions"
+        href: ./CompetitionSolutions.html
+      - text: "4. Excercise: Predator-Prey Interactions"
+        href: ./PredatorPrey.html
+      - text: "4. Excercise: Solutions"
+        href: ./PredatorPreySolutions.html
+      - text: "5. Excercise: Sources, sinks, and population regulation"
+        href: ./Pulliam.html
+      - text: "5. Excercise: Solutions"
+        href: ./PulliamSolutions.html
+#- text: "Project"
+#    menu:
+#       - text: "Project part 1"
+#         href: ./project1.html
+#       - text: "Project part 2"
+#         href: ./project2.html
+#  - text: "1. Excercise: Population Dynamics"
+#    href: ./PopulationDynamics.html
+#right:
+#  - icon: fa-github fa-lg
+#    href: https://github.com/githubusername/mywebsite

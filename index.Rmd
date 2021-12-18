@@ -1,0 +1,18 @@
+---
+title: "Joint ecology course @ Uppsala University"
+output: 
+  html_document:
+    toc: FALSE
+---
+*Claus' Exercises*
+
+Click the exercise button and select from the differnt exercises in the drop-down menu. Exercises 2-5 contain R-code. Please do the exercises by copying the R-code and pasting it in the skript window of your R-Studio application.
+
+Solutions will appear after the submission deadline for each exercise.
+
+**Enjoy!**
+
+Claus
+
+
+
