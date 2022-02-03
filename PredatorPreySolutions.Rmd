@@ -8,6 +8,11 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+```
+
 # Predator-prey dynamics - Solutions {.tabset}
 
 ## Basic predator-prey model
