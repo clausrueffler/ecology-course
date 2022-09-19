@@ -100,7 +100,7 @@ barplot(cbind(N.0, N.1, N.2), las=1, col=c("grey", "green", "red"), names.arg=c(
 legend(x=0.1, y=2000, bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
-Can you adapt this chunk of code so as to include the data for the all time steps until ```t=10```?
+Please try to adapt this chunk of code so as to include the data for the all time steps until ```t=10```?
 
 ```{r echo=FALSE, eval=FALSE}
 par(xpd=T) # allow plotting on margin (for legend)
