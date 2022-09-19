@@ -21,7 +21,7 @@ left:
         href: ./PredatorPrey.html
 #      - text: "4. Excercise: Solutions"
         href: ./PredatorPreySolutions.html
-      - text: "5. Excercise: Sources, sinks, and population regulation"
+#      - text: "5. Excercise: Sources, sinks, and population regulation"
         href: ./Pulliam.html
 #      - text: "5. Excercise: Solutions"
         href: ./PulliamSolutions.html
