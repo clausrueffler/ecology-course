@@ -7,8 +7,8 @@ left:
     menu:
       - text: "1. Excercise: Population Dynamics"
         href: ./PopulationDynamics.html
-#      - text: "1. Excercise: Solutions"
-#        href: ./PopulationDynamicsSolutions.html        
+      - text: "1. Excercise: Solutions"
+        href: ./PopulationDynamicsSolutions.html        
       - text: "2. Excercise: Structured Populations"
         href: ./StructuredPopulations.html
 #      - text: "2. Excercise: Solutions"
