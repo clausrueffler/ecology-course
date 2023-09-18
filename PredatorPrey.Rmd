@@ -16,9 +16,9 @@ klippy::klippy(position = c('top', 'right'))
 # Exercise: Predator-prey dynamics {.tabset}
 
 ## Basic predator-prey model
-In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in *contiuous time* in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called *numerical integration*. Luckily, an R-package exists that allows us to do just that.
+In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in *continuous time* in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called *numerical integration*. Luckily, an R-package exists that allows us to do just that.
 
-Thus, before you can start you have to install and load the package **deSolve** into R. In order to install this package click on **Packages** at the menu bar of the bottom right window of your workspace in R-Studio. Then press **Install** and search for the package **deSolve** and follow the instructions. In order load the package execute the following code:
+Thus, before you can start you have to install and load the package **deSolve** into R. In order to install this package click on **Packages** at the menu bar of the bottom right window of your work space in R-Studio. Then press **Install** and search for the package **deSolve** and follow the instructions. In order load the package execute the following code:
 
 ```{r}
 library(deSolve)
@@ -75,7 +75,7 @@ matplot(Time, (LV.out[, 2:3]), type = "l", lty = 1:2, col=1, ylab = "Population 
 legend("top", c(expression("resource"), expression("consumer")), lty = 1:2, bty = "n", horiz = TRUE)
 ```
 
-Let us run (and plot) the same model as above twice more, but with somewhat different starting densities — everything else is the same. 
+Let us run (and plot) the same model as above two more times, but with somewhat different starting densities — everything else is the same. 
 
 ```{r eval=FALSE}
 R02 <- 2
@@ -105,8 +105,8 @@ points(R03, C03, cex = 1.5, pch = 19, col = "green") # adds a dot to show the st
 
 legend("topright", c(expression("simulation 1"), expression("simulation 2"), expression("simulation 3")), lty = 1, col = c("red","blue","green"), bty = "n")
 
-abline(h = r/a, lty = 2) # iso-cline for the resource, which is a horizontal line
-abline(v = d/(e * a), lty = 2) # iso-cline for the consumer, which is a vertical line
+abline(h = r/a, lty = 2, col = "red") # iso-cline for the resource, which is a horizontal line
+abline(v = d/(e * a), lty = 2, col = "blue") # iso-cline for the consumer, which is a vertical line
 ```
 
 In which direction does the time series "travel" along these lines, clockwise or counter-clockwise? You can figure this out by looking that time-series plots. What is your conclusion about the dynamics of this model? Summerize them here.
@@ -165,8 +165,8 @@ Again, let's make a phase plane plot. In which direction does the time series �
 
 ```{r}
 plot(log.prey.out[, 2], log.prey.out[, 3], type = "l",  lty = 1, col = 1, ylab = "consumer", xlab = "resource")
-abline(a = r/a, b = -r/(a*k), lty = 2) # resource isocline, a straight line with negative slope
-abline(v = d / (e * a), lty = 2) # consumer isocline, a vertical line
+abline(a = r/a, b = -r/(a*k), lty = 2, col = "red") # resource iso-cline, a straight line with negative slope
+abline(v = d / (e * a), lty = 2, col = "blue") # consumer iso-cline, a vertical line
 ```
 
 What do you observe? Vary the starting densities. How does this affect the long dynamics of the model? How does your conclusion about the dynamics of this model differ from the first model without logistic resource growth?
@@ -225,21 +225,21 @@ We should of course also make a phase plane diagram of these dynamics.
 
 ```{r}
 plot(RosMac.out[, 2], RosMac.out[, 3], type = "l",  lty = 1, col = 1, ylab = "consumer", xlab = "resource")
-abline(v = d / (e * (a - d*h)), lty = 2, col = "blue") # consumer isocline, a vertical line
-# to produce the graph for the resource isocline requires a bit more work since the now becomes a "curve" instead of a straight line
+abline(v = d / (e * (a - d*h)), lty = 2, col = "blue") # consumer iso-cline, a vertical line
+# to produce the graph for the resource iso-cline requires a bit more work since the now becomes a "curve" instead of a straight line
 R <- 0:k
 Riso <- expression(r / (a * k) * (k -R) * (1 + a * h * R))
 RisoStable <- eval(Riso)
-lines(R, RisoStable, type = "l", lty =2, ylab = "consumer", xlab = "resource", col = "red", ylim = c(0, 10)) # resource isocline
+lines(R, RisoStable, type = "l", lty =2, ylab = "consumer", xlab = "resource", col = "red", ylim = c(0, 10)) # resource iso-cline
 ```
 
 In the following, please investigate this model in a bit more detail by varying parameters and observing how the model responds. More specifically,
 
   1) Start by describing how the dynamics of this model differ from those of the previous two models. Also investiage the effect of changing the initial population densities.
 
-  2) Note that with current the parameters the consumer isocline (the vertical line) intersects with the resource isocline *to the left of the maximum of the resource isocline*. What happens if we move the position of the consumer isocline further to the right so that it intersects with the resource isocline to the right of the maximum of the resource isocline? You can do this by increasing the value of the consumer death rate *d*. Describe how this changes the dynamics.
+  2) Note that with current the parameters the consumer iso-cline (the vertical line) intersects with the resource isocline *to the left of the maximum of the resource iso-cline*. What happens if we move the position of the consumer isocline further to the right so that it intersects with the resource iso-cline to the right of the maximum of the resource isocline? You can do this by increasing the value of the consumer death rate *d*. Describe how this changes the dynamics.
   
-  3) What happends if you increase the value of the consumer death rate *d* even more so that the consumer isocline moves so much to the right that it does not intersect with the resource isocline any longer?
+  3) What happens if you increase the value of the consumer death rate *d* even more so that the consumer isocline moves so much to the right that it does not intersect with the resource iso-cline any longer?
   
   4) Go back to the original parameters with *d=0.35*. Now gradually increase the value of the resource carrying capacity *K* to ever larger values. What do you observe?
   
