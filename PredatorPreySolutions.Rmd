@@ -16,6 +16,7 @@ klippy::klippy(position = c('top', 'right'))
 # Predator-prey dynamics - Solutions {.tabset}
 
 ## Basic predator-prey model
+
 In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in *contiuous time* in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called *numerical integration*. Luckily, an R-package exists that allows us to do just that.
 
 Thus, before you can start you have to install and load the package **deSolve** into R. In order to install this package click on **Packages** at the menu bar of the bottom right window of your workspace in R-Studio. Then press **Install** and search for the package **deSolve** and follow the instructions. In order load the package execute the following code:
@@ -104,8 +105,8 @@ points(R03, C03, cex = 1.5, pch = 19, col = "green") # adds a dot to show the st
 
 legend("topright", c(expression("simulation 1"), expression("simulation 2"), expression("simulation 3")), lty = 1, col = c("red","blue","green"), bty = "n")
 
-abline(h = r/a, lty = 2) # iso-cline for the resource, which is a horizontal line
-abline(v = d/(e * a), lty = 2) # iso-cline for the consumer, which is a vertical line
+abline(h = r/a, lty = 2, col = "red") # isocline for the resource, which is a horizontal line
+abline(v = d/(e * a), lty = 2, col = "blue") # isocline for the consumer, which is a vertical line
 ```
 
   1) What do you observe?
@@ -183,8 +184,8 @@ legend("top", c(expression("resource"), expression("consumer")), lty = 1:2, bty 
 
 plot(log.prey.out[, 2], log.prey.out[, 3], type = "l",  lty = 1, col = 1, ylab = "consumer", xlab = "resource", xlim = c(0,3), ylim = c(1,6))
 lines(log.prey.out.2[, 2], log.prey.out.2[, 3], type = "l",  lty = 1, col = "red", ylab = "consumer", xlab = "resource")
-abline(a = r/a, b = -r/(a*k), lty = 2) # resource isocline, a straight line with negative slope
-abline(v = d / (e * a), lty = 2) # consumer isocline, a vertical line
+abline(a = r/a, b = -r/(a*k), lty = 2, col = "red") # resource isocline, a straight line with negative slope
+abline(v = d / (e * a), lty = 2, col = "blue") # consumer isocline, a vertical line
 ```
 
   1) What do you observe?

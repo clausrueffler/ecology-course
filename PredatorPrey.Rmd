@@ -16,6 +16,7 @@ klippy::klippy(position = c('top', 'right'))
 # Exercise: Predator-prey dynamics {.tabset}
 
 ## Basic predator-prey model
+
 In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in *continuous time* in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called *numerical integration*. Luckily, an R-package exists that allows us to do just that.
 
 Thus, before you can start you have to install and load the package **deSolve** into R. In order to install this package click on **Packages** at the menu bar of the bottom right window of your work space in R-Studio. Then press **Install** and search for the package **deSolve** and follow the instructions. In order load the package execute the following code:
@@ -165,8 +166,8 @@ Again, let's make a phase plane plot. In which direction does the time series â€
 
 ```{r}
 plot(log.prey.out[, 2], log.prey.out[, 3], type = "l",  lty = 1, col = 1, ylab = "consumer", xlab = "resource")
-abline(a = r/a, b = -r/(a*k), lty = 2, col = "red") # resource iso-cline, a straight line with negative slope
-abline(v = d / (e * a), lty = 2, col = "blue") # consumer iso-cline, a vertical line
+abline(a = r/a, b = -r/(a*k), lty = 2, col = "red") # resource isocline, a straight line with negative slope
+abline(v = d / (e * a), lty = 2, col = "blue") # consumer isocline, a vertical line
 ```
 
 What do you observe? Vary the starting densities. How does this affect the long dynamics of the model? How does your conclusion about the dynamics of this model differ from the first model without logistic resource growth?
