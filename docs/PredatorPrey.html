@@ -13,6 +13,7 @@
 
 <title>Exercise: Predator-prey dynamics</title>
 
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -306,7 +307,7 @@ $(document).ready(function () {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <div id="exercise-predator-prey-dynamics" class="section level1 tabset">
-<h1>Exercise: Predator-prey dynamics</h1>
+<h1 class="tabset">Exercise: Predator-prey dynamics</h1>
 <div id="basic-predator-prey-model" class="section level2">
 <h2>Basic predator-prey model</h2>
 <p>In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in <em>contiuous time</em> in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called <em>numerical integration</em>. Luckily, an R-package exists that allows us to do just that.</p>
