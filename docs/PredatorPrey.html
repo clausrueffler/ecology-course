@@ -400,8 +400,8 @@ legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;con
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Again, let’s make a phase plane plot. In which direction does the time series “travel” along the line?</p>
 <pre class="r"><code>plot(log.prey.out[, 2], log.prey.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
-abline(a = r/a, b = -r/(a*k), lty = 2, col = &quot;red&quot;) # resource iso-cline, a straight line with negative slope
-abline(v = d / (e * a), lty = 2, col = &quot;blue&quot;) # consumer iso-cline, a vertical line</code></pre>
+abline(a = r/a, b = -r/(a*k), lty = 2, col = &quot;red&quot;) # resource isocline, a straight line with negative slope
+abline(v = d / (e * a), lty = 2, col = &quot;blue&quot;) # consumer isocline, a vertical line</code></pre>
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>What do you observe? Vary the starting densities. How does this affect the long dynamics of the model? How does your conclusion about the dynamics of this model differ from the first model without logistic resource growth?</p>
 </div>

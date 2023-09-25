@@ -358,8 +358,8 @@ points(R03, C03, cex = 1.5, pch = 19, col = &quot;green&quot;) # adds a dot to s
 
 legend(&quot;topright&quot;, c(expression(&quot;simulation 1&quot;), expression(&quot;simulation 2&quot;), expression(&quot;simulation 3&quot;)), lty = 1, col = c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;), bty = &quot;n&quot;)
 
-abline(h = r/a, lty = 2) # iso-cline for the resource, which is a horizontal line
-abline(v = d/(e * a), lty = 2) # iso-cline for the consumer, which is a vertical line</code></pre>
+abline(h = r/a, lty = 2, col = &quot;red&quot;) # isocline for the resource, which is a horizontal line
+abline(v = d/(e * a), lty = 2, col = &quot;blue&quot;) # isocline for the consumer, which is a vertical line</code></pre>
 <p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <ol style="list-style-type: decimal">
 <li>What do you observe?</li>
@@ -425,8 +425,8 @@ legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;con
 <p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>plot(log.prey.out[, 2], log.prey.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, xlim = c(0,3), ylim = c(1,6))
 lines(log.prey.out.2[, 2], log.prey.out.2[, 3], type = &quot;l&quot;,  lty = 1, col = &quot;red&quot;, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
-abline(a = r/a, b = -r/(a*k), lty = 2) # resource isocline, a straight line with negative slope
-abline(v = d / (e * a), lty = 2) # consumer isocline, a vertical line</code></pre>
+abline(a = r/a, b = -r/(a*k), lty = 2, col = &quot;red&quot;) # resource isocline, a straight line with negative slope
+abline(v = d / (e * a), lty = 2, col = &quot;blue&quot;) # consumer isocline, a vertical line</code></pre>
 <p><img src="PredatorPreySolutions_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 <ol style="list-style-type: decimal">
 <li><p>What do you observe?</p></li>
