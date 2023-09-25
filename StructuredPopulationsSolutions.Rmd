@@ -79,13 +79,13 @@ Ntot.9 <- sum(N.9)
 Ntot.10 <- sum(N.10)
 ```
 
-If you have computed to Ntot for the first ten time steps you can add them to the plot by changing ```c(0:2)``` to ```c(0:10)``` (the points on the axis) and ```y=c(Ntot.0, Ntot.1, Ntot.2)``` to ```y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)``` (the values on the y-axis) in the above code.
+If you have computed *Ntot* for the first ten time steps, you can add them to the plot by changing ```c(0:2)``` to ```c(0:10)``` (the points on the x-axis) and ```y=c(Ntot.0, Ntot.1, Ntot.2)``` to ```y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)``` (the values on the y-axis) in the above code.
 
 ```{r}
 plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), xlab="Time (years)", ylab="Ntot.t", las=1)
 ```
 
-Next, let's have a look at the population composition. How is the total number of individuals distributed over the different life-history states? For this we can plot the population vectors in form of a bar plot.
+Next, let's have a look at the population composition. How is the total number of individuals distributed over the different life-history states? For this, we can plot the population vectors in form of a bar plot.
 
 ```{r}
 par(xpd=T) # allow plotting on margin (for legend)
@@ -213,9 +213,9 @@ ii) Increasing recruitment of juveniles from seeds by creating small open sites 
     
 <span style="color:red">This conservation mearsurement results in a long term increase of the popuolation. Thus, this is clearly the preferred conservation measurement.</span>
 
-In order to make investigating these questions easier we will need some additional R-magic. In particular, we want to use R-code that let's us compute a whole time series with a single command. For this, we make use of what is called a *loop*.
+In order to make investigating these questions easier, we need some additional R-magic. In particular, we want to use R-code that let's us compute a whole time series with a single command. For this, we make use of what is called a *for-loop*.
 
-Before we "run" a loop to create a time series, we create a so-called *data frame* in which we can store the data from the time series of lenght *10*. We name this data frame ``` pop.dev``` abbreviating *population development* and initially fill all etries with ```NA```(for "not available"). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns describing what is stored in the different cells of the data frame.
+Before we "run" the for-loop to create a time series, we create a so-called *data frame* in which we can store the data from the time series of length *10*. We name this data frame ``` pop.dev```, abbreviating *population development*, and initially fill all entries with ```NA```(for "not available"). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.
 
 ```{r}
 pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
@@ -270,19 +270,19 @@ With the following command, we can plot the numbers for a specific column in the
 plot(pop.dev$time, pop.dev$N, type="l", ylab="Total population size", xlab="Time (years)", las=1)
 ```
 
-In order to plot the entries of another column, we have to add the name of that column to the second ```pop.dev$```. For example, if we want to plot the number of adults we have to replace ```pop.dev$N``` with ```pop.dev$Adults``` (and change the name of the label on the y-axis accordingly).
+In order to plot the entries of another column, we have to add the name of that column to the second ```pop.dev$``` in the last line of code. For example, if we want to plot the number of adults we have to replace ```pop.dev$N``` with ```pop.dev$Adults``` (and change the name of the label on the y-axis accordingly).
 
 ```{r}
 plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1)
 ```
 
-And here the code if you wish to plot the growth factor $\lambda$ as a function of time.
+And here is the code if you wish to plot the growth factor $\lambda$ as a function of time.
 
 ```{r}
 plot(pop.dev$time, pop.dev$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1)
 ```
 
-Now you have to decide how to change the above code so that it takes into account the two different conservation strategies.
+Now you have to decide how you have to change the above code so that it takes into account the above two conservation strategies.
 
 <span style="color:red">The following code produces the data for the FIRST conservation measurement. Here, I only changed the vector ```N.0``` by adding 100 adult individuals from $N_0=(3000, 180, 30)$ to $N_0=(3000, 180, 130)$.</span>
 
@@ -311,7 +311,7 @@ for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
 plot(pop.dev.strategy.1$time, pop.dev.strategy.1$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1, col="green")
 ```
 
-<span style="color:red">The following code produces the data for the SECOND conservation measurement. For this we have to change the first entry in the second column fromn 0.01 to 0.025. This entry describes the probability of seeds to develop into small plants.</span>
+<span style="color:red">The following code produces the data for the SECOND conservation measurement. For this we have to change the first entry in the second column from 0.01 to 0.025. This entry describes the probability of seeds to develop into small plants.</span>
 
 ```{r}
 meadow.matrix <- matrix(c(0.001,0,200,0.025,0.2,0,0,0.2,0), nrow=3, ncol=3, byrow=T)

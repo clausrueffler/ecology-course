@@ -185,9 +185,9 @@ At the end of this exercise you should answer the following questions.
   
     ii) Increasing recruitment of juveniles from seeds by creating small open sites in the meadow each year. This is expected to result in a transition probability from seeds to juveniles equal to $0.025$.
 
-In order to make investigating these questions easier we will need some additional R-magic. In particular, we want to use R-code that let's us compute a whole time series with a single command. For this, we make use of what is called a *loop*.
+In order to make investigating these questions easier, we need some additional R-magic. In particular, we want to use R-code that let's us compute a whole time series with a single command. For this, we make use of what is called a *for-loop*.
 
-Before we "run" a loop to create a time series, we create a so-called *data frame* in which we can store the data from the time series of lenght *10*. We name this data frame ``` pop.dev``` abbreviating *population development* and initially fill all etries with ```NA```(for "not available"). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns describing what is stored in the different cells of the data frame.
+Before we "run" the for-loop to create a time series, we create a so-called *data frame* in which we can store the data from the time series of length *10*. We name this data frame ``` pop.dev```, abbreviating *population development*, and initially fill all entries with ```NA```(for "not available"). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.
 
 ```{r}
 pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
@@ -242,21 +242,21 @@ With the following command, we can plot the numbers for a specific column in the
 plot(pop.dev$time, pop.dev$N, type="l", ylab="Total population size", xlab="Time (years)", las=1)
 ```
 
-In order to plot the entries of another column, we have to add the name of that column to the second ```pop.dev$```. For example, if we want to plot the number of adults we have to replace ```pop.dev$N``` with ```pop.dev$Adults``` (and change the name of the label on the y-axis accordingly).
+In order to plot the entries of another column, we have to add the name of that column to the second ```pop.dev$``` in the last line of code. For example, if we want to plot the number of adults we have to replace ```pop.dev$N``` with ```pop.dev$Adults``` (and change the name of the label on the y-axis accordingly).
 
 ```{r eval=FALSE}
 plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1)
 ```
 
-And here the code if you wish to plot the growth factor $\lambda$ as a function of time.
+And here is the code if you want to plot the growth factor $\lambda$ as a function of time.
 
 ```{r eval=FALSE}
 plot(pop.dev$time, pop.dev$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1)
 ```
 
-Now you have to decide how to change the above code so that it takes into account the two different conservation strategies.
+Now you have to decide how you have to change the above code so that it takes into account the above two conservation strategies.
 
-Once you have the time series for the three different scenarios (population without conservation, population with measurement 1 and population with measurement 2), you could use code like the following to visualize the results in a single figure.
+Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you could use code like the following to visualize the results in a single figure.
 
 ```{r eval=FALSE}
 plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1, col="red", ylim = c(0, 60))

@@ -7,20 +7,21 @@ left:
     menu:
       - text: "1. Excercise: Population Dynamics"
         href: ./PopulationDynamics.html
-      - text: "1. Excercise: Population dynamics solutions"
-        href: ./PopulationDynamicsSolutions.html        
+#      - text: "1. Excercise: Population dynamics solutions"
+#        href: ./PopulationDynamicsSolutions.html        
       - text: "2. Excercise: Structured Populations"
         href: ./StructuredPopulations.html
-      - text: "2. Excercise: Structured populations solutions"
-        href: ./StructuredPopulationsSolutions.html
+#      - text: "2. Excercise: Structured populations solutions"
+#        href: ./StructuredPopulationsSolutions.html
       - text: "3. Excercise: Competition"
         href: ./Competition.html
-      - text: "3. Excercise: Competition solutions"
-        href: ./CompetitionSolutions.html
+#      - text: "3. Excercise: Competition solutions"
+#        href: ./CompetitionSolutions.html
       - text: "4. Excercise: Predator-Prey Interactions"
         href: ./PredatorPrey.html
-      - text: "4. Excercise: Predator-prey solutions"
-        href: ./PredatorPreySolutions.html
+#      - text: "4. Excercise: Predator-prey solutions"
+#        href: ./PredatorPreySolutions.html
+#######
 #      - text: "5. Excercise: Sources, sinks, and population regulation"
 #        href: ./Pulliam.html
 #      - text: "5. Excercise: Solutions"

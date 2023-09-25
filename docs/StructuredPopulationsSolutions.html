@@ -260,25 +260,13 @@ $(document).ready(function () {
       <a href="./PopulationDynamics.html">1. Excercise: Population Dynamics</a>
     </li>
     <li>
-      <a href="./PopulationDynamicsSolutions.html">1. Excercise: Population dynamics solutions</a>
-    </li>
-    <li>
       <a href="./StructuredPopulations.html">2. Excercise: Structured Populations</a>
-    </li>
-    <li>
-      <a href="./StructuredPopulationsSolutions.html">2. Excercise: Structured populations solutions</a>
     </li>
     <li>
       <a href="./Competition.html">3. Excercise: Competition</a>
     </li>
     <li>
-      <a href="./CompetitionSolutions.html">3. Excercise: Competition solutions</a>
-    </li>
-    <li>
       <a href="./PredatorPrey.html">4. Excercise: Predator-Prey Interactions</a>
-    </li>
-    <li>
-      <a href="./PredatorPreySolutions.html">4. Excercise: Predator-prey solutions</a>
     </li>
   </ul>
 </li>
@@ -358,10 +346,10 @@ Ntot.7 &lt;- sum(N.7)
 Ntot.8 &lt;- sum(N.8) 
 Ntot.9 &lt;- sum(N.9)
 Ntot.10 &lt;- sum(N.10)</code></pre>
-<p>If you have computed to Ntot for the first ten time steps you can add them to the plot by changing <code>c(0:2)</code> to <code>c(0:10)</code> (the points on the axis) and <code>y=c(Ntot.0, Ntot.1, Ntot.2)</code> to <code>y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)</code> (the values on the y-axis) in the above code.</p>
+<p>If you have computed <em>Ntot</em> for the first ten time steps, you can add them to the plot by changing <code>c(0:2)</code> to <code>c(0:10)</code> (the points on the x-axis) and <code>y=c(Ntot.0, Ntot.1, Ntot.2)</code> to <code>y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)</code> (the values on the y-axis) in the above code.</p>
 <pre class="r"><code>plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), xlab=&quot;Time (years)&quot;, ylab=&quot;Ntot.t&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>Next, let’s have a look at the population composition. How is the total number of individuals distributed over the different life-history states? For this we can plot the population vectors in form of a bar plot.</p>
+<p>Next, let’s have a look at the population composition. How is the total number of individuals distributed over the different life-history states? For this, we can plot the population vectors in form of a bar plot.</p>
 <pre class="r"><code>par(xpd=T) # allow plotting on margin (for legend)
 barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), names.arg=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;, &quot;N.3&quot;, &quot;N.4&quot;, &quot;N.5&quot;, &quot;N.6&quot;, &quot;N.7&quot;, &quot;N.8&quot;, &quot;N.9&quot;, &quot;N.10&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;)
 
@@ -482,8 +470,8 @@ Life cycle graph
 <li>Increasing recruitment of juveniles from seeds by creating small open sites in the meadow each year. This is expected to result in a transition probability from seeds to juveniles equal to <span class="math inline">\(0.025\)</span>.</li>
 </ol>
 <p><span style="color:red">This conservation mearsurement results in a long term increase of the popuolation. Thus, this is clearly the preferred conservation measurement.</span></p>
-<p>In order to make investigating these questions easier we will need some additional R-magic. In particular, we want to use R-code that let’s us compute a whole time series with a single command. For this, we make use of what is called a <em>loop</em>.</p>
-<p>Before we “run” a loop to create a time series, we create a so-called <em>data frame</em> in which we can store the data from the time series of lenght <em>10</em>. We name this data frame <code>pop.dev</code> abbreviating <em>population development</em> and initially fill all etries with <code>NA</code>(for “not available”). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns describing what is stored in the different cells of the data frame.</p>
+<p>In order to make investigating these questions easier, we need some additional R-magic. In particular, we want to use R-code that let’s us compute a whole time series with a single command. For this, we make use of what is called a <em>for-loop</em>.</p>
+<p>Before we “run” the for-loop to create a time series, we create a so-called <em>data frame</em> in which we can store the data from the time series of length <em>10</em>. We name this data frame <code>pop.dev</code>, abbreviating <em>population development</em>, and initially fill all entries with <code>NA</code>(for “not available”). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.</p>
 <pre class="r"><code>pop.dev &lt;- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))</code></pre>
 <p>Let’s check how the data frame looks at the moment.</p>
 <pre class="r"><code>pop.dev</code></pre>
@@ -523,13 +511,13 @@ for (n in 2:11) # the loop &quot;runs&quot; from n=2 to n=11 (representing the y
 <p>With the following command, we can plot the numbers for a specific column in the data frame, for example, the total population size <em>N</em>.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$N, type=&quot;l&quot;, ylab=&quot;Total population size&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<p>In order to plot the entries of another column, we have to add the name of that column to the second <code>pop.dev$</code>. For example, if we want to plot the number of adults we have to replace <code>pop.dev$N</code> with <code>pop.dev$Adults</code> (and change the name of the label on the y-axis accordingly).</p>
+<p>In order to plot the entries of another column, we have to add the name of that column to the second <code>pop.dev$</code> in the last line of code. For example, if we want to plot the number of adults we have to replace <code>pop.dev$N</code> with <code>pop.dev$Adults</code> (and change the name of the label on the y-axis accordingly).</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<p>And here the code if you wish to plot the growth factor <span class="math inline">\(\lambda\)</span> as a function of time.</p>
+<p>And here is the code if you wish to plot the growth factor <span class="math inline">\(\lambda\)</span> as a function of time.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$lambda, type=&quot;l&quot;, ylab=&quot;Growth factor lambda&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<p>Now you have to decide how to change the above code so that it takes into account the two different conservation strategies.</p>
+<p>Now you have to decide how you have to change the above code so that it takes into account the above two conservation strategies.</p>
 <p><span style="color:red">The following code produces the data for the FIRST conservation measurement. Here, I only changed the vector <code>N.0</code> by adding 100 adult individuals from <span class="math inline">\(N_0=(3000, 180, 30)\)</span> to <span class="math inline">\(N_0=(3000, 180, 130)\)</span>.</span></p>
 <pre class="r"><code>N.0 &lt;- matrix(c(3000,180,130), nrow=3, ncol=1, byrow=T)
 
@@ -554,7 +542,7 @@ for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
 
 plot(pop.dev.strategy.1$time, pop.dev.strategy.1$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1, col=&quot;green&quot;)</code></pre>
 <p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
-<p><span style="color:red">The following code produces the data for the SECOND conservation measurement. For this we have to change the first entry in the second column fromn 0.01 to 0.025. This entry describes the probability of seeds to develop into small plants.</span></p>
+<p><span style="color:red">The following code produces the data for the SECOND conservation measurement. For this we have to change the first entry in the second column from 0.01 to 0.025. This entry describes the probability of seeds to develop into small plants.</span></p>
 <pre class="r"><code>meadow.matrix &lt;- matrix(c(0.001,0,200,0.025,0.2,0,0,0.2,0), nrow=3, ncol=3, byrow=T)
 N.0 &lt;- matrix(c(3000,180,30), nrow=3, ncol=1, byrow=T)
 

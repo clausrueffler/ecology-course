@@ -264,25 +264,13 @@ $(document).ready(function () {
       <a href="./PopulationDynamics.html">1. Excercise: Population Dynamics</a>
     </li>
     <li>
-      <a href="./PopulationDynamicsSolutions.html">1. Excercise: Population dynamics solutions</a>
-    </li>
-    <li>
       <a href="./StructuredPopulations.html">2. Excercise: Structured Populations</a>
-    </li>
-    <li>
-      <a href="./StructuredPopulationsSolutions.html">2. Excercise: Structured populations solutions</a>
     </li>
     <li>
       <a href="./Competition.html">3. Excercise: Competition</a>
     </li>
     <li>
-      <a href="./CompetitionSolutions.html">3. Excercise: Competition solutions</a>
-    </li>
-    <li>
       <a href="./PredatorPrey.html">4. Excercise: Predator-Prey Interactions</a>
-    </li>
-    <li>
-      <a href="./PredatorPreySolutions.html">4. Excercise: Predator-prey solutions</a>
     </li>
   </ul>
 </li>
@@ -400,8 +388,8 @@ N.0</code></pre>
 <li><p>Increasing recruitment of juveniles from seeds by creating small open sites in the meadow each year. This is expected to result in a transition probability from seeds to juveniles equal to <span class="math inline">\(0.025\)</span>.</p></li>
 </ol></li>
 </ol>
-<p>In order to make investigating these questions easier we will need some additional R-magic. In particular, we want to use R-code that let’s us compute a whole time series with a single command. For this, we make use of what is called a <em>loop</em>.</p>
-<p>Before we “run” a loop to create a time series, we create a so-called <em>data frame</em> in which we can store the data from the time series of lenght <em>10</em>. We name this data frame <code>pop.dev</code> abbreviating <em>population development</em> and initially fill all etries with <code>NA</code>(for “not available”). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns describing what is stored in the different cells of the data frame.</p>
+<p>In order to make investigating these questions easier, we need some additional R-magic. In particular, we want to use R-code that let’s us compute a whole time series with a single command. For this, we make use of what is called a <em>for-loop</em>.</p>
+<p>Before we “run” the for-loop to create a time series, we create a so-called <em>data frame</em> in which we can store the data from the time series of length <em>10</em>. We name this data frame <code>pop.dev</code>, abbreviating <em>population development</em>, and initially fill all entries with <code>NA</code>(for “not available”). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.</p>
 <pre class="r"><code>pop.dev &lt;- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))</code></pre>
 <p>Let’s check how the data frame looks at the moment.</p>
 <pre class="r"><code>pop.dev</code></pre>
@@ -441,12 +429,12 @@ for (n in 2:11) # the loop &quot;runs&quot; from n=2 to n=11 (representing the y
 <p>With the following command, we can plot the numbers for a specific column in the data frame, for example, the total population size <em>N</em>.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$N, type=&quot;l&quot;, ylab=&quot;Total population size&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulations_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<p>In order to plot the entries of another column, we have to add the name of that column to the second <code>pop.dev$</code>. For example, if we want to plot the number of adults we have to replace <code>pop.dev$N</code> with <code>pop.dev$Adults</code> (and change the name of the label on the y-axis accordingly).</p>
+<p>In order to plot the entries of another column, we have to add the name of that column to the second <code>pop.dev$</code> in the last line of code. For example, if we want to plot the number of adults we have to replace <code>pop.dev$N</code> with <code>pop.dev$Adults</code> (and change the name of the label on the y-axis accordingly).</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p>And here the code if you wish to plot the growth factor <span class="math inline">\(\lambda\)</span> as a function of time.</p>
+<p>And here is the code if you want to plot the growth factor <span class="math inline">\(\lambda\)</span> as a function of time.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$lambda, type=&quot;l&quot;, ylab=&quot;Growth factor lambda&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p>Now you have to decide how to change the above code so that it takes into account the two different conservation strategies.</p>
-<p>Once you have the time series for the three different scenarios (population without conservation, population with measurement 1 and population with measurement 2), you could use code like the following to visualize the results in a single figure.</p>
+<p>Now you have to decide how you have to change the above code so that it takes into account the above two conservation strategies.</p>
+<p>Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you could use code like the following to visualize the results in a single figure.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1, col=&quot;red&quot;, ylim = c(0, 60))
 lines(pop.dev.strategy.1$time, pop.dev.strategy.1$Adults, col=&quot;green&quot;)
 lines(pop.dev.strategy.2$time, pop.dev.strategy.2$Adults, col=&quot;blue&quot;)
