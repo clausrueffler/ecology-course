@@ -13,7 +13,7 @@
 
 <title>Exercise: Population Dynamics</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -298,15 +291,23 @@ $(document).ready(function () {
 <h1 class="tabset">Exercise: Population Dynamics</h1>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<p>You are studying a closed population of beetles consisting of 3000 individuals. You register 400 births and 150 deaths during one month. Calculate <em>r</em> and <em>lambda</em> and predict the population size after 6 months.</p>
+<p>You are studying a closed population of beetles consisting of 3000
+individuals. You register 400 births and 150 deaths during one month.
+Calculate <em>r</em> and <em>lambda</em> and predict the population size
+after 6 months.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
-<p>You estimate the size of a flatworm population to be the following at five consecutive days: 100, 158, 315, 398 and 794 individuals. Plot the natural logarithm (i.e., to the base e, where e is Eulers number) of the population size and estimate <em>r</em>. You can plot the data by hand on a piece of paper, or by using EXCEL or R.</p>
+<p>You estimate the size of a flatworm population to be the following at
+five consecutive days: 100, 158, 315, 398 and 794 individuals. Plot the
+natural logarithm (i.e., to the base e, where e is Eulers number) of the
+population size and estimate <em>r</em>. You can plot the data by hand
+on a piece of paper, or by using EXCEL or R.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
-<p>An isolated population of elk (a species of deer) in Washington state increased from 1975 to 1993 as follows:</p>
+<p>An isolated population of elk (a species of deer) in Washington state
+increased from 1975 to 1993 as follows:</p>
 <p><span class="math display">\[
 \begin{align*}
     1975 &amp;\,\,\,\,\, 8  &amp; 1986 &amp;\,\,\,\,\, 68 \\
@@ -320,15 +321,26 @@ $(document).ready(function () {
     1985 &amp;\,\,\,\,\, 54 &amp;&amp;
 \end{align*}
 \]</span></p>
-<p>Plot these data as function of time. What shape of population growth is shown by these data? Could one fit the logistic equation to these data? Use a discrete-time model to calculate the net reproductive ratio <em>lambda</em> for this population.</p>
+<p>Plot these data as function of time. What shape of population growth
+is shown by these data? Could one fit the logistic equation to these
+data? Use a discrete-time model to calculate the net reproductive ratio
+<em>lambda</em> for this population.</p>
 </div>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
-<p>Suppose that a butterfly population shows logistic growth with <em>K = 500</em> and <em>r = 0.1</em> individuals/(individuals*month). What is the maximal population growth rate for this population?</p>
+<p>Suppose that a butterfly population shows logistic growth with <em>K
+= 500</em> and <em>r = 0.1</em> individuals/(individuals*month). What is
+the maximal population growth rate for this population?</p>
 </div>
 <div id="question-5" class="section level2">
 <h2>Question 5</h2>
-<p>A fisher is maximizing their fishing yield by maintaining a population of logistically growing lake trout at the density where the population growth rate is fastest. For the population in question this occurs at a density of 500 individuals. Predict the realized population growth rate after the population has been stocked with an additional 600 fish. Assume that for the trout <span class="math inline">\(r=0.005\)</span> individuals/(individual*day).</p>
+<p>A fisher is maximizing their fishing yield by maintaining a
+population of logistically growing lake trout at the density where the
+population growth rate is fastest. For the population in question this
+occurs at a density of 500 individuals. Predict the realized population
+growth rate after the population has been stocked with an additional 600
+fish. Assume that for the trout <span
+class="math inline">\(r=0.005\)</span> individuals/(individual*day).</p>
 </div>
 </div>
 
