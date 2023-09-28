@@ -52,7 +52,7 @@ The next piece of code produces the data. EACH TIME YOU CHANGE A PARAMETER VALUE
 ```{r}
 N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix with two columns and t+1 rows in which the population vectors of the time series will be stored
 N[1, ] <- N0 # enters the initial population vector into the first row of this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop interates the population dynamics t-times
+for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
 ```
 
 Finally, let us plot the time series.
@@ -84,7 +84,7 @@ Here, you can see the population dynamics as resulting from the above parameter 
 ```{r}
 N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
 N[1, ] <- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop interates the population dynamics t-times
+for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
 
 matplot(0:t, N, type = "l", col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
 abline(h = K1, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
@@ -102,7 +102,7 @@ t <- 50
 
 N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
 N[1, ] <- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop interates the population dynamics t-times
+for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
 
 N.r.0p5 <- N # here I assign the matrix that contains the data for the new r-value to a new object, called N.r.0p5. When I plot the data with the following command I have to change the name of the matrix there accordingly.
 
