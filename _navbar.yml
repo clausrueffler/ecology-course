@@ -7,12 +7,12 @@ left:
     menu:
       - text: "1. Excercise: Population Dynamics"
         href: ./PopulationDynamics.html
-#      - text: "1. Excercise: Population dynamics solutions"
-#        href: ./PopulationDynamicsSolutions.html        
+      - text: "1. Excercise: Population dynamics solutions"
+        href: ./PopulationDynamicsSolutions.html        
       - text: "2. Excercise: Structured Populations"
         href: ./StructuredPopulations.html
-#      - text: "2. Excercise: Structured populations solutions"
-#        href: ./StructuredPopulationsSolutions.html
+      - text: "2. Excercise: Structured populations solutions"
+        href: ./StructuredPopulationsSolutions.html
       - text: "3. Excercise: Competition"
         href: ./Competition.html
 #      - text: "3. Excercise: Competition solutions"
