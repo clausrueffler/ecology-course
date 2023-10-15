@@ -15,12 +15,12 @@ left:
         href: ./StructuredPopulationsSolutions.html
       - text: "3. Excercise: Competition"
         href: ./Competition.html
-#      - text: "3. Excercise: Competition solutions"
-#        href: ./CompetitionSolutions.html
+      - text: "3. Excercise: Competition solutions"
+        href: ./CompetitionSolutions.html
       - text: "4. Excercise: Predator-Prey Interactions"
         href: ./PredatorPrey.html
-#      - text: "4. Excercise: Predator-prey solutions"
-#        href: ./PredatorPreySolutions.html
+      - text: "4. Excercise: Predator-prey solutions"
+        href: ./PredatorPreySolutions.html
 #######
 
 #      - text: "5. Excercise: Sources, sinks, and population regulation"
