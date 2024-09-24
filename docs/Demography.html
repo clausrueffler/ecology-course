@@ -298,9 +298,9 @@ $(document).ready(function () {
 (<em>Geospiza fortis</em> and <em>G. scandens</em>)</strong></p>
 <p>The breeding success of Darwin’s finches on the Galapagos islands
 depends to a large extent on weather. During dry years the nesting
-success can be very low, and there are large fluctuations in bird
-numbers from year to year. The following table gives the number of
-breeding birds in two finch species during 1976-1991.</p>
+success can be very low, causing large fluctuations in bird numbers from
+year to year. The following table gives the number of breeding pairs in
+two finch species during 1976-1991.</p>
 <table style="width:60%;">
 <thead>
 <tr>
@@ -494,7 +494,8 @@ year
 </tr>
 </tbody>
 </table>
-<p>Calculate the mean number of breeding pairs (<span
+<p><br />
+Calculate the mean number of breeding pairs (<span
 class="math inline">\(\bar x\)</span>), standard deviation (<span
 class="math inline">\(s\)</span>), variance (<span
 class="math inline">\(s^2\)</span>) and coefficient of variation (<span
@@ -508,9 +509,17 @@ follows.</p>
 \bar x &amp; = \frac{\sum_{i=1}^{n}x_i}{n} \\
 s^2 &amp; = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n-1} \\
 s &amp; = \sqrt{s^2} \\
-C.V. &amp; = \frac{100 s}{\bar x}
+C.V. &amp; = \frac{s}{\bar x}
 \end{align}
 \]</span></p>
+<p><br />
+The coefficient of variation expresses variation within a variable
+relative to the magnitude of the variable. This is important because
+variance increases with the magnitude of the measured variable. The
+standardization allows us to <em>compare</em> variation across different
+variables (such as length of earthworms and length of anacondas), see <a
+href="https://en.wikipedia.org/wiki/Coefficient_of_variation"><strong>here</strong></a>
+for more information.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
@@ -518,12 +527,14 @@ C.V. &amp; = \frac{100 s}{\bar x}
 New Zealand</strong></p>
 <p>The chamois gives birth during a short period in spring (birth pulse,
 discrete breeder). 275 females from all age groups were shot during this
-period to study female fecundity. Females that were pregnant, had active
-milk glands or bore signs of previous pregnancy were considered as
-reproductively active during that particular season. Litter size is
-supposed to be 1, and the sex ratio among the new born is 1/2 (equally
-many sons and daughters). The following table below gives the number of
-reproductively active female in each age group.</p>
+period to study female fecundity (these are hunting data). Females that
+were pregnant, had active milk glands or bore signs of previous
+pregnancy were considered as reproductively active during that
+particular season. Litter size is supposed to be 1, and the sex ratio
+among the new born is 1/2 (equally many sons and daughters). The
+following table gives the number of reproductively active females in
+each age group.<br />
+</p>
 <table style="width:80%;">
 <thead>
 <tr>
@@ -531,7 +542,7 @@ reproductively active female in each age group.</p>
 age in years (<span class="math inline">\(x\)</span>)
 </th>
 <th style="text-align:right;">
-no. shot (<span class="math inline">\(m_x\)</span>)
+no. shot (<span class="math inline">\(f_x\)</span>)
 </th>
 <th style="text-align:right;">
 no. reprod. active (<span class="math inline">\(B_x\)</span>)
@@ -640,10 +651,10 @@ no. reprod. active (<span class="math inline">\(B_x\)</span>)
 </tr>
 </tbody>
 </table>
-<ol style="list-style-type: decimal">
-<li><p>Calculate fecundity, i.e., the number of female young per female.
-This can be calculated as <span class="math display">\[
-m_x = B_x /(2f_x)
+<p><br />
+1. Calculate fecundity, i.e., the number of daugthers per female. This
+can be calculated as <span class="math display">\[
+m_x = B_x /(2f_x),
 \]</span> where <span class="math inline">\(f_x\)</span> is the number
 of shot females that were aged <span class="math inline">\(x\)</span>
 years old, and <span class="math inline">\(B_x\)</span> is the number of
@@ -652,16 +663,18 @@ class="math inline">\(2\)</span> in the denominator stems from the fact
 that on average only half of the offspring are female. Here, <span
 class="math inline">\(f_x\)</span> is supposed to be equal to the number
 of females at the beginning of the time period and natural mortality is
-supposed to be negligible.</p></li>
-<li><p>Draw a figure showing fecundity as a function of age. Explain
-what you see. When is a chamois female fully fecund? Calculate average
-fecundity over all fully fecund age groups.</p></li>
+supposed to be negligible.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Draw a figure showing fecundity as a function of age. Explain what
+you see. When is a chamois female fully fecund? Calculate average
+fecundity over all fully fecund age groups.</li>
 </ol>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
 <p><strong>Life table analysis in snails</strong></p>
-Here is a life table for a snail population:
+<p>Here is a life table for a snail population:<br />
+</p>
 <table style="width:80%;">
 <thead>
 <tr>
@@ -723,7 +736,8 @@ age in years (<span class="math inline">\(x\)</span>)
 </tr>
 </tbody>
 </table>
-<p>Complete the life table analysis by calculating <span
+<p><br />
+Complete the life table analysis by calculating <span
 class="math inline">\(l(x)\)</span>, <span
 class="math inline">\(R_0\)</span>, and <span
 class="math inline">\(T_c\)</span>, and estimate <span
