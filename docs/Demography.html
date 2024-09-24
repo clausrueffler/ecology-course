@@ -11,7 +11,7 @@
 
 
 
-<title>Population Dynamics - Solutions</title>
+<title>Exercise: Demography</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -290,111 +290,444 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="exercise-population-dynamics" class="section level1 tabset">
-<h1 class="tabset">Exercise: Population Dynamics</h1>
+<div id="exercise-demography" class="section level1 tabset">
+<h1 class="tabset">Exercise: Demography</h1>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<p>You are studying a closed population of beetles consisting of 3000
-individuals. You register 400 births and 150 deaths during one month.
-Calculate <em>r</em> and <em>lambda</em> and predict the population size
-after 6 months.</p>
-<p><strong>Answer:</strong> We assume 400 births and 150 deaths within a
-month. Build a model based on a projection interval of one month. Then
-<span class="math display">\[
+<p><strong>Yearly variation in the numbers of breeding Darwin’s finches
+(<em>Geospiza fortis</em> and <em>G. scandens</em>)</strong></p>
+<p>The breeding success of Darwin’s finches on the Galapagos islands
+depends to a large extent on weather. During dry years the nesting
+success can be very low, and there are large fluctuations in bird
+numbers from year to year. The following table gives the number of
+breeding birds in two finch species during 1976-1991.</p>
+<table style="width:60%;">
+<thead>
+<tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:right;">
+<em>G. fortis</em> pairs
+</th>
+<th style="text-align:right;">
+<em>G. scandens</em> pairs
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1976
+</td>
+<td style="text-align:right;">
+509
+</td>
+<td style="text-align:right;">
+160
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1977
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+86
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1978
+</td>
+<td style="text-align:right;">
+129
+</td>
+<td style="text-align:right;">
+103
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1979
+</td>
+<td style="text-align:right;">
+123
+</td>
+<td style="text-align:right;">
+70
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1980
+</td>
+<td style="text-align:right;">
+136
+</td>
+<td style="text-align:right;">
+129
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1981
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+130
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1982
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+103
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1983
+</td>
+<td style="text-align:right;">
+405
+</td>
+<td style="text-align:right;">
+253
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1984
+</td>
+<td style="text-align:right;">
+332
+</td>
+<td style="text-align:right;">
+217
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1985
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1986
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1987
+</td>
+<td style="text-align:right;">
+214
+</td>
+<td style="text-align:right;">
+55
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1988
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1989
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1990
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1991
+</td>
+<td style="text-align:right;">
+241
+</td>
+<td style="text-align:right;">
+42
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculate the mean number of breeding pairs (<span
+class="math inline">\(\bar x\)</span>), standard deviation (<span
+class="math inline">\(s\)</span>), variance (<span
+class="math inline">\(s^2\)</span>) and coefficient of variation (<span
+class="math inline">\(C.V.\)</span>) for the two species. Which of the
+species is more sensitive to weather fluctuations? If we denote the
+number of breeding pairs in a given year with <span
+class="math inline">\(x_i\)</span>, then the required formulas are as
+follows.</p>
+<p><span class="math display">\[
 \begin{align}
-N_{t+1} &amp;= N_t + B - D = 3000 + 400 - 150 = 3250\\
-\lambda &amp;= \frac{N_{t+1}}{N_{t}} = \frac{3250}{3000} = 1.0833\\
-r &amp;= \ln \lambda = \ln(1.0833) = 0.08\\
-N_6 &amp;= 3000* \exp(0.08*6) = 3000*1.0833^6= 4848
+\bar x &amp; = \frac{\sum_{i=1}^{n}x_i}{n} \\
+s^2 &amp; = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n-1} \\
+s &amp; = \sqrt{s^2} \\
+C.V. &amp; = \frac{100 s}{\bar x}
 \end{align}
-\]</span> Thus, after six month we expect 4848 beetles.</p>
+\]</span></p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
-<p>You estimate the size of a flatworm population to be the following at
-five consecutive days: 100, 158, 315, 398 and 794 individuals. Plot the
-natural logarithm (i.e., to the base e) of the population size and
-estimate <em>r</em>. You can plot the data by hand on a piece of paper,
-or by using EXCEL or R.</p>
-<p><strong>Answer:</strong> Start by taking the natural logarithm of the
-five population estimates, resulting in 4.605, 5.063, 5.753, 5.986, and
-6.677. Plot these as a function of time (days). Draw a straight line
-through the data points. There are exact mathematical methods, for
-example, the method of least squares (linear regression) that can be
-excuted in R or Excel. However, for our purpose it is sufficient to draw
-the line with the “naked eye”. The slope equals <em>r</em>. It is
-calculated as <em>Delta y/Delta x</em>, for example <em>(5.6-5.1)/(3-2)
-= 0.5</em>.</p>
+<p><strong>Fecundity of the chamois (<em>Rupicapra rupicapra</em>) in
+New Zealand</strong></p>
+<p>The chamois gives birth during a short period in spring (birth pulse,
+discrete breeder). 275 females from all age groups were shot during this
+period to study female fecundity. Females that were pregnant, had active
+milk glands or bore signs of previous pregnancy were considered as
+reproductively active during that particular season. Litter size is
+supposed to be 1, and the sex ratio among the new born is 1/2 (equally
+many sons and daughters). The following table below gives the number of
+reproductively active female in each age group.</p>
+<table style="width:80%;">
+<thead>
+<tr>
+<th style="text-align:right;">
+age in years (<span class="math inline">\(x\)</span>)
+</th>
+<th style="text-align:right;">
+no. shot (<span class="math inline">\(m_x\)</span>)
+</th>
+<th style="text-align:right;">
+no. reprod. active (<span class="math inline">\(B_x\)</span>)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:right;">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li><p>Calculate fecundity, i.e., the number of female young per female.
+This can be calculated as <span class="math display">\[
+m_x = B_x /(2f_x)
+\]</span> where <span class="math inline">\(f_x\)</span> is the number
+of shot females that were aged <span class="math inline">\(x\)</span>
+years old, and <span class="math inline">\(B_x\)</span> is the number of
+those that were considered reproductively active. The <span
+class="math inline">\(2\)</span> in the denominator stems from the fact
+that on average only half of the offspring are female. Here, <span
+class="math inline">\(f_x\)</span> is supposed to be equal to the number
+of females at the beginning of the time period and natural mortality is
+supposed to be negligible.</p></li>
+<li><p>Draw a figure showing fecundity as a function of age. Explain
+what you see. When is a chamois female fully fecund? Calculate average
+fecundity over all fully fecund age groups.</p></li>
+</ol>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
-<p>An isolated population of elk (a species of deer) in Washington state
-increased from 1975 to 1993 as follows:</p>
-<p><span class="math display">\[
-\begin{align*}
-    1975 &amp;\,\,\,\,\, 8  &amp; 1986 &amp;\,\,\,\,\, 68 \\
-    1976 &amp;\,\,\,\,\, 13 &amp; 1987 &amp;\,\,\,\,\, 67 \\
-    1977 &amp;\,\,\,\,\, 14 &amp; 1988 &amp;\,\,\,\,\, 72 \\
-    1979 &amp;\,\,\,\,\, 15 &amp; 1989 &amp;\,\,\,\,\, 79 \\
-    1981 &amp;\,\,\,\,\, 20 &amp; 1990 &amp;\,\,\,\,\, 94 \\
-    1982 &amp;\,\,\,\,\, 21 &amp; 1991 &amp;\,\,\,\,\, 110 \\
-    1983 &amp;\,\,\,\,\, 27 &amp; 1992 &amp;\,\,\,\,\, 146 \\
-    1984 &amp;\,\,\,\,\, 40 &amp; 1993 &amp;\,\,\,\,\, 179 \\
-    1985 &amp;\,\,\,\,\, 54 &amp;&amp;
-\end{align*}
-\]</span></p>
-<p>Plot these data. What shape of population growth is shown by these
-data? Could one fit the logistic equation to these data? Use a
-discrete-time model to calculate the net reproductive ratio
-<em>lambda</em> for this population.</p>
-<p><strong>Answer:</strong> The elk population grows exponential, there
-is no evidence for the curve levelling off around an equilibrium
-<em>K</em>. Solving for <em>r</em> can be done as follows: <span
-class="math display">\[
-\begin{align}
-N_t &amp;= N_0 \lambda^{t}\\
-\lambda^{t} &amp;= \frac{N_t}{N_0}\\
-\lambda
-&amp;=\left(\frac{N_t}{N_0}\right)^{\frac{1}{t}}=\sqrt[^{t}]{\frac{N_t}{N_0}}\\
-\lambda &amp;= \sqrt[^{18}]{\frac{179}{8}} =
-\sqrt[^{18}]{22.375}\approx1.19
-\end{align}
-\]</span> Alternatively, you could use the same method as in Question
-(2) an convert <span class="math inline">\(r\)</span> to <em>lambda</em>
-using the formula <em>lambda=exp(r)</em>.</p>
-</div>
-<div id="question-4" class="section level2">
-<h2>Question 4</h2>
-<p>Suppose that a butterfly population shows logistic growth with <em>K
-= 500</em> and <em>r = 0.1</em> individuals/(individuals*month). What is
-the maximal growth rate for this population?</p>
-<p><strong>Answer:</strong> Recall that the growth rate of a logistic
-growing population is highest when population size equals <em>N =
-K/2</em>. Since <em>K = 500</em> this population will grow fastest at
-<em>N = 500/2 = 250</em>. Then <span class="math display">\[
-\frac{\mathrm{d}N}{\mathrm{d}t} = rN\left(1-\frac{N}{K}\right)
-\Longrightarrow 0.1*250\left(1-\frac{250}{500}\right)= 12.5.
-\]</span> Thus, the maximal population growth rate equals 12.5
-individuals per month.</p>
-</div>
-<div id="question-5" class="section level2">
-<h2>Question 5</h2>
-<p>A fisher is maximizing their fishing yield by maintaining a
-population of logistically growing lake trout at the density where the
-population growth rate is fastest. For the population in question, this
-occurs at a density of 500 individuals. Predict the realized population
-growth rate after the population has been stocked with an additional 600
-fish. Assume that for the trout <em>r=0.005</em>
-individuals/(individual*day).</p>
-<p><strong>Answer:</strong> The fact that this logistically growing
-population is growing fastest at <em>K/2=500</em> individuals implies
-that <em>K = 1000</em>. With 600 fish added the new population size
-equals 1100. <span class="math display">\[
-\frac{\mathrm{d}N}{\mathrm{d}t} = rN\left(1-\frac{N}{K}\right)
-\Longrightarrow 0.005*1100\left(1-\frac{1100}{1000}\right) = -0.55.
-\]</span> Thus, the growth rate equals -0.55 fish per day. The growth
-rate is negative because the additional stock pushes the population
-above its carrying capacity.</p>
+<p><strong>Life table analysis in snails</strong></p>
+Here is a life table for a snail population:
+<table style="width:80%;">
+<thead>
+<tr>
+<th style="text-align:right;">
+age in years (<span class="math inline">\(x\)</span>)
+</th>
+<th style="text-align:right;">
+<span class="math inline">\(a_x\)</span>
+</th>
+<th style="text-align:right;">
+<span class="math inline">\(m_x\)</span>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+2.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+</tbody>
+</table>
+<p>Complete the life table analysis by calculating <span
+class="math inline">\(l(x)\)</span>, <span
+class="math inline">\(R_0\)</span>, and <span
+class="math inline">\(T_c\)</span>, and estimate <span
+class="math inline">\(r\)</span>.</p>
 </div>
 </div>
 

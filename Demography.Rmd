@@ -1,0 +1,89 @@
+---
+pagetitle: 'Exercise: Demography'
+output: 
+  html_document:
+    toc: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+```
+
+# Exercise: Demography {.tabset}
+
+##  Question 1
+**Yearly variation in the numbers of breeding Darwin’s finches (*Geospiza fortis* and *G. scandens*)**
+
+The breeding success of Darwin’s finches on the Galapagos islands depends to a large extent on weather. During dry years the nesting success can be very low, and there are large fluctuations in bird numbers from year to year.
+The following table  gives the number of breeding birds in two finch species during 1976-1991.
+
+
+```{r, eval=TRUE, echo=FALSE}
+Year <- 1976:1991
+G.fortis <- c(509, 0, 129, 123, 136, 171, 74, 405, 332, 0, 32, 214, 0, 0, 120, 241)
+G.scandens <- c(160, 86, 103, 70, 129, 130, 103, 253, 217, 0, 20, 55, 8, 5, 13, 42)
+Darwin.finches <- data.frame(Year, G.fortis, G.scandens)
+knitr::kable(
+  Darwin.finches, format = "html", table.attr = "style='width:60%;'", col.names = c('year', '*G. fortis* pairs', '*G. scandens* pairs')
+)
+```
+
+Calculate the mean number of breeding pairs ($\bar x$), standard deviation ($s$), variance ($s^2$) and coefficient of variation ($C.V.$) for the two species. Which of the species is more sensitive to weather fluctuations?
+If we denote the number of breeding pairs in a given year with $x_i$, then the required formulas are as follows.
+
+$$
+\begin{align}
+\bar x & = \frac{\sum_{i=1}^{n}x_i}{n} \\
+s^2 & = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n-1} \\
+s & = \sqrt{s^2} \\
+C.V. & = \frac{100 s}{\bar x}
+\end{align}
+$$
+
+## Question 2
+
+**Fecundity of the chamois (*Rupicapra rupicapra*) in New Zealand**
+
+The chamois gives birth during a short period in spring (birth pulse, discrete breeder). 275 females from all age groups were shot during this period to study female fecundity. Females that were pregnant, had active milk glands or bore signs of previous pregnancy were considered as reproductively active during that particular season. Litter size is supposed to be 1, and the sex ratio among the new born is 1/2 (equally many sons and daughters). The following table below gives the number of reproductively active female in each age group.
+
+
+```{r, eval=TRUE, echo=FALSE}
+age <- 0:8
+Number.shot <- c(0, 60, 36, 70, 48, 26, 19, 6, 10)
+Number.reproductive <- c(0, 2, 14, 52, 45, 19, 16, 5, 7)
+chamois <- data.frame(age, Number.shot, Number.reproductive)
+knitr::kable(
+  chamois, format = "html", table.attr = "style='width:80%;'", col.names = c('age in years ($x$)', 'no. shot ($m_x$)', 'no. reprod. active ($B_x$)')
+)
+```
+
+1. Calculate fecundity, i.e., the number of female young per female. This can be calculated as
+$$
+m_x = B_x /(2f_x)
+$$
+where $f_x$ is the number of shot females that were aged $x$ years old, and $B_x$ is the number of those that were considered reproductively active. The $2$ in the denominator stems from the fact that on average only half of the offspring are female. Here, $f_x$ is supposed to be equal to the number of females at the beginning of the time period and natural mortality is supposed to be negligible.
+
+2. Draw a figure showing fecundity as a function of age. Explain what you see. When is a chamois female fully fecund? Calculate average fecundity over all fully fecund age groups.
+
+## Question 3
+
+**Life table analysis in snails**
+
+Here is a life table for a snail population:
+```{r, eval=TRUE, echo=FALSE}
+age <- 0:3
+a <- c(500, 400, 40, 0)
+m <- c(0, 2.5, 3, 0)
+snails <- data.frame(age, a, m)
+knitr::kable(
+  snails, format = "html", table.attr = "style='width:80%;'", col.names = c('age in years ($x$)', '$a_x$', '$m_x$')
+  )
+```
+
+Complete the life table analysis by calculating $l(x)$, $R_0$, and $T_c$, and estimate $r$.
+
+
