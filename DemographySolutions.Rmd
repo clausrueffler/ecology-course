@@ -58,7 +58,7 @@ knitr::kable(
 ```
 
 \
-*Geospiza fortis* is more sensitive to weather fluctuations because it has higher $C.V.$
+*Geospiza fortis* is more sensitive to weather fluctuations because it has a higher $C.V.$
 
 ## Question 2
 
