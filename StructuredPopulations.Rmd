@@ -90,7 +90,7 @@ Next, let us create a time series plot. With this we mean a plot with time on th
 plot(x=c(0:2), y=c(Ntot.0, Ntot.1, Ntot.2), xlab="Time (years)", ylab="Ntot.t", las=1)
 ```
 
-If you have computed to *Ntot* for the first ten time steps you can add them to the plot by changing ```c(0:2)``` to ```c(0:10)``` (the points on the axis) and ```y=c(Ntot.0, Ntot.1, Ntot.2)``` to ```y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)``` (the values on the y-axis) in the above code.
+If you have computed *Ntot* for the first ten time steps you can add them to the plot by changing ```c(0:2)``` to ```c(0:10)``` (the points on the axis) and ```y=c(Ntot.0, Ntot.1, Ntot.2)``` to ```y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)``` (the values on the y-axis) in the above code.
 
 Next, let's have a look at the population composition. How is the total number of individuals distributed over the different life-history states? Thus, let us first plot the population vectors ```N.0```, ```N.1``` and ```N.2```in form of a bar plot.
 
@@ -100,7 +100,7 @@ barplot(cbind(N.0, N.1, N.2), las=1, col=c("grey", "green", "red"), names.arg=c(
 legend(x=0.1, y=2000, bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
-Please try to adapt this chunk of code so as to include the data for the all time steps until ```t=10```?
+Please try to adapt this chunk of code to include the data for the all time steps until ```t=10```?
 
 ```{r echo=FALSE, eval=FALSE}
 par(xpd=T) # allow plotting on margin (for legend)
