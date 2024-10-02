@@ -114,7 +114,7 @@ In which direction does the time series "travel" along these lines, clockwise or
 
 ## Prey species with logistic growth
 
-In the Lotka-Volterra consumer-resource model shown above the resource grows exponentially in the absence of a consumer (make yourself clear that this is true based on the equation) and the consumer feeds on the resource according to a linear functional response. In particular, the first assumption is unrealistic. Thus, let us modify the model by assuming the the resource grows logistically in the absence of a consumer:
+In the Lotka-Volterra consumer-resource model of the previous exercise, the resource grows exponentially in the absence of a consumer (make yourself clear that this is true based on the equation) and the consumer feeds on the resource according to a linear functional response. In particular, the first assumption is unrealistic. Thus, let us modify the model by assuming the the resource grows logistically in the absence of a consumer:
 
 $$
 \begin{align}
