@@ -58,8 +58,8 @@ for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this 
 Finally, let us plot the time series.
 
 ```{r}
-matplot(0:t, N, type = "l", lty = 1:2, col = 1, ylim = c(0, 90), ylab="Number of individuals", xlab="Time")
-legend("top", c(expression("species 1 "), expression("species 2 ")), lty = 1:2, bty = "n")
+matplot(0:t, N, type = "p", pch = c(1,16), lty = 1:2, col = 1, ylim = c(0, 90), ylab="Number of individuals", xlab="Time")
+legend("top", c(expression("species 1 "), expression("species 2 ")), pch = c(1,16), bty = "n")
 ```
 
 ## Logistic growth in discrete time
@@ -86,10 +86,10 @@ N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the populati
 N[1, ] <- N0 # enters the initial population vector as a column into this matrix
 for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
 
-matplot(0:t, N, type = "l", col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
+matplot(0:t, N, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
 abline(h = K1, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
 text(0, K1+1, "K1", adj = c(0, 0))
-legend("top", c(expression("species1 "), expression("species2")), lty = 1:2, bty = "n")
+legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 ```
 
 Vary the intrinsic growth rate ```r1``` to investigate the effect this has on the population dynamics. For example, you could try the values ```r1=0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6```. What do you observe? Feel free to choose additional values to complete your understanding.
@@ -106,10 +106,10 @@ for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this 
 
 N.r.0p5 <- N # here I assign the matrix that contains the data for the new r-value to a new object, called N.r.0p5. When I plot the data with the following command I have to change the name of the matrix there accordingly.
 
-matplot(0:t, N.r.0p5, type = "l", col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
+matplot(0:t, N.r.0p5, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
 abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of species 1
 text(0, K1+1, "K1", adj = c(0, 0))
-legend("top", c(expression("species1 "), expression("species2")), lty = 1:2, bty = "n")
+legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 ```
 
 In the above code, we assigned the matrix that contains the data for the new *r*-value to a new object, called ```N.r.0p5``` (reminding us that the *r*-value equals 0.5 in this run). When we plot the data we have to change the name of the matrix in the plotting command accordingly. In this way, it is possible to always evaluate the same piece of code after a parameter value has been changed but simultaneously keeping the results since we have saved them each time to a new object.
