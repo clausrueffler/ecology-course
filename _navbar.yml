@@ -9,14 +9,14 @@ left:
         href: ./Demography.html
       - text: "1. Excercise: Demography Solutions"
         href: ./DemographySolutions.html
-      - text: "2. Excercise: Structured Populations"
-        href: ./StructuredPopulations.html
-#      - text: "2. Excercise: Structured populations solutions"
-#        href: ./StructuredPopulationsSolutions.html
-      - text: "3. Excercise: Population Dynamics"
+      - text: "2. Excercise: Population Dynamics"
         href: ./PopulationDynamics.html
-#      - text: "3. Excercise: Population Dynamics Solutions"
-#        href: ./PopulationDynamicsSolutions.html        
+      - text: "2. Excercise: Population Dynamics Solutions"
+        href: ./PopulationDynamicsSolutions.html
+      - text: "3. Excercise: Structured Populations"
+        href: ./StructuredPopulations.html
+#      - text: "3. Excercise: Structured populations solutions"
+#        href: ./StructuredPopulationsSolutions.html
       - text: "4. Excercise: Competition"
         href: ./Competition.html
 #      - text: "4. Excercise: Competition Solutions"
