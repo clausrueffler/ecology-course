@@ -15,8 +15,8 @@ left:
         href: ./PopulationDynamicsSolutions.html
       - text: "3. Excercise: Structured Populations"
         href: ./StructuredPopulations.html
-#      - text: "3. Excercise: Structured populations solutions"
-#        href: ./StructuredPopulationsSolutions.html
+      - text: "3. Excercise: Structured populations solutions"
+        href: ./StructuredPopulationsSolutions.html
       - text: "4. Excercise: Competition"
         href: ./Competition.html
 #      - text: "4. Excercise: Competition Solutions"
