@@ -13,7 +13,7 @@
 
 <title>Competition - Solutions</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,9 +191,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -275,7 +282,13 @@ $(document).ready(function () {
       <a href="./Competition.html">4. Excercise: Competition</a>
     </li>
     <li>
+      <a href="./CompetitionSolutions.html">4. Excercise: Competition Solutions</a>
+    </li>
+    <li>
       <a href="./PredatorPrey.html">5. Excercise: Predator-Prey Interactions</a>
+    </li>
+    <li>
+      <a href="./PredatorPreySolutions.html">5. Excercise: Predator-Prey Solutions</a>
     </li>
   </ul>
 </li>
@@ -303,29 +316,19 @@ $(document).ready(function () {
 <h1 class="tabset">Competition - Solutions</h1>
 <div id="lv-in-discrete-time" class="section level2">
 <h2>LV in discrete time</h2>
-<p>The Lotka-Volterra competition model in discrete time can be written
-as the following system of two difference equations: <span
-class="math display">\[
+<p>The Lotka-Volterra competition model in discrete time can be written as the following system of two difference equations: <span class="math display">\[
 \begin{align}
-N_1(t+1)&amp;=N_1(t)+N_1(t)r_1\bigg(1-\frac{N_1(t)+\alpha
-N_2(t)}{K_1}\bigg)\\
-N_2(t+1)&amp;=N_2(t)+N_2(t)r_2\bigg(1-\frac{N_2(t)+\beta
-N_1(t)}{K_2}\bigg)
+N_1(t+1)&amp;=N_1(t)+N_1(t)r_1\bigg(1-\frac{N_1(t)+\alpha N_2(t)}{K_1}\bigg)\\
+N_2(t+1)&amp;=N_2(t)+N_2(t)r_2\bigg(1-\frac{N_2(t)+\beta N_1(t)}{K_2}\bigg)
 \end{align}
 \]</span></p>
-<p>In this exercise, you will investigate the behavior of the
-Lotka-Volterra competition model by iterating this system of equations.
-To do this, we first define a function that describes how the population
-size of two competing species one time step in the future depends on
-their population sizes at the current time step.</p>
+<p>In this exercise, you will investigate the behavior of the Lotka-Volterra competition model by iterating this system of equations. To do this, we first define a function that describes how the population size of two competing species one time step in the future depends on their population sizes at the current time step.</p>
 <pre class="r"><code>LVcomp &lt;- function(N, r1, r2, K1, K2, alpha, beta) {
   N1.t1 &lt;- N[1] + r1 * N[1] * (1 - (N[1] + alpha * N[2])/K1)
   N2.t1 &lt;- N[2] + r2 * N[2] * (1 - (N[2] + beta * N[1])/K2)
   c(N1.t1, N2.t1)
 }</code></pre>
-<p>In the next code-block, all parameter values and the initial
-population size vector <code>N.0</code> specifying the initial densities
-for the two species are determined.</p>
+<p>In the next code-block, all parameter values and the initial population size vector <code>N.0</code> specifying the initial densities for the two species are determined.</p>
 <pre class="r"><code>r1 &lt;- .9 # intrinsic growth rate of species 1
 r2 &lt;- .9 # intrinsic growth rate of species 2
 K1 &lt;- 100 # carrying capacity of species 1
@@ -334,9 +337,7 @@ alpha &lt;- 0.8 # competitive effect of species 2 on species 1
 beta &lt;- 0.9 # competitive effect of species 1 on species 2
 N0 &lt;- c(5, 20) # vector of initial population sizes, N1(0) and N2(0)
 t &lt;- 50 # number of time steps the simulation should run</code></pre>
-<p>The next piece of code produces the data. EACH TIME YOU CHANGE A
-PARAMETER VALUE YOU HAVE TO EVALUATE THE CODE FROM HER ONWARDS IN ORDER
-TO THE SEE THE CORRESPONDING RESULT.</p>
+<p>The next piece of code produces the data. EACH TIME YOU CHANGE A PARAMETER VALUE YOU HAVE TO EVALUATE THE CODE FROM HER ONWARDS IN ORDER TO THE SEE THE CORRESPONDING RESULT.</p>
 <pre class="r"><code>N &lt;- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix with two columns and t+1 rows in which the population vectors of the time series will be stored
 N[1, ] &lt;- N0 # enters the initial population vector into the first row of this matrix
 for (i in 1:t) N[i + 1, ] &lt;- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times</code></pre>
@@ -347,16 +348,7 @@ legend(&quot;top&quot;, c(expression(&quot;species 1 &quot;), expression(&quot;s
 </div>
 <div id="logistic-growth-in-discrete-time" class="section level2">
 <h2>Logistic growth in discrete time</h2>
-<p>Before we actually look at competition between two species let us go
-back one step. We can use the above code to also investigate the
-population dynamics of a single species that growths according to
-logistic growth in discrete time. Recall the lecture about the discrete
-time logistic model. <em>All that we have to do for that is to set the
-initial population size of one species, say species 2, equal to zero,
-that is <span class="math inline">\(N_2(t=0)=0\)</span></em>. This works
-because in a population without imigration and emigration, a species
-that is not present at the beginning will never be present and the model
-behaves exactly as a single species model.</p>
+<p>Before we actually look at competition between two species let us go back one step. We can use the above code to also investigate the population dynamics of a single species that growths according to logistic growth in discrete time. Recall the lecture about the discrete time logistic model. <em>All that we have to do for that is to set the initial population size of one species, say species 2, equal to zero, that is <span class="math inline">\(N_2(t=0)=0\)</span></em>. This works because in a population without imigration and emigration, a species that is not present at the beginning will never be present and the model behaves exactly as a single species model.</p>
 <pre class="r"><code>r1 &lt;- 1 # intrinsic growth rate of species 1
 r2 &lt;- 1.5 # intrinsic growth rate of species 2
 K1 &lt;- 100 # carrying capacity of species 1
@@ -365,9 +357,7 @@ alpha &lt;- 0.8 # competitive effect of species 2 on species 1
 beta &lt;- 0.9 # competitive effect of species 1 on species 2
 N0 &lt;- c(10, 0) # vector of initial population sizes where N2(t=0)=0
 t &lt;- 20 # number of time steps the simulation should run</code></pre>
-<p>Here, you can see the population dynamics as resulting from the above
-parameter values. I also added a horizontal line indicating the value of
-the carrying capacity of species 1.</p>
+<p>Here, you can see the population dynamics as resulting from the above parameter values. I also added a horizontal line indicating the value of the carrying capacity of species 1.</p>
 <pre class="r"><code>N &lt;- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
 N[1, ] &lt;- N0 # enters the initial population vector as a column into this matrix
 for (i in 1:t) N[i + 1, ] &lt;- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
@@ -377,9 +367,7 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>Vary the intrinsic growth rate <code>r1</code> to investigate the
-effect is has on the population dynamics. For example, you could try the
-values <code>r1 = 0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6</code>.</p>
+<p>Vary the intrinsic growth rate <code>r1</code> to investigate the effect is has on the population dynamics. For example, you could try the values <code>r1 = 0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6</code>.</p>
 <pre class="r"><code>r1 &lt;- 0.5 # intrinsic growth rate of species 1 is now increased
 t &lt;- 50
 
@@ -394,20 +382,7 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p><span style="color:red">One can observe that the carrying capacity is
-approached monotonically for <em>0&lt;r&lt;1</em> while it is approached
-in an oscillating manner for <em>1&lt;r&lt;2</em> (alternating between
-over- and undershooting). For <em>r&gt;2</em> the population does not
-reach the carrying capacity but undergoes sustained cycles. The
-amplitude of these cycles increases with <em>r</em>. For
-<em>2&lt;r&lt;2.449</em> this limit cycle is a 2-cycle, which means that
-the same population density is reached every sedond time step. For
-<em>2,45&lt;r&lt;2.57</em> the limit cycle is a 4-cycle. The length of
-the cycle doubles with inreasing <em>r</em> to become cycle of lenght 8,
-16, 32 and so forth. However, these regular cyclic pattern stops once
-<em>r&gt;2.57</em>. From then on the population dynamics show
-deterministic chaos which means that the dynamics never visit the same
-value more than once.</span></p>
+<p><span style="color:red">One can observe that the carrying capacity is approached monotonically for <em>0&lt;r&lt;1</em> while it is approached in an oscillating manner for <em>1&lt;r&lt;2</em> (alternating between over- and undershooting). For <em>r&gt;2</em> the population does not reach the carrying capacity but undergoes sustained cycles. The amplitude of these cycles increases with <em>r</em>. For <em>2&lt;r&lt;2.449</em> this limit cycle is a 2-cycle, which means that the same population density is reached every sedond time step. For <em>2,45&lt;r&lt;2.57</em> the limit cycle is a 4-cycle. The length of the cycle doubles with inreasing <em>r</em> to become cycle of lenght 8, 16, 32 and so forth. However, these regular cyclic pattern stops once <em>r&gt;2.57</em>. From then on the population dynamics show deterministic chaos which means that the dynamics never visit the same value more than once.</span></p>
 <pre class="r"><code># next r-value
 r1 &lt;- 0.5 # intrinsic growth rate of species 1 is now increased
 
@@ -495,23 +470,12 @@ par(xpd=TRUE) # adding this allows the legend to be placed outside the plotting 
 legend(&quot;bottomright&quot;, legend=c(&quot;r=2.5&quot;, &quot;r=2.6&quot;), 
        col=c(&quot;black&quot;, &quot;red&quot;), lty=c(1,1,1,1), bty=&quot;n&quot;, horiz=TRUE, cex=0.9)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
-<p>Does the behavior you observe change when you alter (i) the value of
-the carrying capacity <em>K</em> or (ii) the initial population size at
-time zero?</p>
-<p><span style="color:red">Changing the value of the carrying capacity
-does not affect the <em>r</em>-values at which the length of the cycle
-changes. The long-term outcome of the population dynamics is also
-independent of the initial population size. In other words, the exact
-same cyclic pattern is reached for different initial population sizes.
-This is true as long at the population dynamics is not chaotic. Once
-<em>r</em> is so large that the population dynamics shows deterministic
-chaos, small changes in the initial population size result in completely
-different time series.</span></p>
+<p>Does the behavior you observe change when you alter (i) the value of the carrying capacity <em>K</em> or (ii) the initial population size at time zero?</p>
+<p><span style="color:red">Changing the value of the carrying capacity does not affect the <em>r</em>-values at which the length of the cycle changes. The long-term outcome of the population dynamics is also independent of the initial population size. In other words, the exact same cyclic pattern is reached for different initial population sizes. This is true as long at the population dynamics is not chaotic. Once <em>r</em> is so large that the population dynamics shows deterministic chaos, small changes in the initial population size result in completely different time series.</span></p>
 </div>
 <div id="competition-between-two-species" class="section level2">
 <h2>Competition between two species</h2>
-<p>In order to properly investigate the competion between two species
-both need to have a non-zero density at <em>t=0</em>.</p>
+<p>In order to properly investigate the competion between two species both need to have a non-zero density at <em>t=0</em>.</p>
 <pre class="r"><code>r1 &lt;- 1 # intrinsic growth rate of species 1
 r2 &lt;- 1.5 # intrinsic growth rate of species 2
 K1 &lt;- 100 # carrying capacity of species 1
@@ -520,29 +484,16 @@ alpha &lt;- 0.8 # competitive effect of species 2 on species 1
 beta &lt;- 0.9 # competitive effect of species 1 on species 2
 N0 &lt;- c(10, 5) # vector of initial population sizes, N1(0) and N2(0)
 t &lt;- 30 # number of time steps the simulation should run</code></pre>
-<p>For the remainder of this exercise, investigate the effect of the
-various parameters on the outcome of competition between two species.
-Specifically, investigate the following questions.</p>
+<p>For the remainder of this exercise, investigate the effect of the various parameters on the outcome of competition between two species. Specifically, investigate the following questions.</p>
 <ol style="list-style-type: decimal">
-<li>First focus on the case that both carrying capacities are equal,
-<code>K1=K2</code>, and that the intrinsic growth rates are relatively
-small, say, <code>r1, r2 &lt;1</code>. Under this scenario, look at the
-following cases: <span class="math display">\[
+<li>First focus on the case that both carrying capacities are equal, <code>K1=K2</code>, and that the intrinsic growth rates are relatively small, say, <code>r1, r2 &lt;1</code>. Under this scenario, look at the following cases: <span class="math display">\[
 \begin{align}
   \mathrm{i)\,\,} &amp;\alpha&lt;1&lt;\beta\\
   \mathrm{ii)\,\,} &amp;\alpha&gt;1&gt;\beta\\
   \mathrm{iii)\,\,} &amp;1&lt;\alpha, \beta\\
   \mathrm{iv)\,\,} &amp;\alpha, \beta&lt;1
 \end{align}
-\]</span> <span style="color:red">In summary, all cases behave exactly
-as predicted based on the theoretical results you have seen in the
-lecture. But let us nevertheless go through these case one by one. Let
-us first look at the case <span
-class="math inline">\(\alpha&lt;1&lt;\beta\)</span>. The simulation
-below shows that in this case species 1 wins and species 2 goes extint.
-This is because species 2 suffers heavily from competition with species
-1 while species 1 suffers to a lesser extend from competition with
-species 2.</span></li>
+\]</span> <span style="color:red">In summary, all cases behave exactly as predicted based on the theoretical results you have seen in the lecture. But let us nevertheless go through these case one by one. Let us first look at the case <span class="math inline">\(\alpha&lt;1&lt;\beta\)</span>. The simulation below shows that in this case species 1 wins and species 2 goes extint. This is because species 2 suffers heavily from competition with species 1 while species 1 suffers to a lesser extend from competition with species 2.</span></li>
 </ol>
 <pre class="r"><code>r1 &lt;- 0.9 # intrinsic growth rate of species 1
 r2 &lt;- 0.9 # intrinsic growth rate of species 2
@@ -562,9 +513,7 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 wins&quot;), expression(&quot;species2 goes extinct&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p><span style="color:red">In the reverse case, <span
-class="math inline">\(\alpha&gt;1&gt;\beta\)</span>, the simulations
-show that species 2 wins and species 1 goes extinct.</span></p>
+<p><span style="color:red">In the reverse case, <span class="math inline">\(\alpha&gt;1&gt;\beta\)</span>, the simulations show that species 2 wins and species 1 goes extinct.</span></p>
 <pre class="r"><code>alpha &lt;- 1.2 # competitive effect of species 2 on species 1
 beta &lt;- 0.9 # competitive effect of species 1 on species 2
 N0 &lt;- c(10, 5) # vector of initial population sizes, N1(0) and N2(0)
@@ -579,16 +528,7 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 goes extinct&quot;), expression(&quot;species2 wins&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p><span style="color:red">Next, let us look at the case that both
-competition coefficients are larger than 1, <span
-class="math inline">\(\alpha, \beta&gt;1\)</span>. In this case, the
-simulations show that one species goes extinct and the other one reaches
-its carrying capacity. Interestingly, which one goes extinct and which
-one wins depends on the initial population densities. Below, two
-simulations are shown. In the first one, species 1 is more common and it
-turns out to be the winner of the competition. In the second one,
-species 2 is more common and it turns out to be the winner of the
-competition.</span></p>
+<p><span style="color:red">Next, let us look at the case that both competition coefficients are larger than 1, <span class="math inline">\(\alpha, \beta&gt;1\)</span>. In this case, the simulations show that one species goes extinct and the other one reaches its carrying capacity. Interestingly, which one goes extinct and which one wins depends on the initial population densities. Below, two simulations are shown. In the first one, species 1 is more common and it turns out to be the winner of the competition. In the second one, species 2 is more common and it turns out to be the winner of the competition.</span></p>
 <pre class="r"><code>N0 &lt;- c(2, 1) # vector of initial population sizes, N1(0) and N2(0)
 alpha &lt;- 1.1 # competitive effect of species 2 on species 1
 beta &lt;- 1.1 # competitive effect of species 1 on species 2
@@ -613,13 +553,7 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 goes extinct&quot;), expression(&quot;species2 wins&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
-<p><span style="color:red">Finally, let us look at the case that both
-competition coefficients are less than 1, <span
-class="math inline">\(\alpha, \beta &lt; 1\)</span>. In this case, the
-simulations show that the two species can coexist. This is true
-independent of the initial population vector. Note that the sum of the
-density of the two species together is larger than the carrying capacity
-of a single species.</span></p>
+<p><span style="color:red">Finally, let us look at the case that both competition coefficients are less than 1, <span class="math inline">\(\alpha, \beta &lt; 1\)</span>. In this case, the simulations show that the two species can coexist. This is true independent of the initial population vector. Note that the sum of the density of the two species together is larger than the carrying capacity of a single species.</span></p>
 <pre class="r"><code>alpha &lt;- 0.8 # competitive effect of species 2 on species 1
 beta &lt;- 0.9 # competitive effect of species 1 on species 2
 N &lt;- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
@@ -632,21 +566,9 @@ text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <ol start="2" style="list-style-type: decimal">
-<li>Allow the two carrying capacities to differ from each other, for
-instance, <code>K1 &lt; K2</code>. Does this alter your previous
-results? If yes, how?</li>
+<li>Allow the two carrying capacities to differ from each other, for instance, <code>K1 &lt; K2</code>. Does this alter your previous results? If yes, how?</li>
 </ol>
-<p><span style="color:red">Making the carrying capacities unequal
-slightly modifies the above results. Just as an example, let us look at
-a case where <span class="math inline">\(\alpha&lt;1&lt;\beta\)</span>.
-According to our above simulation, species 2 is expected to win the
-competition. Let us additionally assume that <span
-class="math inline">\(K_1&gt;K_2\)</span>, more specifically, <span
-class="math inline">\(K_1=120\)</span> and <span
-class="math inline">\(K_2=100\)</span>. The above simulation shows that
-in this case it is species 1 that wins the competition. This is again in
-line with the expectations based on the analytical results presented in
-the lecture.</span></p>
+<p><span style="color:red">Making the carrying capacities unequal slightly modifies the above results. Just as an example, let us look at a case where <span class="math inline">\(\alpha&lt;1&lt;\beta\)</span>. According to our above simulation, species 2 is expected to win the competition. Let us additionally assume that <span class="math inline">\(K_1&gt;K_2\)</span>, more specifically, <span class="math inline">\(K_1=120\)</span> and <span class="math inline">\(K_2=100\)</span>. The above simulation shows that in this case it is species 1 that wins the competition. This is again in line with the expectations based on the analytical results presented in the lecture.</span></p>
 <pre class="r"><code>N0 &lt;- c(1, 1)
 K1 &lt;- 120 # carrying capacity of species 1
 K2 &lt;- 100 # carrying capacity of species 2
@@ -663,27 +585,9 @@ text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 wins&quot;), expression(&quot;species2 goes extinct&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
-<li>The fact that the single-species logistic equation allows for
-overshooting and complicated population dynamical cycles when
-<em>r&gt;2</em> carries over to the LV-competition model in discrete
-time (note, that this is not possible in the continuous time versions of
-both these models). Investigate this possibility for the special case
-that the intrinsic growth rates and carrying capacities of both species
-are equal to each other, <code>r1 = r2</code> and <code>K1 = K2</code>.
-What happens if both growth rates are close to 2 but slightly less and
-what happens if you increase both growth rates slightly above 2? You
-could combine this investigation with the different configurations that
-the competition competition coefficients can take as listed under
-(1).</li>
+<li>The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when <em>r&gt;2</em> carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, <code>r1 = r2</code> and <code>K1 = K2</code>. What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).</li>
 </ol>
-<p><span style="color:red">As an example, let us study the case that
-both competition coefficients are less than 1, that is we expect the two
-species to coexist. First, we run a simulation with
-<code>r1 = 1.9 =r2</code> and then a simulation with
-<code>r1 = 2.1 = r2</code>. We see that in the first case the
-coexistence equilibrium is reached in an oscillating manner. In the
-second case, interestingly, the two species coexist but both species
-fluctuate in a 2-cycle.</span></p>
+<p><span style="color:red">As an example, let us study the case that both competition coefficients are less than 1, that is we expect the two species to coexist. First, we run a simulation with <code>r1 = 1.9 =r2</code> and then a simulation with <code>r1 = 2.1 = r2</code>. We see that in the first case the coexistence equilibrium is reached in an oscillating manner. In the second case, interestingly, the two species coexist but both species fluctuate in a 2-cycle.</span></p>
 <pre class="r"><code>r1 &lt;- 1.9 # intrinsic growth rate of species 1
 r2 &lt;- 1.9 # intrinsic growth rate of species 2
 K1 &lt;- 100 # carrying capacity of species 1
@@ -720,11 +624,7 @@ abline(h = K1, lty = 3)
 text(0, K1, &quot;K1&quot;, adj = c(0, 0)) 
 legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p><span style="color:red">In fact, one can prove mathematically that a
-stable equilibrium that allows two species to coexist, becomes unstable
-if at least one of the following two conditions is not fulfilled. And
-indeed, with the last set of parameters the second condition is false as
-is evident by the fluctuating dynamics.</span></p>
+<p><span style="color:red">In fact, one can prove mathematically that a stable equilibrium that allows two species to coexist, becomes unstable if at least one of the following two conditions is not fulfilled. And indeed, with the last set of parameters the second condition is false as is evident by the fluctuating dynamics.</span></p>
 <pre class="r"><code>c1 &lt;- r1*(K1-alpha*K2)/((1-alpha*beta)*K1) # here, we define three different constants c1, c2 and c3
 c2 &lt;- r2*(K2-beta*K1)/((1-alpha*beta)*K2)
 c3 &lt;- (1 + (c1*c2*(1-alpha*beta))/4)
