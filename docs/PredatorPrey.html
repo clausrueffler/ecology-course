@@ -13,7 +13,7 @@
 
 <title>Exercise: Predator-prey dynamics</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -264,31 +257,16 @@ $(document).ready(function () {
       <a href="./Demography.html">1. Excercise: Demography</a>
     </li>
     <li>
-      <a href="./DemographySolutions.html">1. Excercise: Demography Solutions</a>
-    </li>
-    <li>
       <a href="./PopulationDynamics.html">2. Excercise: Population Dynamics</a>
-    </li>
-    <li>
-      <a href="./PopulationDynamicsSolutions.html">2. Excercise: Population Dynamics Solutions</a>
     </li>
     <li>
       <a href="./StructuredPopulations.html">3. Excercise: Structured Populations</a>
     </li>
     <li>
-      <a href="./StructuredPopulationsSolutions.html">3. Excercise: Structured populations solutions</a>
-    </li>
-    <li>
       <a href="./Competition.html">4. Excercise: Competition</a>
     </li>
     <li>
-      <a href="./CompetitionSolutions.html">4. Excercise: Competition Solutions</a>
-    </li>
-    <li>
       <a href="./PredatorPrey.html">5. Excercise: Predator-Prey Interactions</a>
-    </li>
-    <li>
-      <a href="./PredatorPreySolutions.html">5. Excercise: Predator-Prey Solutions</a>
     </li>
   </ul>
 </li>
@@ -316,16 +294,37 @@ $(document).ready(function () {
 <h1 class="tabset">Exercise: Predator-prey dynamics</h1>
 <div id="basic-predator-prey-model" class="section level2">
 <h2>Basic predator-prey model</h2>
-<p>In this exercise, you will investigate the behavior of the continuous time Lotka-Volterra predator-prey model and two variants of it, using code programmed in R. This is the first time that you analyze a model in <em>continuous time</em> in R. Computationally, this is more complicated than analyzing a model in discrete time, because it cannot be done by simply iterating a recursion equation. Instead, we have to use a method called <em>numerical integration</em>. Luckily, an R-package exists that allows us to do just that.</p>
-<p>Thus, before you can start you have to install and load the package <strong>deSolve</strong> into R. In order to install this package click on <strong>Packages</strong> at the menu bar of the bottom right window of your work space in R-Studio. Then press <strong>Install</strong> and search for the package <strong>deSolve</strong> and follow the instructions. In order load the package execute the following code:</p>
+<p>In this exercise, you will investigate the behavior of the continuous
+time Lotka-Volterra predator-prey model and two variants of it, using
+code programmed in R. This is the first time that you analyze a model in
+<em>continuous time</em> in R. Computationally, this is more complicated
+than analyzing a model in discrete time, because it cannot be done by
+simply iterating a recursion equation. Instead, we have to use a method
+called <em>numerical integration</em>. Luckily, an R-package exists that
+allows us to do just that.</p>
+<p>Thus, before you can start you have to install and load the package
+<strong>deSolve</strong> into R. In order to install this package click
+on <strong>Packages</strong> at the menu bar of the bottom right window
+of your work space in R-Studio. Then press <strong>Install</strong> and
+search for the package <strong>deSolve</strong> and follow the
+instructions. In order load the package execute the following code:</p>
 <pre class="r"><code>library(deSolve)</code></pre>
-<p>In the lecture, you got to know the Lotka-Volterra predator-prey model, which can be written as</p>
+<p>In the lecture, you got to know the Lotka-Volterra predator-prey
+model, which can be written as</p>
 <p><span class="math display">\[
 \begin{align}
 \frac{\mathrm{d}R}{\mathrm{d}t}&amp;=rR-aRC\\
 \frac{\mathrm{d}C}{\mathrm{d}t}&amp;=eaRC-dC
 \end{align}
-\]</span> where <em>R</em> and <em>C</em> denote the density of resources and consumers, respectively. Furthermore, <em>r</em> denotes the intrinsic growth rate of the resource, <em>a</em> the feeding efficiency of the consumer on the resource, <em>e</em> the conversion efficiency of resource individuals into consumer individuals and <em>d</em> the consumer death rate. In the next step, we define a function in R that describes this system of coupled ordinary differential equations and that will later allow us to simulate the dynamics that ensue from these equations.</p>
+\]</span> where <em>R</em> and <em>C</em> denote the density of
+resources and consumers, respectively. Furthermore, <em>r</em> denotes
+the intrinsic growth rate of the resource, <em>a</em> the feeding
+efficiency of the consumer on the resource, <em>e</em> the conversion
+efficiency of resource individuals into consumer individuals and
+<em>d</em> the consumer death rate. In the next step, we define a
+function in R that describes this system of coupled ordinary
+differential equations and that will later allow us to simulate the
+dynamics that ensue from these equations.</p>
 <pre class="r"><code>predpreyLV &lt;- function(t, y, params) {
   R &lt;- y[1]
   C &lt;- y[2]
@@ -335,15 +334,23 @@ $(document).ready(function () {
           return(list(c(dR.dt, dC.dt)))
   })
 }</code></pre>
-<p>In order to be able to analyze the dynamics described by these equations, we have to choose values for the parameters. You can change these values at any time.</p>
+<p>In order to be able to analyze the dynamics described by these
+equations, we have to choose values for the parameters. You can change
+these values at any time.</p>
 <pre class="r"><code>r &lt;- 2
 a &lt;- 0.5
 e &lt;- 0.5
 d &lt;- 0.35</code></pre>
-<p>Before we can start to simulate the dynamics we have to additionally specify the initial population densities of the prey and predator population. Also these values can be changed at any time.</p>
+<p>Before we can start to simulate the dynamics we have to additionally
+specify the initial population densities of the prey and predator
+population. Also these values can be changed at any time.</p>
 <pre class="r"><code>R0 &lt;- 2
 C0 &lt;- 6</code></pre>
-<p>Now we are ready simulate the dynamics for the above set of parameters. The following code produces a plot with time on the x-axis and the resource and consumer density on the y-axis. The solid line shows the density of resources and the hatched line the density of consumers.</p>
+<p>Now we are ready simulate the dynamics for the above set of
+parameters. The following code produces a plot with time on the x-axis
+and the resource and consumer density on the y-axis. The solid line
+shows the density of resources and the hatched line the density of
+consumers.</p>
 <pre class="r"><code>params1 &lt;- c(r = r, a = a, e = e, d = d)
 MaxTime &lt;- 60 # length of the time series, can be changed at any time
 Time &lt;- seq(0, MaxTime, by = 0.1) # here we produce a sequence of time points at which we will determine the population densities
@@ -352,7 +359,9 @@ LV.out &lt;- ode(c(R0, C0), Time, predpreyLV, params1) # here we call the functi
 matplot(Time, (LV.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Density&quot;, xlab=&quot;Time&quot;, ylim = c(0,8))
 legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;, horiz = TRUE)</code></pre>
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>Let us run (and plot) the same model as above two more times, but with somewhat different starting densities — everything else is the same.</p>
+<p>Let us run (and plot) the same model as above two more times, but
+with somewhat different starting densities — everything else is the
+same.</p>
 <pre class="r"><code>R02 &lt;- 2
 C02 &lt;- 5
 LV.out2 &lt;- ode(c(R02, C02), Time, predpreyLV, params1)
@@ -364,8 +373,10 @@ C03 &lt;- 4
 LV.out3 &lt;- ode(c(R03, C03), Time, predpreyLV, params1)
 matplot(Time, (LV.out3[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Density&quot;, xlab=&quot;Time&quot;, ylim = c(0,8))
 legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;, horiz = TRUE)</code></pre>
-<p>What do you observe? How do the different starting conditions affect the dynamics?</p>
-<p>Instead of looking at these simulations as time series, we can also look at them in a phase-plane diagram.</p>
+<p>What do you observe? How do the different starting conditions affect
+the dynamics?</p>
+<p>Instead of looking at these simulations as time series, we can also
+look at them in a phase-plane diagram.</p>
 <pre class="r"><code>plot(LV.out[, 2], LV.out[, 3], type = &quot;l&quot;,  lty = 1, col = &quot;red&quot;, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
 points(R0, C0, cex = 1.5, pch = 19, col = &quot;red&quot;) # adds a dot to show the starting density
 lines(LV.out2[, 2], LV.out2[, 3], lty = 1, col = &quot;blue&quot;) # adds the second simulation to the plot
@@ -377,11 +388,20 @@ legend(&quot;topright&quot;, c(expression(&quot;simulation 1&quot;), expression(
 
 abline(h = r/a, lty = 2, col = &quot;red&quot;) # iso-cline for the resource, which is a horizontal line
 abline(v = d/(e * a), lty = 2, col = &quot;blue&quot;) # iso-cline for the consumer, which is a vertical line</code></pre>
-<p>In which direction does the time series “travel” along these lines, clockwise or counter-clockwise? You can figure this out by looking that time-series plots. What is your conclusion about the dynamics of this model? Summerize them here.</p>
+<p>In which direction does the time series “travel” along these lines,
+clockwise or counter-clockwise? You can figure this out by looking that
+time-series plots. What is your conclusion about the dynamics of this
+model? Summerize them here.</p>
 </div>
 <div id="prey-species-with-logistic-growth" class="section level2">
 <h2>Prey species with logistic growth</h2>
-<p>In the Lotka-Volterra consumer-resource model of the previous exercise, the resource grows exponentially in the absence of a consumer (make yourself clear that this is true based on the equation) and the consumer feeds on the resource according to a linear functional response. In particular, the first assumption is unrealistic. Thus, let us modify the model by assuming the the resource grows logistically in the absence of a consumer:</p>
+<p>In the Lotka-Volterra consumer-resource model of the previous
+exercise, the resource grows exponentially in the absence of a consumer
+(make yourself clear that this is true based on the equation) and the
+consumer feeds on the resource according to a linear functional
+response. In particular, the first assumption is unrealistic. Thus, let
+us modify the model by assuming the the resource grows logistically in
+the absence of a consumer:</p>
 <p><span class="math display">\[
 \begin{align}
 \frac{\mathrm{d}R}{\mathrm{d}t}&amp;=Rr\bigg(1-\frac{R}{K}\bigg)-aRC\\
@@ -398,7 +418,9 @@ abline(v = d/(e * a), lty = 2, col = &quot;blue&quot;) # iso-cline for the consu
     return(list(c(dR.dt, dC.dt)))
   })
 }</code></pre>
-<p>To be able to compare the dynamics of this new model we choose the same parameters as above to which we have to add a value for the one new parameter, the resource carrying capacity <em>k</em>.</p>
+<p>To be able to compare the dynamics of this new model we choose the
+same parameters as above to which we have to add a value for the one new
+parameter, the resource carrying capacity <em>k</em>.</p>
 <pre class="r"><code>r &lt;- 2
 e &lt;- 0.5
 a &lt;- 0.5
@@ -416,16 +438,27 @@ log.prey.out &lt;- ode(c(R0, C0), Time, predprey.log.prey, params.log.prey1)
 matplot(Time, (log.prey.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;)
 legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Again, let’s make a phase plane plot. In which direction does the time series “travel” along the line?</p>
+<p>Again, let’s make a phase plane plot. In which direction does the
+time series “travel” along the line?</p>
 <pre class="r"><code>plot(log.prey.out[, 2], log.prey.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
 abline(a = r/a, b = -r/(a*k), lty = 2, col = &quot;red&quot;) # resource isocline, a straight line with negative slope
 abline(v = d / (e * a), lty = 2, col = &quot;blue&quot;) # consumer isocline, a vertical line</code></pre>
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>What do you observe? Vary the starting densities. How does this affect the long dynamics of the model? How does your conclusion about the dynamics of this model differ from the first model without logistic resource growth?</p>
+<p>What do you observe? Vary the starting densities. How does this
+affect the long dynamics of the model? How does your conclusion about
+the dynamics of this model differ from the first model without logistic
+resource growth?</p>
 </div>
 <div id="rosenzweig-macarthur-model" class="section level2">
 <h2>Rosenzweig-MacArthur model</h2>
-<p>Finally, let us make one more modification to the model. Instead of a linear functional response it is more realistic that consumers have a type-II functional response. This means that the amount of resources a consumer individual can take up saturates with increasing resource density due to consumers spending an increasing amount of time <em>handling</em> prey items. This version of the predator-prey model is also knows as the <em>Rosenzweig-MacArthur model</em>. The modified equations are:</p>
+<p>Finally, let us make one more modification to the model. Instead of a
+linear functional response it is more realistic that consumers have a
+type-II functional response. This means that the amount of resources a
+consumer individual can take up saturates with increasing resource
+density due to consumers spending an increasing amount of time
+<em>handling</em> prey items. This version of the predator-prey model is
+also knows as the <em>Rosenzweig-MacArthur model</em>. The modified
+equations are:</p>
 <p><span class="math display">\[
 \begin{align}
 \frac{\mathrm{d}R}{\mathrm{d}t}&amp;=Rr\bigg(1-\frac{R}{K}\bigg)-\frac{aCR}{1+ahR}\\
@@ -441,7 +474,8 @@ abline(v = d / (e * a), lty = 2, col = &quot;blue&quot;) # consumer isocline, a 
     return(list(c(dR.dt, dC.dt)))
   })
 }</code></pre>
-<p>Again, we keep the parameter values as above with one additional parameter, the handling time <em>h</em>.</p>
+<p>Again, we keep the parameter values as above with one additional
+parameter, the handling time <em>h</em>.</p>
 <pre class="r"><code>r &lt;- 2
 e &lt;- 0.5
 a &lt;- 0.5
@@ -460,7 +494,8 @@ RosMac.out &lt;- ode(c(R0, C0), Time, predprey.RosMac, params.RosMac1)
 matplot(Time, (RosMac.out[, 2:3]), type = &quot;l&quot;, lty = 1:2, col=1, ylab = &quot;Population Size&quot;, xlab=&quot;Time&quot;)
 legend(&quot;top&quot;, c(expression(&quot;resource&quot;), expression(&quot;consumer&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p>We should of course also make a phase plane diagram of these dynamics.</p>
+<p>We should of course also make a phase plane diagram of these
+dynamics.</p>
 <pre class="r"><code>plot(RosMac.out[, 2], RosMac.out[, 3], type = &quot;l&quot;,  lty = 1, col = 1, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;)
 abline(v = d / (e * (a - d*h)), lty = 2, col = &quot;blue&quot;) # consumer iso-cline, a vertical line
 # to produce the graph for the resource iso-cline requires a bit more work since the now becomes a &quot;curve&quot; instead of a straight line
@@ -469,12 +504,28 @@ Riso &lt;- expression(r / (a * k) * (k -R) * (1 + a * h * R))
 RisoStable &lt;- eval(Riso)
 lines(R, RisoStable, type = &quot;l&quot;, lty =2, ylab = &quot;consumer&quot;, xlab = &quot;resource&quot;, col = &quot;red&quot;, ylim = c(0, 10)) # resource iso-cline</code></pre>
 <p><img src="PredatorPrey_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>In the following, please investigate this model in a bit more detail by varying parameters and observing how the model responds. More specifically,</p>
+<p>In the following, please investigate this model in a bit more detail
+by varying parameters and observing how the model responds. More
+specifically,</p>
 <ol style="list-style-type: decimal">
-<li><p>Start by describing how the dynamics of this model differ from those of the previous two models. Also investiage the effect of changing the initial population densities.</p></li>
-<li><p>Note that with current the parameters the consumer iso-cline (the vertical line) intersects with the resource isocline <em>to the left of the maximum of the resource iso-cline</em>. What happens if we move the position of the consumer isocline further to the right so that it intersects with the resource iso-cline to the right of the maximum of the resource isocline? You can do this by increasing the value of the consumer death rate <em>d</em>. Describe how this changes the dynamics.</p></li>
-<li><p>What happens if you increase the value of the consumer death rate <em>d</em> even more so that the consumer isocline moves so much to the right that it does not intersect with the resource iso-cline any longer?</p></li>
-<li><p>Go back to the original parameters with <em>d=0.35</em>. Now gradually increase the value of the resource carrying capacity <em>K</em> to ever larger values. What do you observe?</p></li>
+<li><p>Start by describing how the dynamics of this model differ from
+those of the previous two models. Also investiage the effect of changing
+the initial population densities.</p></li>
+<li><p>Note that with current the parameters the consumer iso-cline (the
+vertical line) intersects with the resource isocline <em>to the left of
+the maximum of the resource iso-cline</em>. What happens if we move the
+position of the consumer isocline further to the right so that it
+intersects with the resource iso-cline to the right of the maximum of
+the resource isocline? You can do this by increasing the value of the
+consumer death rate <em>d</em>. Describe how this changes the
+dynamics.</p></li>
+<li><p>What happens if you increase the value of the consumer death rate
+<em>d</em> even more so that the consumer isocline moves so much to the
+right that it does not intersect with the resource iso-cline any
+longer?</p></li>
+<li><p>Go back to the original parameters with <em>d=0.35</em>. Now
+gradually increase the value of the resource carrying capacity
+<em>K</em> to ever larger values. What do you observe?</p></li>
 </ol>
 </div>
 </div>

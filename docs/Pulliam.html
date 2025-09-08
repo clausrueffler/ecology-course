@@ -13,7 +13,7 @@
 
 <title>Exercise: Sources, sinks, and population regulation</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -264,31 +257,16 @@ $(document).ready(function () {
       <a href="./Demography.html">1. Excercise: Demography</a>
     </li>
     <li>
-      <a href="./DemographySolutions.html">1. Excercise: Demography Solutions</a>
-    </li>
-    <li>
       <a href="./PopulationDynamics.html">2. Excercise: Population Dynamics</a>
-    </li>
-    <li>
-      <a href="./PopulationDynamicsSolutions.html">2. Excercise: Population Dynamics Solutions</a>
     </li>
     <li>
       <a href="./StructuredPopulations.html">3. Excercise: Structured Populations</a>
     </li>
     <li>
-      <a href="./StructuredPopulationsSolutions.html">3. Excercise: Structured populations solutions</a>
-    </li>
-    <li>
       <a href="./Competition.html">4. Excercise: Competition</a>
     </li>
     <li>
-      <a href="./CompetitionSolutions.html">4. Excercise: Competition Solutions</a>
-    </li>
-    <li>
       <a href="./PredatorPrey.html">5. Excercise: Predator-Prey Interactions</a>
-    </li>
-    <li>
-      <a href="./PredatorPreySolutions.html">5. Excercise: Predator-Prey Solutions</a>
     </li>
   </ul>
 </li>
@@ -312,28 +290,88 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="exercise-sources-sinks-and-population-regulation" class="section level1 tabset">
-<h1 class="tabset">Exercise: Sources, sinks, and population regulation</h1>
+<div id="exercise-sources-sinks-and-population-regulation"
+class="section level1 tabset">
+<h1 class="tabset">Exercise: Sources, sinks, and population
+regulation</h1>
 <div id="basic-model" class="section level2">
 <h2>Basic model</h2>
-<p>In this exercise, we reanalyze the model by Pulliam (1988, The American Naturalist 132:652-661). My code is inspired by Chapter 4 of the book <strong>A Primer of Ecology with R</strong> (2009) by M. Henry H. Stevens that analyzes this model using the framework of population projection matrices that you got to know when studying structured populations. I recommend Stevens’ book if you are interested in getting more deeply into ecological modelling with R. The book is available from the Uppsala University Library as a <a href="https://link-springer-com.ezproxy.its.uu.se/book/10.1007%2F978-0-387-89882-7">pdf</a>. Note that in order to access the book from the library you have to be logged into the UU network.</p>
-<p>So far, we have only considered closed populations. In contrast, one could imagine a population governed by births plus immigration, and deaths plus emigration (a BIDE model). Ron Pulliam (1988) proposed a simple model that includes all four components of BIDE to investigate the dynamics of a single species occupying habitats of different quality and where individuals can disperse between habitats. This can give rise to source-sink dynamics.</p>
-<p>The general idea of source-sink populations is that spatially separated subpopulations that together form a meta-population, occupy distinct habitats with different intrinisic dynamics due to births and deaths. Thus, the population dynamics in each habitat is goverened by its own growth factor <span class="math inline">\(\lambda\)</span>. In addition, individuals can immigrate and emigrate from one habitat (or subpopulation) to another. Therefore, the number of individuals we observe in a particular habitat is not only due to the habitat specific <span class="math inline">\(\lambda\)</span>, but also due to the amount of immigration <em>i</em> and emigration <em>e</em>. Assuming two habitats and a pre-breeding census (we count only adult individuals just before reproduction takes place) we can write general discrete time recursions for the dynamics as follows,</p>
+<p>In this exercise, we reanalyze the model by Pulliam (1988, The
+American Naturalist 132:652-661). My code is inspired by Chapter 4 of
+the book <strong>A Primer of Ecology with R</strong> (2009) by M. Henry
+H. Stevens that analyzes this model using the framework of population
+projection matrices that you got to know when studying structured
+populations. I recommend Stevens’ book if you are interested in getting
+more deeply into ecological modelling with R. The book is available from
+the Uppsala University Library as a <a
+href="https://link-springer-com.ezproxy.its.uu.se/book/10.1007%2F978-0-387-89882-7">pdf</a>.
+Note that in order to access the book from the library you have to be
+logged into the UU network.</p>
+<p>So far, we have only considered closed populations. In contrast, one
+could imagine a population governed by births plus immigration, and
+deaths plus emigration (a BIDE model). Ron Pulliam (1988) proposed a
+simple model that includes all four components of BIDE to investigate
+the dynamics of a single species occupying habitats of different quality
+and where individuals can disperse between habitats. This can give rise
+to source-sink dynamics.</p>
+<p>The general idea of source-sink populations is that spatially
+separated subpopulations that together form a meta-population, occupy
+distinct habitats with different intrinisic dynamics due to births and
+deaths. Thus, the population dynamics in each habitat is goverened by
+its own growth factor <span class="math inline">\(\lambda\)</span>. In
+addition, individuals can immigrate and emigrate from one habitat (or
+subpopulation) to another. Therefore, the number of individuals we
+observe in a particular habitat is not only due to the habitat specific
+<span class="math inline">\(\lambda\)</span>, but also due to the amount
+of immigration <em>i</em> and emigration <em>e</em>. Assuming two
+habitats and a pre-breeding census (we count only adult individuals just
+before reproduction takes place) we can write general discrete time
+recursions for the dynamics as follows,</p>
 <p><span class="math display">\[
 \begin{align}
   n_1(t+1)&amp;=n_1(t)\lambda_1 + i_1 - e_1\\
   n_2(t+1)&amp;=n_2(t)\lambda_2 + i_2 - e_2.
 \end{align}
 \]</span></p>
-<p>Subpopulations that have both more births than deaths (<span class="math inline">\(\lambda &gt; 1\)</span>) and more emigration than immigration (<em>e &gt; i</em>) are referred to as <em>source populations</em>. Subpopulations with both fewer births than deaths (<span class="math inline">\(\lambda &lt; 1\)</span>) and with more immigration than emigration (<em>i &gt; e</em>) are referred to as <em>sink populations</em>.</p>
-<p>Next, let us be more specific about <span class="math inline">\(\lambda\)</span>, <em>i</em> and <em>e</em>. We follow the populations with a pre-breeding census, that is, we count adults just before reproduction takes place. See figure 1 in Pulliam (1988) for the considered life cycle. Adults in habitat <em>j</em> (where <em>j=1</em> for habitat 1 and <em>j=2</em> for habitat 2) produce <span class="math inline">\(\beta_j\)</span> offspring, which survive with probability <span class="math inline">\(P_J\)</span> to the next census. After reproduction, adults survive until the next census with probability <span class="math inline">\(P_A\)</span>. If we assume that the two habitats only differ in the number of offspring that adults can produce, then we can write the habitat specific growth factors <span class="math inline">\(\lambda_j\)</span> as</p>
+<p>Subpopulations that have both more births than deaths (<span
+class="math inline">\(\lambda &gt; 1\)</span>) and more emigration than
+immigration (<em>e &gt; i</em>) are referred to as <em>source
+populations</em>. Subpopulations with both fewer births than deaths
+(<span class="math inline">\(\lambda &lt; 1\)</span>) and with more
+immigration than emigration (<em>i &gt; e</em>) are referred to as
+<em>sink populations</em>.</p>
+<p>Next, let us be more specific about <span
+class="math inline">\(\lambda\)</span>, <em>i</em> and <em>e</em>. We
+follow the populations with a pre-breeding census, that is, we count
+adults just before reproduction takes place. See figure 1 in Pulliam
+(1988) for the considered life cycle. Adults in habitat <em>j</em>
+(where <em>j=1</em> for habitat 1 and <em>j=2</em> for habitat 2)
+produce <span class="math inline">\(\beta_j\)</span> offspring, which
+survive with probability <span class="math inline">\(P_J\)</span> to the
+next census. After reproduction, adults survive until the next census
+with probability <span class="math inline">\(P_A\)</span>. If we assume
+that the two habitats only differ in the number of offspring that adults
+can produce, then we can write the habitat specific growth factors <span
+class="math inline">\(\lambda_j\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
   \lambda_1 &amp;= \beta_1 P_J+ P_A\\
   \lambda_2 &amp;= \beta_2 P_J+ P_A.
 \end{align}
 \]</span></p>
-<p>Follwing Pulliam, we assume that habitat 1 is a source (<span class="math inline">\(\lambda_1&gt;1\)</span>) while habitat 2 is a sink (<span class="math inline">\(\lambda_2&lt;1\)</span>). Furthermore, we assume that each habitat allows for a fixed maximal number of territories and only individuals with territories are able to reproduce. For habitat 1 we denote this maximal number of territories with <span class="math inline">\(k\)</span> (Pulliam uses <span class="math inline">\(\hat n\)</span>). If <span class="math inline">\(n_1&gt;k\)</span> individuals occupy habitat 1, then the probability for an individual to obtain a territory equals <span class="math inline">\(k/n_1\)</span>. Thus, the expected number of offspring per individual depends on population size in the following manner,</p>
+<p>Follwing Pulliam, we assume that habitat 1 is a source (<span
+class="math inline">\(\lambda_1&gt;1\)</span>) while habitat 2 is a sink
+(<span class="math inline">\(\lambda_2&lt;1\)</span>). Furthermore, we
+assume that each habitat allows for a fixed maximal number of
+territories and only individuals with territories are able to reproduce.
+For habitat 1 we denote this maximal number of territories with <span
+class="math inline">\(k\)</span> (Pulliam uses <span
+class="math inline">\(\hat n\)</span>). If <span
+class="math inline">\(n_1&gt;k\)</span> individuals occupy habitat 1,
+then the probability for an individual to obtain a territory equals
+<span class="math inline">\(k/n_1\)</span>. Thus, the expected number of
+offspring per individual depends on population size in the following
+manner,</p>
 <p><span class="math display">\[
 \beta(n_1)=
 \begin{cases}
@@ -341,16 +379,19 @@ $(document).ready(function () {
           \beta_1\frac{k}{n_1} \quad &amp;\text{if} \,\, n_1 &gt; k. \\
      \end{cases}
 \]</span></p>
-<p>Then, without emigration the population dynamics in habitat 1 is given by</p>
+<p>Then, without emigration the population dynamics in habitat 1 is
+given by</p>
 <p><span class="math display">\[
 n_1(t+1) = n_1(t)[\beta(n_1(t))P_J+P_A]
 \]</span></p>
-<p>We can program the piecewise defined function <span class="math inline">\(\beta(n)\)</span> in R as</p>
+<p>We can program the piecewise defined function <span
+class="math inline">\(\beta(n)\)</span> in R as</p>
 <pre class="r"><code>beta &lt;- function (n1) {
   if (n1 &lt; k) {beta1} # the if-function allows to assign a value to beta depending on whether n1 is smaller or larger than k
   else {beta1*k/n1}
 }</code></pre>
-<p>Let’s test this function. Convince yourself that the result is correct.</p>
+<p>Let’s test this function. Convince yourself that the result is
+correct.</p>
 <pre class="r"><code>k &lt;- 100
 beta1 &lt;- 50
 
@@ -358,7 +399,10 @@ beta(13) # this gives the value of beta given n1=13</code></pre>
 <pre><code>## [1] 50</code></pre>
 <pre class="r"><code>beta(200) # this gives the value of beta given n1=200</code></pre>
 <pre><code>## [1] 25</code></pre>
-<p>Let us investigate the population dynamics in habitat 1 under the assumption that there is no emigration. We start by writing a function that gives the population size one time step into the future as a function of the populatin size now.</p>
+<p>Let us investigate the population dynamics in habitat 1 under the
+assumption that there is no emigration. We start by writing a function
+that gives the population size one time step into the future as a
+function of the populatin size now.</p>
 <pre class="r"><code>nextpop &lt;- function(n1){
   n1*(beta(n1)*PJ+PA)
 }</code></pre>
@@ -368,7 +412,8 @@ PA &lt;- 0.8 # define a value for adult survival
 
 nextpop(10) # this give the number of individuals in habitat 1 one time step into the future given that the number of individuals in habitat 1 now is equal to 10</code></pre>
 <pre><code>## [1] 13</code></pre>
-<p>Let us now iterate this function to produce a time series. This can be done elegantly in the following manner.</p>
+<p>Let us now iterate this function to produce a time series. This can
+be done elegantly in the following manner.</p>
 <pre class="r"><code>timeseries &lt;- function(n0, maxtime) {# defines a function called &quot;time series&quot; with arguments n0 and maxtime
   output &lt;- rep(n0, maxtime + 1) # creates a vector called &quot;output&quot; in which the time series will be stored
   for (i in seq_len(maxtime)) output[i+1] &lt;- nextpop(output[i]) # iterates the function in a for-loop
@@ -379,22 +424,50 @@ example &lt;- timeseries(1, 50) # applies our new function assuming n1(0)=1 for 
 
 plot(example, ylab = &quot;population size&quot;, xlab = &quot;time&quot;) # plot of the time series</code></pre>
 <p><img src="Pulliam_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>Oh wou, this looks like logistic growth. (But is it really?) The graph shows that the population reaches an equilibrium <span class="math inline">\(n_1^*\)</span>. Pulliam (1988) derives the value of this equilibrium analytically (his equation (7)). Compare your simulation result with his formula. For this you have to compare the population size at the end of your simulation with the values the Pulliam’s equation (7) produces if you plug your parameter values into his equation. Vary your parameters to check whether your equilibrium number still agrees with Pulliam’s formula.</p>
+<p>Oh wou, this looks like logistic growth. (But is it really?) The
+graph shows that the population reaches an equilibrium <span
+class="math inline">\(n_1^*\)</span>. Pulliam (1988) derives the value
+of this equilibrium analytically (his equation (7)). Compare your
+simulation result with his formula. For this you have to compare the
+population size at the end of your simulation with the values the
+Pulliam’s equation (7) produces if you plug your parameter values into
+his equation. Vary your parameters to check whether your equilibrium
+number still agrees with Pulliam’s formula.</p>
 </div>
-<div id="adding-migration-from-the-source-to-the-sink" class="section level2">
+<div id="adding-migration-from-the-source-to-the-sink"
+class="section level2">
 <h2>Adding migration from the source to the sink</h2>
-<p>Next, let us add migration to this model. Specifically, we assume that all adult individuals in habitat 1 that do not manage to obtain a territory migrate into habitat 2. This strategy is adaptive for individuals that do not obtain a territory in habitat 1 despite the fact that <span class="math inline">\(\lambda_2&lt;1\)</span>, because little reproduction is better than no reproduction. This results in the population size in habitat 1 to be equal to the number of territories, <span class="math inline">\(n_1^*=k\)</span>. With this assumption the emigration <span class="math inline">\(e_1\)</span> from habitat 1 into 2 and the immigration <span class="math inline">\(i_2\)</span> into habitat 2 from habitat 1 is given by</p>
+<p>Next, let us add migration to this model. Specifically, we assume
+that all adult individuals in habitat 1 that do not manage to obtain a
+territory migrate into habitat 2. This strategy is adaptive for
+individuals that do not obtain a territory in habitat 1 despite the fact
+that <span class="math inline">\(\lambda_2&lt;1\)</span>, because little
+reproduction is better than no reproduction. This results in the
+population size in habitat 1 to be equal to the number of territories,
+<span class="math inline">\(n_1^*=k\)</span>. With this assumption the
+emigration <span class="math inline">\(e_1\)</span> from habitat 1 into
+2 and the immigration <span class="math inline">\(i_2\)</span> into
+habitat 2 from habitat 1 is given by</p>
 <p><span class="math display">\[
 e_1 = i_2 = k(\lambda_1 - 1) = k(\beta_1 P_J + P_A) - k.
 \]</span></p>
-<p>We can now write the population dynamics in the two habitats as a system of two coupled difference equations.</p>
+<p>We can now write the population dynamics in the two habitats as a
+system of two coupled difference equations.</p>
 <p><span class="math display">\[
 \begin{align}
   k&amp;=k(\beta_1P_J + P_A) - e_1 = k \lambda_1-k(\lambda_1-1) = k\\
-  n_2(t+1)&amp;=n_2(t)(\beta_2P_J + P_A) + i_2 = n_2(t)\lambda_2 + k(\lambda_1 - 1)
+  n_2(t+1)&amp;=n_2(t)(\beta_2P_J + P_A) + i_2 = n_2(t)\lambda_2 +
+k(\lambda_1 - 1)
 \end{align}
 \]</span></p>
-<p>The first equation describes the dynamics in habitat 1 and makes use of the fact that for this habitat the population does not change and is always equal to the number of territories: <span class="math inline">\(n_1(t+1)=k=n_1(t)\)</span>. We can write these equations in matrix notation and use the tools that we learned when we investigated structured populations. In fact, this is a structured population but it is not structured with respect to age or size but with respect to space.</p>
+<p>The first equation describes the dynamics in habitat 1 and makes use
+of the fact that for this habitat the population does not change and is
+always equal to the number of territories: <span
+class="math inline">\(n_1(t+1)=k=n_1(t)\)</span>. We can write these
+equations in matrix notation and use the tools that we learned when we
+investigated structured populations. In fact, this is a structured
+population but it is not structured with respect to age or size but with
+respect to space.</p>
 <p><span class="math display">\[
   \begin{pmatrix}
     n_1(t+1)\\
@@ -414,7 +487,11 @@ e_1 = i_2 = k(\lambda_1 - 1) = k(\beta_1 P_J + P_A) - k.
     n_2(t)
   \end{pmatrix}
 \]</span></p>
-<p>The main question we want to answer with this model is the following: How are the individuals in the population distributed over the two habitats? And how does the answer to this question depend on the reproductive factors <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> in the two habitats?</p>
+<p>The main question we want to answer with this model is the following:
+How are the individuals in the population distributed over the two
+habitats? And how does the answer to this question depend on the
+reproductive factors <span class="math inline">\(\lambda_1\)</span> and
+<span class="math inline">\(\lambda_2\)</span> in the two habitats?</p>
 <p>Let us start by defining the parameter values.</p>
 <pre class="r"><code>PA &lt;- 0.7
 PJ &lt;- 0.01 # newborn survival is typical much smaller than adult survival
@@ -425,7 +502,9 @@ beta2 &lt;- 0 # by setting beta2=0 we assume that habitat 2 is really bad, there
 <pre class="r"><code>(l2 &lt;- PA + PJ*beta2) # check whether lambda_2&lt;1, this has to be true otherwise habitat 2 is not a sink</code></pre>
 <pre><code>## [1] 0.7</code></pre>
 <pre class="r"><code>n0 &lt;- c(k, 0) # vector of intitial population densities. Note that the population size in habitat 1 is assumed to have reached the equilibrium value k</code></pre>
-<p>Next, let us define the population projection matrix in R and a function that allows us to project the population vector one time step into the future.</p>
+<p>Next, let us define the population projection matrix in R and a
+function that allows us to project the population vector one time step
+into the future.</p>
 <pre class="r"><code>tr.mat &lt;- matrix(c(1, 0, PA + PJ*beta1-1, PA + PJ*beta2), nrow = 2, byrow = TRUE) # transition matrix
 
 nextpop2dim &lt;- function(n){ # population vector at the next time step obtained by mulitplying matrix with current populatin vector
@@ -436,7 +515,8 @@ nextpop2dim(n0) # let&#39;s test our new function</code></pre>
 <pre><code>##      [,1]
 ## [1,]  100
 ## [2,]    1</code></pre>
-<p>Finally, let us produce a timeseries based our population projection matrix.</p>
+<p>Finally, let us produce a timeseries based our population projection
+matrix.</p>
 <pre class="r"><code>timeseries &lt;- function(n0, maxtime) {# defines a function called &quot;time series&quot; with arguments n0 and maxtime
   output &lt;- matrix(c(rep(n0[1], maxtime+1), rep(n0[2], maxtime+1)), nrow = 2, byrow = TRUE) # creates a vector in which the time series is stored
   for (i in seq_len(maxtime)) output[,i+1] &lt;- nextpop2dim(output[,i]) # iterates the function in a for-loop for &quot;maxtime&quot; time steps
@@ -450,21 +530,41 @@ plot(data[1,],  type = &#39;l&#39;, ylab = &quot;population size&quot;, xlab = &
 lines(data[2,], col=&quot;blue&quot;, type=&#39;l&#39;) # plots the number of individuals in habitat 2
 legend(&quot;top&quot;, legend=c(&quot;habitat1&quot;, &quot;habitat2&quot;), col=c(&quot;red&quot;, &quot;blue&quot;), lty=c(1,1), bty=&quot;n&quot;, horiz=TRUE, cex=0.9)</code></pre>
 <p><img src="Pulliam_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>We are interested in the equilibrium densities, i.e., the final values of the time series, and the proportions of individuals in the two habitats.</p>
+<p>We are interested in the equilibrium densities, i.e., the final
+values of the time series, and the proportions of individuals in the two
+habitats.</p>
 <pre class="r"><code>data[,maxtime+1] # final population vector in our time series</code></pre>
 <pre><code>## [1] 100.000000   3.333333</code></pre>
 <pre class="r"><code>data[1,maxtime+1]/(sum(data[,maxtime+1])) # proportion of individuals occupying the source habitat</code></pre>
 <pre><code>## [1] 0.9677419</code></pre>
 <p>With this code at hand, please address the following questions:</p>
 <ol style="list-style-type: decimal">
-<li><p>How do the frequencies with which the population is distributed over the two habitats depend on the fecundities in the source (<span class="math inline">\(\beta_1\)</span>) and the sink (<span class="math inline">\(\beta_2\)</span>)?</p>
+<li><p>How do the frequencies with which the population is distributed
+over the two habitats depend on the fecundities in the source (<span
+class="math inline">\(\beta_1\)</span>) and the sink (<span
+class="math inline">\(\beta_2\)</span>)?</p>
 <ol style="list-style-type: lower-roman">
-<li><p>Obtain the frequency <span class="math inline">\(p_1^*\)</span> of individuals occupying habitat 1 by increasing <span class="math inline">\(\beta_1\)</span> in steps of 5. Can you make a plot with the values of <span class="math inline">\(\beta_1\)</span> on the x-axis and the equilibrium frequency <span class="math inline">\(p_1^*\)</span> on the y-axis?</p></li>
-<li><p>Obtain the frequency <span class="math inline">\(p_1^*\)</span> of individuals occupying habitat 1 by increasing <span class="math inline">\(\beta_2\)</span> in steps of 5. Can you make a plot with the values of <span class="math inline">\(\beta_2\)</span> on the x-axis and the equilibrium frequency <span class="math inline">\(p_1^*\)</span> on the y-axis? Make sure you increase <span class="math inline">\(\beta_2\)</span> not beyond a level where habitat 2 would stop to be a sink.</p></li>
+<li><p>Obtain the frequency <span class="math inline">\(p_1^*\)</span>
+of individuals occupying habitat 1 by increasing <span
+class="math inline">\(\beta_1\)</span> in steps of 5. Can you make a
+plot with the values of <span class="math inline">\(\beta_1\)</span> on
+the x-axis and the equilibrium frequency <span
+class="math inline">\(p_1^*\)</span> on the y-axis?</p></li>
+<li><p>Obtain the frequency <span class="math inline">\(p_1^*\)</span>
+of individuals occupying habitat 1 by increasing <span
+class="math inline">\(\beta_2\)</span> in steps of 5. Can you make a
+plot with the values of <span class="math inline">\(\beta_2\)</span> on
+the x-axis and the equilibrium frequency <span
+class="math inline">\(p_1^*\)</span> on the y-axis? Make sure you
+increase <span class="math inline">\(\beta_2\)</span> not beyond a level
+where habitat 2 would stop to be a sink.</p></li>
 </ol></li>
-<li><p>Sumerize the the main messages you have learned from studying the paper by Pulliam (1988).</p></li>
+<li><p>Sumerize the the main messages you have learned from studying the
+paper by Pulliam (1988).</p></li>
 <li><p>Do you have critical thoughts about this paper?</p></li>
-<li><p>Your are given the opportunity to work on this topic during your master’s thesis, either theoretically or empirically. What questions or extension would you like to address?</p></li>
+<li><p>Your are given the opportunity to work on this topic during your
+master’s thesis, either theoretically or empirically. What questions or
+extension would you like to address?</p></li>
 </ol>
 </div>
 </div>
