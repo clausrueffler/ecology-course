@@ -5,25 +5,29 @@ type: inverse
 left:
   - text: "Exercises"
     menu:
-      - text: "1. Excercise: Demography"
-        href: ./Demography.html
-#      - text: "1. Excercise: Demography Solutions"
-#        href: ./DemographySolutions.html
-      - text: "2. Excercise: Population Dynamics"
+      - text: "1. Excercise: Population Dynamics"
         href: ./PopulationDynamics.html
-#      - text: "2. Excercise: Population Dynamics Solutions"
+#      - text: "1. Excercise: Population Dynamics Solutions"
 #        href: ./PopulationDynamicsSolutions.html
-      - text: "3. Excercise: Structured Populations"
+      - text: "2. Excercise: Demography I"
+        href: ./Demography.html
+#      - text: "2. Excercise: Demography I Solutions"
+#        href: ./DemographySolutions.html
+      - text: "3. Excercise: Demography II"
+        href: ./Demography2.html
+#      - text: "3. Excercise: Demography II Solutions"
+#        href: ./Demography2Solutions.html
+      - text: "4. Excercise: Structured Populations"
         href: ./StructuredPopulations.html
-#      - text: "3. Excercise: Structured populations solutions"
+#      - text: "4. Excercise: Structured populations solutions"
 #        href: ./StructuredPopulationsSolutions.html
-      - text: "4. Excercise: Competition"
+      - text: "5. Excercise: Competition"
         href: ./Competition.html
-#      - text: "4. Excercise: Competition Solutions"
+#      - text: "5. Excercise: Competition Solutions"
 #        href: ./CompetitionSolutions.html
-      - text: "5. Excercise: Predator-Prey Interactions"
+      - text: "6. Excercise: Predator-Prey Interactions"
         href: ./PredatorPrey.html
-#      - text: "5. Excercise: Predator-Prey Solutions"
+#      - text: "6. Excercise: Predator-Prey Solutions"
 #        href: ./PredatorPreySolutions.html
 #######
 

@@ -1,17 +1,29 @@
 ## Working with data that are in a data frame in SHORT format
 
+#The material from this exercise is largely taken from 
+# Spreadsheet Exercises in Ecology and Evolution by Therese M. Donovan and Charles W. Welden (Sinauer Associates 2002)
+
+# The exercise is here adapted to be done in R. Along the way, you will learn learn some R-coding related to vectors and data frames.
+
+# A data frame is R's equivalent to an EXCEL spreadsheet. A data frame consists of columns and rows, where objects of the same type are stored in columns and where these columns have names.
 # Data frames are special matrices that contain additional information about its content such as row and column names. In short, data frames are R’s equivalent to a an EXCEL spreadsheet. The columns (typically representing different measurements) can be of different types (e.g., one column could be the date of measurement, another the weight of the individual, or the volume of the cell, or the treatment of the sample), while the rows typically represent different samples.
 
 # When you import a spreadsheet file into R, it is automatically stored as a data frame. The difference between a matrix and a data frame is that in a matrix all the values are of the same type (e.g., all numeric), while in a data frame each column can be of a different type.
 
 #Let us look at a data set that comes with R, called trees.
-# Create vectors for time, object IDs, and measurements
+# Create vectors for time, object IDs, and measurements'
+
+In this exercise, we will analyze different life tables. Be begin with a life table for three hypothetical species,
+for which population data were collected for 11 consecutive years.
 
 axType1 <- c(1000, 990, 970, 940, 900, 850, 750, 500, 200, 40, 1, 0)
 axType2 <- c(2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 0)
 axType3 <- c(10000, 100, 30, 20, 18, 17, 16, 15, 14, 13, 12, 0)
 
 LifeTable <- data.frame(age=0:11, axType1, axType2, axType3)
+
+# Let's have a look at our data frame:
+LifeTable
 
 lxType1 <- axType1/axType1[1]
 
