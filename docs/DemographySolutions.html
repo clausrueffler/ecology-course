@@ -13,7 +13,7 @@
 
 <title>Exercise: Demography</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -304,8 +297,13 @@ $(document).ready(function () {
 <h1 class="tabset">Exercise: Demography</h1>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<p><strong>Yearly variation in the numbers of breeding Darwin’s finches (<em>Geospiza fortis</em> and <em>G. scandens</em>)</strong></p>
-<p>The breeding success of Darwin’s finches on the Galapagos islands depends to a large extent on weather. During dry years the nesting success can be very low, causing large fluctuations in bird numbers from year to year. The following table gives the number of breeding pairs in two finch species during 1976-1991.</p>
+<p><strong>Yearly variation in the numbers of breeding Darwin’s finches
+(<em>Geospiza fortis</em> and <em>G. scandens</em>)</strong></p>
+<p>The breeding success of Darwin’s finches on the Galapagos islands
+depends to a large extent on weather. During dry years the nesting
+success can be very low, causing large fluctuations in bird numbers from
+year to year. The following table gives the number of breeding pairs in
+two finch species during 1976-1991.</p>
 <table style="width:60%;">
 <thead>
 <tr>
@@ -500,7 +498,15 @@ year
 </tbody>
 </table>
 <p><br />
-Calculate the mean number of breeding pairs (<span class="math inline">\(\bar x\)</span>), standard deviation (<span class="math inline">\(s\)</span>), variance (<span class="math inline">\(s^2\)</span>) and coefficient of variation (<span class="math inline">\(C.V.\)</span>) for the two species. Which of the species is more sensitive to weather fluctuations? If we denote the number of breeding pairs in a given year with <span class="math inline">\(x_i\)</span>, then the required formulas are as follows.</p>
+Calculate the mean number of breeding pairs (<span
+class="math inline">\(\bar x\)</span>), standard deviation (<span
+class="math inline">\(s\)</span>), variance (<span
+class="math inline">\(s^2\)</span>) and coefficient of variation (<span
+class="math inline">\(C.V.\)</span>) for the two species. Which of the
+species is more sensitive to weather fluctuations? If we denote the
+number of breeding pairs in a given year with <span
+class="math inline">\(x_i\)</span>, then the required formulas are as
+follows.</p>
 <p><span class="math display">\[
 \begin{align}
 \bar x &amp; = \frac{\sum_{i=1}^{n}x_i}{n} \\
@@ -510,7 +516,13 @@ C.V. &amp; = \frac{s}{\bar x}
 \end{align}
 \]</span></p>
 <p><br />
-The coefficient of variation expresses variation within a variable relative to the magnitude of the variable. This is important because variance increases with the magnitude of the measured variable. The standardization allows us to <em>compare</em> variation across different variables (such as length of earthworms and length of anacondas), see <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation"><strong>here</strong></a> for more information.</p>
+The coefficient of variation expresses variation within a variable
+relative to the magnitude of the variable. This is important because
+variance increases with the magnitude of the measured variable. The
+standardization allows us to <em>compare</em> variation across different
+variables (such as length of earthworms and length of anacondas), see <a
+href="https://en.wikipedia.org/wiki/Coefficient_of_variation"><strong>here</strong></a>
+for more information.</p>
 <p><strong>Answer:</strong></p>
 <table style="width:70%;">
 <thead>
@@ -570,12 +582,22 @@ mean
 </tbody>
 </table>
 <p><br />
-<em>Geospiza fortis</em> is more sensitive to weather fluctuations because it has a higher <span class="math inline">\(C.V.\)</span></p>
+<em>Geospiza fortis</em> is more sensitive to weather fluctuations
+because it has a higher <span class="math inline">\(C.V.\)</span></p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
-<p><strong>Fecundity of the chamois (<em>Rupicapra rupicapra</em>) in New Zealand</strong></p>
-<p>The chamois gives birth during a short period in spring (birth pulse, discrete breeder). 275 females from all age groups were shot during this period to study female fecundity (these are hunting data). Females that were pregnant, had active milk glands or bore signs of previous pregnancy were considered as reproductively active during that particular season. Litter size is supposed to be 1, and the sex ratio among the new born is 1/2 (equally many sons and daughters). The following table gives the number of reproductively active females in each age group.<br />
+<p><strong>Fecundity of the chamois (<em>Rupicapra rupicapra</em>) in
+New Zealand</strong></p>
+<p>The chamois gives birth during a short period in spring (birth pulse,
+discrete breeder). 275 females from all age groups were shot during this
+period to study female fecundity (these are hunting data). Females that
+were pregnant, had active milk glands or bore signs of previous
+pregnancy were considered as reproductively active during that
+particular season. Litter size is supposed to be 1, and the sex ratio
+among the new born is 1/2 (equally many sons and daughters). The
+following table gives the number of reproductively active females in
+each age group.<br />
 </p>
 <table style="width:80%;">
 <thead>
@@ -694,10 +716,21 @@ no. reprod. active (<span class="math inline">\(B_x\)</span>)
 </tbody>
 </table>
 <ol style="list-style-type: decimal">
-<li><p>Calculate fecundity, i.e., the number of daughters per female. This can be calculated as <span class="math display">\[
+<li><p>Calculate fecundity, i.e., the number of daughters per female.
+This can be calculated as <span class="math display">\[
 m_x = B_x /(2f_x),
-\]</span> where <span class="math inline">\(f_x\)</span> is the number of shot females that were aged <span class="math inline">\(x\)</span> years old, and <span class="math inline">\(B_x\)</span> is the number of those that were considered reproductively active. The <span class="math inline">\(2\)</span> in the denominator stems from the fact that on average only half of the offspring are female. Here, <span class="math inline">\(f_x\)</span> is supposed to be equal to the number of females at the beginning of the time period and natural mortality is supposed to be negligible.</p></li>
-<li><p>Draw a figure showing fecundity as a function of age. Explain what you see. When is a chamois female fully fecund? Calculate average fecundity over all fully fecund age groups.</p></li>
+\]</span> where <span class="math inline">\(f_x\)</span> is the number
+of shot females that were aged <span class="math inline">\(x\)</span>
+years old, and <span class="math inline">\(B_x\)</span> is the number of
+those that were considered reproductively active. The <span
+class="math inline">\(2\)</span> in the denominator stems from the fact
+that on average only half of the offspring are female. Here, <span
+class="math inline">\(f_x\)</span> is supposed to be equal to the number
+of females at the beginning of the time period and natural mortality is
+supposed to be negligible.</p></li>
+<li><p>Draw a figure showing fecundity as a function of age. Explain
+what you see. When is a chamois female fully fecund? Calculate average
+fecundity over all fully fecund age groups.</p></li>
 </ol>
 <p><strong>Answer:</strong></p>
 <table style="width:90%;">
@@ -846,7 +879,14 @@ age-specific fecundity (<span class="math inline">\(m_x\)</span>)
 </tr>
 </tbody>
 </table>
-<p><img src="DemographySolutions_files/figure-html/unnamed-chunk-4-1.png" width="672" /> To be able to answer this question, we have to clarify what is meant with “fully fecund”. We can see that fecundity initially increases with age. One could argue that a chamois becomes fully fecund at age 3 and that fecundity from then onward somewhat fluctuates, which could simply be the result of the relative small size of the sample. If we accept this viewpoint, then the average fecundity of fully fecund females equals <span class="math inline">\(0.399\)</span>.</p>
+<p><img src="DemographySolutions_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+To be able to answer this question, we have to clarify what is meant
+with “fully fecund”. We can see that fecundity initially increases with
+age. One could argue that a chamois becomes fully fecund at age 3 and
+that fecundity from then onward somewhat fluctuates, which could simply
+be the result of the relative small size of the sample. If we accept
+this viewpoint, then the average fecundity of fully fecund females
+equals <span class="math inline">\(0.399\)</span>.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
@@ -915,7 +955,11 @@ age in years (<span class="math inline">\(x\)</span>)
 </tbody>
 </table>
 <p><br />
-Complete the life table analysis by calculating <span class="math inline">\(l(x)\)</span>, <span class="math inline">\(R_0\)</span>, and <span class="math inline">\(T_c\)</span>, and estimate <span class="math inline">\(r\)</span>.</p>
+Complete the life table analysis by calculating <span
+class="math inline">\(l(x)\)</span>, <span
+class="math inline">\(R_0\)</span>, and <span
+class="math inline">\(T_c\)</span>, and estimate <span
+class="math inline">\(r\)</span>.</p>
 <p><strong>Answer:</strong></p>
 <table style="width:80%;">
 <thead>
@@ -1023,19 +1067,25 @@ age in years (<span class="math inline">\(x\)</span>)
 </tr>
 </tbody>
 </table>
-<p>With this, we can calculate the net-reproductive ratio <span class="math inline">\(R_0\)</span> as</p>
+<p>With this, we can calculate the net-reproductive ratio <span
+class="math inline">\(R_0\)</span> as</p>
 <p><span class="math display">\[
 R_0 = \sum_{x=0}^{x_{\rm max}}l_x m_x=2.24.
 \]</span> Furthermore, <span class="math display">\[
 \sum_{x=0}^{x_{\rm max}}x l_x m_x=2.48.
 \]</span></p>
-<p>Now we can calculate the cohort generation time <span class="math inline">\(T_c\)</span> as <span class="math display">\[
-T_c = \frac{\sum_{x=0}^{x_{\rm max}}x l_x m_x}{R_0} = \frac{2.48}{2.24} = 1.107.
+<p>Now we can calculate the cohort generation time <span
+class="math inline">\(T_c\)</span> as <span class="math display">\[
+T_c = \frac{\sum_{x=0}^{x_{\rm max}}x l_x m_x}{R_0} = \frac{2.48}{2.24}
+= 1.107.
 \]</span></p>
 <p>Using the formula <span class="math display">\[
 r \approx \frac{\ln R_0}{T_c}=\frac{\ln(2.24)}{1.107} = 0.729
 \]</span></p>
-<p>we obtain an approximate value for the intrinsic <span class="math inline">\(r\)</span>. We can conclude that this snail species shows a positive growth rate and is expected to increase in size rapidly.</p>
+<p>we obtain an approximate value for the intrinsic <span
+class="math inline">\(r\)</span>. We can conclude that this snail
+species shows a positive growth rate and is expected to increase in size
+rapidly.</p>
 </div>
 </div>
 

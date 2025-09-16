@@ -14,7 +14,7 @@
 
 <title>Demography</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -183,8 +183,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -192,16 +192,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -304,33 +297,139 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="life-tables-survivorship-curves-and-population-growth" class="section level1">
+<div id="life-tables-survivorship-curves-and-population-growth"
+class="section level1">
 <h1>Life Tables, Survivorship Curves and Population Growth</h1>
-<p>The material from this exercise is taken from <em>Spreadsheet Exercises in Ecology and Evolution</em> by Therese M. Donovan and Charles W. Welden (Sinauer Associates 2002) and adapted for R. Along the way, you will learn/refresh some R-coding related to vectors and data frames. But first a refresher of the theory.</p>
+<p>The material from this exercise is taken from <em>Spreadsheet
+Exercises in Ecology and Evolution</em> by Therese M. Donovan and
+Charles W. Welden (Sinauer Associates 2002) and adapted for R. Along the
+way, you will learn/refresh some R-coding related to vectors and data
+frames. But first a refresher of the theory.</p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>A <strong>life table</strong> is a record of survival and reproductive rates in a population, broken out by age, size, or developmental stage (e.g., egg, hatchling, juvenile, adult). Ecologists and demographers (scientists who study human population dynamics) have found life tables useful in understanding patterns and causes of mortality, predicting the future growth or decline of populations, and managing populations of endangered species.</p>
-<p>Predicting the growth and decline of human populations is one very important application of life tables. As you might expect, whether the population of a country or region increases or decreases depends in part on how many children each person has and the age at which people die. But it may surprise you to learn that population growth or decline also depends on the age at which they have their children. A major part of this exercise will explore the effects of changing patterns of survival and reproduction on population dynamics.</p>
-<p>Life tables come in two varieties: cohort and static. A <strong>cohort life table</strong> follows the survival and reproduction of all members of a cohort from birth to death. A cohort is the set of all individuals born, hatched, or recruited into a population during a defined time interval. Cohorts are frequently defined on an annual basis (e.g., all individuals born in 1978), but other time intervals can be used as well.</p>
-<p>A <strong>static life table</strong> records the number of living individuals of each age in a popula- tion and their reproductive output. The two varieties have distinct advantages and disadvantages, some of which we discuss below.</p>
-<p>Life tables (whether cohort or static) that classify individuals by age are called <strong>age- based life tables</strong>. Such life tables treat age the same way we normally do: that is, individuals that have lived less than one full year are assigned age zero; those that have lived one year or more but less than two years are assigned age one; and so on. Life tables represent age by the letter <span class="math inline">\(x\)</span>, and use <span class="math inline">\(x\)</span> as a subscript to refer to survivorship, fecundity, and so on, for each age.</p>
-<p><strong>Size-based</strong> and <strong>stage-based life tables</strong> classify individuals by size or developmen- tal stage, rather than by age. Size-based and stage-based tables are often more useful or more practical for studying organisms that are difficult to classify by age, or whose ecological roles depend more on size or stage than on age. Such analyses are more com- plex, however, and we will leave them for a later exercise.</p>
+<p>A <strong>life table</strong> is a record of survival and
+reproductive rates in a population, broken out by age, size, or
+developmental stage (e.g., egg, hatchling, juvenile, adult). Ecologists
+and demographers (scientists who study human population dynamics) have
+found life tables useful in understanding patterns and causes of
+mortality, predicting the future growth or decline of populations, and
+managing populations of endangered species.</p>
+<p>Predicting the growth and decline of human populations is one very
+important application of life tables. As you might expect, whether the
+population of a country or region increases or decreases depends in part
+on how many children each person has and the age at which people die.
+But it may surprise you to learn that population growth or decline also
+depends on the age at which they have their children. A major part of
+this exercise will explore the effects of changing patterns of survival
+and reproduction on population dynamics.</p>
+<p>Life tables come in two varieties: cohort and static. A
+<strong>cohort life table</strong> follows the survival and reproduction
+of all members of a cohort from birth to death. A cohort is the set of
+all individuals born, hatched, or recruited into a population during a
+defined time interval. Cohorts are frequently defined on an annual basis
+(e.g., all individuals born in 1978), but other time intervals can be
+used as well.</p>
+<p>A <strong>static life table</strong> records the number of living
+individuals of each age in a popula- tion and their reproductive output.
+The two varieties have distinct advantages and disadvantages, some of
+which we discuss below.</p>
+<p>Life tables (whether cohort or static) that classify individuals by
+age are called <strong>age- based life tables</strong>. Such life tables
+treat age the same way we normally do: that is, individuals that have
+lived less than one full year are assigned age zero; those that have
+lived one year or more but less than two years are assigned age one; and
+so on. Life tables represent age by the letter <span
+class="math inline">\(x\)</span>, and use <span
+class="math inline">\(x\)</span> as a subscript to refer to
+survivorship, fecundity, and so on, for each age.</p>
+<p><strong>Size-based</strong> and <strong>stage-based life
+tables</strong> classify individuals by size or developmen- tal stage,
+rather than by age. Size-based and stage-based tables are often more
+useful or more practical for studying organisms that are difficult to
+classify by age, or whose ecological roles depend more on size or stage
+than on age. Such analyses are more com- plex, however, and we will
+leave them for a later exercise.</p>
 <p>##Cohort Life Tables</p>
-<p>To build a cohort life table for, let’s say, humans born in the United States during the year 1900, we would record how many individuals were born during the year 1900, and how many survived to the beginning of 1901, 1902, etc., until there were no more survivors. This record is called the <strong>survivorship schedule</strong>. Unfortunately, different textbooks use different notations for the number of survivors in each age; some write this as <span class="math inline">\(S_x\)</span>, some <span class="math inline">\(a_x\)</span>, and some <span class="math inline">\(n_x\)</span>. We will use <span class="math inline">\(a_x\)</span> here.</p>
-<p>We must also record the <strong>fecundity schedule</strong> - the number of offspring born to individuals of each age. The total number of offpsring is usually divided by the number of individuals in the age, giving the average number of offspring per individual, or per capita fecundity. Again, different texts use different notations for the fecundity sched- ule, including <span class="math inline">\(b_x\)</span> or <span class="math inline">\(m_x\)</span> (the symbol we will use).</p>
-<p>Many life tables count only females and their female offspring; for animals with two sexes and equal numbers of males and females of each age, the resulting numbers are the same as if males and females were both counted. For most plants, hermaphroditic animals, and many other organisms, distinctions between the sexes are nonexistent or more complex, and life table calculations may have to be adjusted.</p>
+<p>To build a cohort life table for, let’s say, humans born in the
+United States during the year 1900, we would record how many individuals
+were born during the year 1900, and how many survived to the beginning
+of 1901, 1902, etc., until there were no more survivors. This record is
+called the <strong>survivorship schedule</strong>. Unfortunately,
+different textbooks use different notations for the number of survivors
+in each age; some write this as <span
+class="math inline">\(S_x\)</span>, some <span
+class="math inline">\(a_x\)</span>, and some <span
+class="math inline">\(n_x\)</span>. We will use <span
+class="math inline">\(a_x\)</span> here.</p>
+<p>We must also record the <strong>fecundity schedule</strong> - the
+number of offspring born to individuals of each age. The total number of
+offpsring is usually divided by the number of individuals in the age,
+giving the average number of offspring per individual, or per capita
+fecundity. Again, different texts use different notations for the
+fecundity sched- ule, including <span class="math inline">\(b_x\)</span>
+or <span class="math inline">\(m_x\)</span> (the symbol we will
+use).</p>
+<p>Many life tables count only females and their female offspring; for
+animals with two sexes and equal numbers of males and females of each
+age, the resulting numbers are the same as if males and females were
+both counted. For most plants, hermaphroditic animals, and many other
+organisms, distinctions between the sexes are nonexistent or more
+complex, and life table calculations may have to be adjusted.</p>
 <p>##Static Life Tables</p>
-<p>A static life table is similar to a cohort life table but introduces a few complications. For many organisms, especially mobile animals with long life spans, it can be difficult or impossible to follow all the members of a cohort throughout their lives. In such cases, population biologists often count how many individuals of each age are alive at a given time. That is, they count how many members of the population are currently in the 0-1- year-old class, the 1-2-year-old class, etc.</p>
-<p>These counts can be used as if they were counts of survivors in a cohort, and all the calculations described below for a cohort life table can be performed using them. In doing this, however, the researcher must bear in mind that they is assuming that age-specific survivorship and fertility rates have remained constant since the oldest members of the population were born. This is usually not the case and can lead to some strange results, such as negative mortality rates. These are often resolved by averaging across several ages, or by making additional assumptions. We will avoid these complications by focusing this exercise on cohort life tables.</p>
+<p>A static life table is similar to a cohort life table but introduces
+a few complications. For many organisms, especially mobile animals with
+long life spans, it can be difficult or impossible to follow all the
+members of a cohort throughout their lives. In such cases, population
+biologists often count how many individuals of each age are alive at a
+given time. That is, they count how many members of the population are
+currently in the 0-1- year-old class, the 1-2-year-old class, etc.</p>
+<p>These counts can be used as if they were counts of survivors in a
+cohort, and all the calculations described below for a cohort life table
+can be performed using them. In doing this, however, the researcher must
+bear in mind that they is assuming that age-specific survivorship and
+fertility rates have remained constant since the oldest members of the
+population were born. This is usually not the case and can lead to some
+strange results, such as negative mortality rates. These are often
+resolved by averaging across several ages, or by making additional
+assumptions. We will avoid these complications by focusing this exercise
+on cohort life tables.</p>
 </div>
 <div id="quantities-in-a-life-table" class="section level2">
 <h2>Quantities in a Life Table</h2>
-<p>Survivorship and fecundity schedules are the raw data of any life table. From them we can calculate a variety of other quantities, including age-specific rates of survival, mor- tality, fecundity, survivorship curves, life expectancy, generation time, net reproduc- tive rate, and intrinsic rate of increase. Which of these quantities you calculate will depend on your goals in constructing the life table. Rather than presenting all the quan- tities that may appear in a life table, we will present two applications of life tables, using the quantities needed in each case. First you will build life tables that illustrate the three classic survivorship curves. These curves are a powerful visual tool for understanding the patterns of survivorship and mortality in populations.Then you will use a life table to predict the future growth or decline of a population. This kind of analysis is frequently used in studies of human populations, in management of fish and game, and in attempts to rescue endangered species.</p>
+<p>Survivorship and fecundity schedules are the raw data of any life
+table. From them we can calculate a variety of other quantities,
+including age-specific rates of survival, mor- tality, fecundity,
+survivorship curves, life expectancy, generation time, net reproduc-
+tive rate, and intrinsic rate of increase. Which of these quantities you
+calculate will depend on your goals in constructing the life table.
+Rather than presenting all the quan- tities that may appear in a life
+table, we will present two applications of life tables, using the
+quantities needed in each case. First you will build life tables that
+illustrate the three classic survivorship curves. These curves are a
+powerful visual tool for understanding the patterns of survivorship and
+mortality in populations.Then you will use a life table to predict the
+future growth or decline of a population. This kind of analysis is
+frequently used in studies of human populations, in management of fish
+and game, and in attempts to rescue endangered species.</p>
 </div>
 <div id="survivorship-curves" class="section level2">
 <h2>Survivorship Curves</h2>
-<p>Ecology textbooks frequently present the three classic survivorship curves, called type I, type II, and type III (Figure 1). To understand survivorship curves you can use sur- vivorship schedules (<span class="math inline">\(a_x\)</span>) to calculate and graph standardized survivorship (<span class="math inline">\(l_x\)</span>), age- specific survivorship (<span class="math inline">\(g_x\)</span>), and life expectancy (<span class="math inline">\(e_x\)</span>).</p>
-<p><strong>Standardized Survival Schedule (<span class="math inline">\(l_x\)</span>).</strong> Because we want to compare cohorts of different initial sizes, we standardize all cohorts to their initial size at time zero, <span class="math inline">\(a_0\)</span>. We do this by dividing each <span class="math inline">\(a_x\)</span> by <span class="math inline">\(a_0\)</span>. This proportion of original numbers surviving to the beginning of each interval is denoted <span class="math inline">\(l_x\)</span>, and calculated as <span class="math display">\[\begin{equation}
+<p>Ecology textbooks frequently present the three classic survivorship
+curves, called type I, type II, and type III (Figure 1). To understand
+survivorship curves you can use sur- vivorship schedules (<span
+class="math inline">\(a_x\)</span>) to calculate and graph standardized
+survivorship (<span class="math inline">\(l_x\)</span>), age- specific
+survivorship (<span class="math inline">\(g_x\)</span>), and life
+expectancy (<span class="math inline">\(e_x\)</span>).</p>
+<p><strong>Standardized Survival Schedule (<span
+class="math inline">\(l_x\)</span>).</strong> Because we want to compare
+cohorts of different initial sizes, we standardize all cohorts to their
+initial size at time zero, <span class="math inline">\(a_0\)</span>. We
+do this by dividing each <span class="math inline">\(a_x\)</span> by
+<span class="math inline">\(a_0\)</span>. This proportion of original
+numbers surviving to the beginning of each interval is denoted <span
+class="math inline">\(l_x\)</span>, and calculated as <span
+class="math display">\[\begin{equation}
 \tag{1}
 l_x = \frac{a_x}{a_0}
 \end{equation}\]</span></p>

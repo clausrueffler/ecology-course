@@ -45,7 +45,7 @@ In order to obtain the vector describing the population composition one time ste
 (N.1 <- transition.matrix %*% N.0) # the parentheses around a command make that the vector N.1 is immediately shown, that is, without explicitly asking for it as was done in the two previous commands.
 ```
 
-The next piece of code shows how you can alter the code above to produce to the population vector ```N.2``` describing the population compostion two time steps into the future.
+The next piece of code shows how you can alter the code above to produce to the population vector ```N.2``` describing the population composition two time steps into the future.
 
 ```{r}
 (N.2 <- transition.matrix %*% N.1)
@@ -96,29 +96,29 @@ Next, let's have a look at the population composition. How is the total number o
 
 ```{r}
 par(xpd=T) # allows plotting on margin (for legend)
-barplot(cbind(N.0, N.1, N.2), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2"), ylab="Number of individuals", xlab="Time (years)")
-legend(x=0.1, y=2000, bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+barplot(cbind(N.0, N.1, N.2), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 2000))
+legend("topright", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
 Please try to adapt this chunk of code to include the data for the all time steps until ```t=10```?
 
 ```{r echo=FALSE, eval=FALSE}
 par(xpd=T) # allow plotting on margin (for legend)
-barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)")
+barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 3000))
 
-legend("topleft", x=0.1, y=2000, bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+legend("topright", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
 It is also common (and informative) to plot the population vectors as relative numbers to show what fraction of the total population belongs to each life history state. For this we have to divide the number of individuals in each state by the total population size at that time step.
 
 ```{r eval=FALSE}
 barplot(cbind(N.0/Ntot.0, N.1/Ntot.1, N.2/Ntot.2), col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2"), ylab="Proportion of individuals", xlab="Time (years)")
-legend(x=0.2, y=0.8, bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=F)
+legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=F)
 ```
 
 ```{r echo=FALSE, eval=FALSE}
 barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)")
-legend(x=0.1, y=120, bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
 Again, adapt the last code chunk so as to incorporate the whole time series up until ```t=10``` into this graph. What do you observe in terms of the relative state distrbution?
@@ -150,73 +150,107 @@ and so forth.
 ```
 
 Finally, let's make a plot that shows how $\lambda$ changes over time from $t=0$ to $t=10$.
-
 ```{r eval=FALSE}
-plot(x=c(1:10), y=c(lam.1, lam.2, lam.3, lam.4, lam.5, lam.6, lam.7, lam.8, lam.9, lam.10), type="l", xlab="Time (years)", ylab="lambda", las=1)
+plot(x=c(1:10), y=c(lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9, lambda.10), type="l", xlab="Time (years)", ylab="growth factor lambda", las=1)
 ```
 
-Once you arrived here, please answer the three questions posed at the beginning of this seection.
+Once you arrived here, please answer the three questions posed at the beginning of this section.
 
 ## Conservation measures
 
-Consider a population of a rare meadow plant. In this exercise, we explore how we can use matrix models to investigate the efficiency of different conservation strategies. Assume that after an intensive period of data collection we determined the following population transition matrix.
+Consider a population of a rare meadow plant. In this exercise, we explore how we can use matrix models to investigate the efficiency of different conservation strategies. Along, the way you will learn (or refresh) some R-code related vectors and data frames.
+
+Assume that after an intensive period of data collection we determined the following population transition matrix.
 
 ```{r}
-meadow.matrix <- matrix(c(0.001,0,200,0.01,0.2,0,0,0.2,0), nrow=3, ncol=3, byrow=T)
-meadow.matrix
+meadow.matrix <- matrix(c(0.001, 0, 200, 0.01, 0.2, 0, 0, 0.2, 0), nrow=3, ncol=3, byrow=T) # the vector of nine numbers is used to fill a three by three matrix
+meadow.matrix # this is how the matrix looks
 ```
 
 and the initial population vector ```N.0``` given by
 
 ```{r}
-N.0 <- matrix(c(3000, 180, 30), nrow=3, ncol=1, byrow=T)
+N.0 <- c(3000, 180, 30)
 N.0
 ```
 
-At the end of this exercise you should answer the following questions.
+At the end of this exercise, you should answer the following questions.
 
 1. Draw the life cycle graph corresponding to this matrix. What kind of life history does this plant have?
 
-2. Calculate the projected population growth rate $\lambda$ and the total population size ```N.tot``` for 10 years and plot them as a function of time. After how many years would this population be expected to have less than 10 adults where it would be considered severely endangered?
+2. Calculate the population growth factor $\lambda$ and the total population size ```N.tot``` for 10 years and plot them as a function of time. After how many years would this population be expected to have less than 10 adults where it would be considered severely endangered?
 
 3. To protect this population, two different measures are considered. For each of these methods, project the population dynamics and plot the number of adults against time. Which conservation measure is preferable?
 
-    i) Adding 100 adult plants from a different population once at year $t=0$.
+    i) Adding 100 adult plants from a different population once at year $t=0$. This can be done by changing the starting vector to ```N.0 <- c(3000, 180, 130)```
   
-    ii) Increasing recruitment of juveniles from seeds by creating small open sites in the meadow each year. This is expected to result in a transition probability from seeds to juveniles equal to $0.025$.
+    ii) Increasing recruitment of juveniles from seeds by creating small open sites in the meadow each year. This is expected to result in a transition probability from seeds to juveniles equal to $0.025$. To implement this, you have to change the corresponding entry in the ```meadow.matrix```.
 
 In order to make investigating these questions easier, we need some additional R-magic. In particular, we want to use R-code that let's us compute a whole time series with a single command. For this, we make use of what is called a *for-loop*.
 
-Before we "run" the for-loop to create a time series, we create a so-called *data frame* in which we can store the data from the time series of length *10*. We name this data frame ``` pop.dev```, abbreviating *population development*, and initially fill all entries with ```NA```(for "not available"). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.
+Before we "run" the for-loop to create a time series, we create a *data frame* in which we can store the data from the time series of length *10*. Specifically, each row in the data frame will correspond to one time step, with the starting population vector $N_0$ in the first row. We name this data frame ``` ts```, abbreviating *time series*, and initially fill all entries with ```NA```(for "not available"). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.
 
 ```{r}
-pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
+ts <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))
 ```
 
-Let's check how the data frame looks at the moment.
+Let's check how the data frame looks at the moment. Note that this data frame has 11 rows, one for time 0 and 10 for future time steps.
 
 ```{r}
-pop.dev
+ts
 ```
 
 Let us fill the first column of the data frame with the population vector at time zero.
 
-```{r}
-pop.dev[1, "Seeds"] <- N.0[1]
-pop.dev[1, "Juv"] <- N.0[2]
-pop.dev[1, "Adults"] <- N.0[3]
-pop.dev[1, "N"] <- sum(N.0)
+```{r results='hide'}
+ts$Seeds[1] <- N.0[1]
+ts$Juv[1] <- N.0[2]
+ts$Adults[1] <- N.0[3]
+
+ts # Check whether this was entered correctly by printing the data frame.
 ```
+How does the above code work? Recall that you can call a column of a data frame by adding the name of the column to the name of the data frame, separated by a \$-sign. Thus, ```ts$Seeds``` refers to the second column in our data frame ```ts```. Furthermore, adding a pair of square brackets lets us refer to certain entries in a column. For instance, ```ts$Seeds[1]``` refers to the first entry in the column labelled *Seeds*. In conclusion, the command ```ts$Seeds[1] <- N.0[1]``` assigns the first entry of the vector ```N.0``` to the first entry in the Seeds-column in the data frame.
 
-Check whether this was entered correctly by printing the data frame.
-
-```{r eval=FALSE}
-pop.dev
-```
-
-Next, let us "wrap" a loop of length 10 around the matrix multiplication.
+In order to calculate the population vector after one time step, ```N.1```, we have to multiply the population vector at time 0, ```N.0```, with the ```meadow.matrix```. Using the fact that ```N.0``` is now written in the first row of the data frame ```ts```, we can write this as follows:
 
 ```{r}
+meadow.matrix %*% as.numeric(ts[1, -1]) 
+```
+There are two new things happening in this code. First, now we have two numbers in the square brackets after ```ts```, ```ts[1, -1]```. Usually, the first number refers to the row and the second number to the column. But what does -1 mean for the column? It means "all entries except the first one". Thus, with the code ```ts[1, -1]``` we select the first row but without the first entry in this row. This makes sense this the first column is time, and we only want the population vector, which is stored in the columns 2, 3 and 4.
+
+Second, the vector that we just created is put into a function ```as.numeric()```. This is necessary, since data frames can in principle store objects other than numbers and we have to tell R that the vector that we extracted from the data frame contains numbers such that R can do calculations with it.
+
+Now we are ready to compute a time series of length 10 by using a for-loop.
+```{r}
+for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 10 in the data frame)
+{
+  ts[i + 1, -1] <- meadow.matrix %*% as.numeric(ts[i, -1]) # computes the population vector one time step into the future and stores it in the next row of the data frame
+}
+
+ts # check that the all positions in the data frame are now indeed filled with numbers
+```
+It is now easy to add an additional column with the total population size at each time step, using the function ```rowSums()```.
+```{r echo=FALSE}
+ts$N <- rowSums(ts[, -1]) # computes the total population size at each time step and add this as a new column called N
+ts
+```
+Finally, let us calculate the growth factor $\lambda$ at each time step: $\lambda(0), \ldots, \lambda(9)$. Note that $\lambda(0)$ predicts how the population size changes from $t=0$ to $t=1$ and $\lambda(9)$ predicts how the population size changes from $t=9$ to $t=10$. Each $\lambda$-value is calculated dividing the population size at a time step by the population size at the previous time step:
+$$
+\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
+$$
+We can calculate all $\lambda$-values in one step by dividing the column ```pop.dev$N``` without the first entry (```pop.dev$N[-1]```) by ```pop.dev$N``` without the last entry (```pop.dev$N[-length(pop.dev$N)]```).
+```{r}
+lambdas <- ts$N[-length(ts$N)]/ts$N[-1]
+lambdas
+```
+This gives a vector of length 10. Let us add this vector as a new column to our data frame. Since ```ts``` has 11 rows we first have to make sure that our vector ```lambdas``` also has length 11. We can do this by adding NA (for not available) as last entry. Indeed, we did not calculate $\lambda(10)$, as this would require that we calculate $N_{\rm tot}(10)$.
+```{r}
+lambdas <- append(lambdas, NA) # append NA at the 11th position in this vector
+ts$lambda <- lambdas # adding this vector as a column labelled lambda to the data frame
+ts # let's have a look at the final data frame
+```
+```{r echo=FALSE, eval=FALSE}
+# some old code
 N.t <-N.0 # this creates a new vector, called N.t, and we give it the values that are stored in N.0
 for (n in 2:11) # the loop "runs" from n=2 to n=11 (representing the years 1 to 10 in the data frame)
 {
@@ -230,120 +264,54 @@ for (n in 2:11) # the loop "runs" from n=2 to n=11 (representing the years 1 to 
 }
 ```
 
-If you wish, you can again inspect the data frame by printing it.
-
-```{r eval=FALSE}
-pop.dev
-```
-
-With the following command, we can plot the numbers for a specific column in the data frame, for example, the total population size *N*.
-
+Now we are ready to plot our results.
+With the following commands, we can plot the numbers for a specific column in the data frame, for example, the total population size or $\lambda$.
 ```{r}
-plot(pop.dev$time, pop.dev$N, type="l", ylab="Total population size", xlab="Time (years)", las=1)
+plot(ts$time, ts$N, type="l", ylab="Total population size", xlab="Time (years)", las=1)
+
+plot(ts$time, ts$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1)
 ```
 
-In order to plot the entries of another column, we have to add the name of that column to the second ```pop.dev$``` in the last line of code. For example, if we want to plot the number of adults we have to replace ```pop.dev$N``` with ```pop.dev$Adults``` (and change the name of the label on the y-axis accordingly).
+We have now produced the time series for the base line model. Next, adapt the above code to produce the same results for the two conservation strategies described above. Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you should be able to compare the three scenarios. Specifically, try to reproduce the following two figures.
 
-```{r eval=FALSE}
-plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1)
+```{r echo=FALSE}
+# Code to produce the data for two conservation measurements.
+ts.strategy1 <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))
+N.0 <- matrix(c(3000,180,130), nrow=3, ncol=1, byrow=T) # modified vector N.0
+ts.strategy1[1, 2:4] <- N.0
+
+for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 10 in the data frame)
+{
+  ts.strategy1[i + 1, -1] <- meadow.matrix %*% as.numeric(ts.strategy1[i, -1]) # computes the population vector one time step into the future and stores it in the next row of the data frame
+}
+
+ts.strategy1$N <- rowSums(ts.strategy1[, -1])
+ts.strategy1$lambda <- append(ts.strategy1$N[-length(ts.strategy1$N)]/ts.strategy1$N[-1], NA)
+
+ts.strategy2 <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))
+N.0 <- matrix(c(3000,180,30), nrow=3, ncol=1, byrow=T)
+ts.strategy2[1, 2:4] <- N.0
+meadow.matrix.strategy2 <- matrix(c(0.001,0,200,0.025,0.2,0,0,0.2,0), nrow=3, ncol=3, byrow=T) # modified projection matrix
+
+for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 10 in the data frame)
+{
+  ts.strategy2[i + 1, -1] <- meadow.matrix.strategy2 %*% as.numeric(ts.strategy2[i, -1]) # computes the population vector one time step into the future and stores it in the next row of the data frame
+}
+
+ts.strategy2$N <- rowSums(ts.strategy2[, -1])
+ts.strategy2$lambda <- append(ts.strategy2$N[-length(ts.strategy2$N)]/ts.strategy2$N[-1], NA)
 ```
 
-And here is the code if you want to plot the growth factor $\lambda$ as a function of time.
-
-```{r eval=FALSE}
-plot(pop.dev$time, pop.dev$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1)
-```
-
-Now you have to decide how you have to change the above code so that it takes into account the above two conservation strategies.
-
-Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you could use code like the following to visualize the results in a single figure.
-
-```{r eval=FALSE}
-plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1, col="red", ylim = c(0, 60))
-lines(pop.dev.strategy.1$time, pop.dev.strategy.1$Adults, col="green")
-lines(pop.dev.strategy.2$time, pop.dev.strategy.2$Adults, col="blue")
-legend("top", legend=c("no measure", "Meth. 1", "Meth. 2"), 
+```{r echo=FALSE}
+plot(0:10, ts$N, type="l", ylab="Total population size", xlab="Time (years)", las=1, col="red", ylim = c(0, 26000))
+lines(0:10, ts.strategy1$N, col="green")
+lines(0:10, ts.strategy2$N, col="blue")
+legend("top", legend=c("no measure", "Method 1", "Method 2"), 
        col=c("red", "green", "blue"), lty=c(1,1,1), bty="n", horiz=TRUE, cex=0.9)
-```
 
-<!-- Code to produce the data for the FIRST conservation measurement. Here, I only changed the vector ```N.0```.) -->
-```{r echo=FALSE, eval=FALSE}
-N.0 <- matrix(c(3000,180,130), nrow=3, ncol=1, byrow=T)
-
-pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
-
-pop.dev[1, "Seeds"] <- N.0[1]
-pop.dev[1, "Juv"] <- N.0[2]
-pop.dev[1, "Adults"] <- N.0[3]
-pop.dev[1, "N"] <- sum(N.0)
-
-N.t <-N.0 # the initial value of N.n is given by the value N.0
-for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
-{
-  N.t.plus.1 <- tr.mat %*% N.t
-  pop.dev[n, "N"] <- sum(N.t.plus.1)
-  pop.dev[n, "Seeds"] <- N.t.plus.1[1]
-  pop.dev[n, "Juv"] <- N.t.plus.1[2]
-  pop.dev[n, "Adults"] <- N.t.plus.1[3]
-  pop.dev[n, "lambda"] <- sum(N.t.plus.1)/sum(N.t)
-  N.t <- N.t.plus.1
-}
-
-plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1, col="red")
-```
-
-<!-- (Code to produce the data for the SECOND conservation measurement. Here, I added ```+30```in the for loop where the population size at the next year is determined.) -->
-```{r echo=FALSE, eval=FALSE}
-N.0 <- matrix(c(3000,180,30), nrow=3, ncol=1, byrow=T)
-
-pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
-
-pop.dev[1, "Seeds"] <- N.0[1]
-pop.dev[1, "Juv"] <- N.0[2]
-pop.dev[1, "Adults"] <- N.0[3]
-pop.dev[1, "N"] <- sum(N.0)
-
-N.t <-N.0 # the initial value of N.n is given by the value N.0
-for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
-{
-  N.t.plus.1 <- tr.mat %*% N.t
-  N.t.plus.1[3] <-  N.t.plus.1[3] + 30
-  #needs to be added here to affect seed output! 
-  pop.dev[n, "N"] <- sum(N.t.plus.1)
-  pop.dev[n, "Seeds"] <- N.t.plus.1[1]
-  pop.dev[n, "Juv"] <- N.t.plus.1[2]
-  pop.dev[n, "Adults"] <- N.t.plus.1[3]
-  pop.dev[n, "lambda"] <- sum(N.t.plus.1)/sum(N.t)
-  N.t <- N.t.plus.1
-}
-
-plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1, col="red")
-plot(pop.dev$time, pop.dev$lambda, type="l", ylab="lambda", xlab="Time (years)", las=1, col="red")
-```
-
-<!-- (Code to produce the data for the THIRD conservation measurement. Here, I just changed one entry of the matrix ```tr.mat```.) -->
-```{r echo=FALSE, eval=FALSE}
-tr.mat <- matrix(c(0.001,0,200,0.025,0.2,0,0,0.2,0), nrow=3, ncol=3, byrow=T)
-N.0 <- matrix(c(3000,180,30), nrow=3, ncol=1, byrow=T)
-
-pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
-
-pop.dev[1, "Seeds"] <- N.0[1]
-pop.dev[1, "Juv"] <- N.0[2]
-pop.dev[1, "Adults"] <- N.0[3]
-pop.dev[1, "N"] <- sum(N.0)
-
-N.t <-N.0 # the initial value of N.n is given by the value N.0
-for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
-{
-  N.t.plus.1 <- tr.mat %*% N.t
-  pop.dev[n, "N"] <- sum(N.t.plus.1)
-  pop.dev[n, "Seeds"] <- N.t.plus.1[1]
-  pop.dev[n, "Juv"] <- N.t.plus.1[2]
-  pop.dev[n, "Adults"] <- N.t.plus.1[3]
-  pop.dev[n, "lambda"] <- sum(N.t.plus.1)/sum(N.t)
-  N.t <- N.t.plus.1
-}
-
-plot(pop.dev$time, pop.dev$Adults, type="l", ylab="Number of Adults", xlab="Time (years)", las=1, col="red")
+plot(0:10, ts$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1, col="red", ylim = c(0, 3.5))
+lines(0:10, ts.strategy1$lambda, col="green")
+lines(0:10, ts.strategy2$lambda, col="blue")
+legend("top", legend=c("no measure", "Method 1", "Method 2"), 
+       col=c("red", "green", "blue"), lty=c(1,1,1), bty="n", horiz=TRUE, cex=0.9)
 ```
