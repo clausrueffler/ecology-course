@@ -17,29 +17,25 @@ klippy::klippy(position = c('top', 'right'))
 
 ## Population projection
 
-Using the example from the lecture, you will in this exercise apply matrix multiplication to project population dynamics for some time steps into the future. At the end of this part, you should complet the following tasks.
+Note that this exercise consists of two tabs!
 
-1) Project the population ten years into the future and describe how the population changes in both absolute and relative numbers.
-
-2) Compute the growth factor $\lambda$ for ten years and describe how it changes over time.
-
-3) Do the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. How do the results differ from each other when using different starting vectors?
+Using the example from the lecture, you will in this exercise apply matrix multiplication to project population dynamics for a couple of time steps into the future.
 
 The following code shows how to define a population projection matrix in R. We here use the three-by-three matrix from the lecture.
 
 ```{r}
 transition.matrix <- matrix(c(0.1,0,100,0.02,0.2,0,0,0.2,0.6), nrow=3, ncol=3, byrow=T)
-transition.matrix
+transition.matrix # let's have a look at the matrix
 ```
 
-We enter the three-dimensional vector describing the initial population composition $N_0$ as a matrix consisting of one column and three rows (in other words, as a column vector).
+Let us now define the initial population vector at time $t=0$.
 
 ```{r}
-N.0 <- matrix(c(1000, 30, 15), nrow=3, ncol=1, byrow=T)
-N.0
+N.0 <- c(1000, 30, 15)
+N.0 # let's have a look at the vector
 ```
 
-In order to obtain the vector describing the population composition one time step into the future, we multiply the population projection matrix ```transition.matrix``` from the right with the current population vector ```N.0```. This type of multiplication is executed in R using the symbol ```%*%```.
+In order to obtain the vector describing the population composition one time step into the future, we multiply the current population vector ```N.0``` from the right to the population projection matrix ```transition.matrix```. The multiplication between a matrix and a vector is executed in R using the symbol ```%*%```.
 
 ```{r}
 (N.1 <- transition.matrix %*% N.0) # the parentheses around a command make that the vector N.1 is immediately shown, that is, without explicitly asking for it as was done in the two previous commands.
@@ -54,17 +50,17 @@ The next piece of code shows how you can alter the code above to produce to the 
 Use the this procedure to produce the population vectors for the first ten time steps, ```N.1, N.2,..., N.10```. How do you have to adapt the code to do this?
 
 ```{r echo=FALSE, eval=FALSE}
-(N.3 <- meadow.matrix %*% N.2)
-(N.4 <- meadow.matrix %*% N.3)
-(N.5 <- meadow.matrix %*% N.4)
-(N.6 <- meadow.matrix %*% N.5)
-(N.7 <- meadow.matrix %*% N.6)
-(N.8 <- meadow.matrix %*% N.7)
-(N.9 <- meadow.matrix %*% N.8)
-(N.10 <- meadow.matrix %*% N.9)
+(N.3 <- transition.matrix %*% N.2)
+(N.4 <- transition.matrix %*% N.3)
+(N.5 <- transition.matrix %*% N.4)
+(N.6 <- transition.matrix %*% N.5)
+(N.7 <- transition.matrix %*% N.6)
+(N.8 <- transition.matrix %*% N.7)
+(N.9 <- transition.matrix %*% N.8)
+(N.10 <- transition.matrix %*% N.9)
 ```
 
-Next, compute the total number of individuals at time `t=0`, `t=1` until `t=10` using the command ```sum()```. Below you see the code showing how to do this for the first three time steps.
+Next, let us compute the total number of individuals at time `t=0`, `t=1` until `t=10` using the command ```sum()```. Below you see the code showing how to do this for the first three time steps.
 
 ```{r}
 (Ntot.0 <- sum(N.0)) 
@@ -84,77 +80,82 @@ Next, compute the total number of individuals at time `t=0`, `t=1` until `t=10` 
 (Ntot.10 <- sum(N.10))
 ```
 
-Next, let us create a time series plot. With this we mean a plot with time on the x-axis and Ntot on the y-axis. The next piece of code shows how to do that for the first three time steps, ```Ntot.0```, ```Ntot.1``` and ```Ntot.2```.
+Now we have everything to create a time series plot. With this we mean a plot with time on the x-axis and ```Ntot``` on the y-axis. The next piece of code shows how to do that for the first three time steps, ```Ntot.0```, ```Ntot.1``` and ```Ntot.2```.
 
 ```{r}
-plot(x=c(0:2), y=c(Ntot.0, Ntot.1, Ntot.2), xlab="Time (years)", ylab="Ntot.t", las=1)
+plot(x=c(0:2), y=c(Ntot.0, Ntot.1, Ntot.2), type = "b", xlab="Time (years)", ylab="Ntot.t", las=1)
 ```
 
-If you have computed *Ntot* for the first ten time steps you can add them to the plot by changing ```c(0:2)``` to ```c(0:10)``` (the points on the axis) and ```y=c(Ntot.0, Ntot.1, Ntot.2)``` to ```y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)``` (the values on the y-axis) in the above code.
+If you have computed ```Ntot``` for the first ten time steps you can add them to the plot by changing ```c(0:2)``` to ```c(0:10)``` (the points on the axis) and ```y=c(Ntot.0, Ntot.1, Ntot.2)``` to ```y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)``` (the values on the y-axis) in the above code.
+
+```{r echo=FALSE, eval=FALSE}
+plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), type = "b", xlab="Time (years)", ylab="Ntot.t", las=1)
+```
 
 Next, let's have a look at the population composition. How is the total number of individuals distributed over the different life-history states? Thus, let us first plot the population vectors ```N.0```, ```N.1``` and ```N.2```in form of a bar plot.
 
 ```{r}
-par(xpd=T) # allows plotting on margin (for legend)
 barplot(cbind(N.0, N.1, N.2), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 2000))
 legend("topright", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
-Please try to adapt this chunk of code to include the data for the all time steps until ```t=10```?
+Please adapt this code to include the data for the all time steps until ```t=10```.
 
 ```{r echo=FALSE, eval=FALSE}
-par(xpd=T) # allow plotting on margin (for legend)
-barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 3000))
+barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 3000), cex.names=0.8)
 
-legend("topright", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+legend("topleft", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
-It is also common (and informative) to plot the population vectors as relative numbers to show what fraction of the total population belongs to each life history state. For this we have to divide the number of individuals in each state by the total population size at that time step.
+It is also common (and informative) to plot the population vectors as relative numbers to show what relative proportion of the population belongs to each life history state. For this we have to divide the number of individuals in each state by the total population size at that time step.
 
 ```{r eval=FALSE}
 barplot(cbind(N.0/Ntot.0, N.1/Ntot.1, N.2/Ntot.2), col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2"), ylab="Proportion of individuals", xlab="Time (years)")
 legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=F)
 ```
+Again, please adapt this code to include the data for the all time steps until ```t=10```.
 
 ```{r echo=FALSE, eval=FALSE}
-barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)")
+barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)", cex.names=0.8)
 legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
 ```
 
-Again, adapt the last code chunk so as to incorporate the whole time series up until ```t=10``` into this graph. What do you observe in terms of the relative state distrbution?
+What do you observe in terms of the relative state distribution?
 
-Finally, to calculate the growth factor $\lambda$ we have to divide the total population size of two consecutive time steps by each other. For example, the value of $\lambda$ for the first time step equals
-
+Finally, let us calculate the growth factor $\lambda$ at each time step. For this we have to divide the total population size of two consecutive time steps by each other:
+$$
+\lambda(i) = \frac{N_{\rm tot}(i+1)}{N_{\rm tot}(i)}.
+$$
+Thus
 ```{r}
-(lambda.1 <- Ntot.1/Ntot.0)
+(lambda.0 <- Ntot.1/Ntot.0)
+(lambda.1 <- Ntot.2/Ntot.1)
 ```
-
-Next, compute the values of $\lambda$ up until the 10th time step.
-
-```{r eval=FALSE}
-(lambda.2 <- Ntot.2/Ntot.1)
-```
-
-and so forth.
+and so forth. Please, do this computation for all 10 $\lambda$-values
 
 ```{r echo=FALSE, eval=FALSE}
-(lambda.2 <- Ntot.2/Ntot.1)
-(lambda.3 <- Ntot.3/Ntot.2)
-(lambda.4 <- Ntot.4/Ntot.3)
-(lambda.5 <- Ntot.5/Ntot.4)
-(lambda.6 <- Ntot.6/Ntot.5)
-(lambda.7 <- Ntot.7/Ntot.6)
-(lambda.8 <- Ntot.8/Ntot.7)
-(lambda.9 <- Ntot.9/Ntot.8)
-(lambda.10 <- Ntot.10/Ntot.9)
+(lambda.1 <- Ntot.2/Ntot.1)
+(lambda.2 <- Ntot.3/Ntot.2)
+(lambda.3 <- Ntot.4/Ntot.3)
+(lambda.4 <- Ntot.5/Ntot.4)
+(lambda.5 <- Ntot.6/Ntot.5)
+(lambda.6 <- Ntot.7/Ntot.6)
+(lambda.7 <- Ntot.8/Ntot.7)
+(lambda.8 <- Ntot.9/Ntot.8)
+(lambda.9 <- Ntot.10/Ntot.9)
 ```
 
-Finally, let's make a plot that shows how $\lambda$ changes over time from $t=0$ to $t=10$.
+Let's make a plot that shows how $\lambda$ changes over time from $t=0$ to $t=10$.
 ```{r eval=FALSE}
-plot(x=c(1:10), y=c(lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9, lambda.10), type="l", xlab="Time (years)", ylab="growth factor lambda", las=1)
+plot(x=c(0:9), y=c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9), type = "b", xlab="Time (years)", ylab="growth factor lambda", las=1)
 ```
+At the end of this part, you should complete the following tasks.
 
-Once you arrived here, please answer the three questions posed at the beginning of this section.
+1) Project the population ten years into the future and describe in words how the population changes in both absolute and relative numbers.
+
+2) Compute the growth factor $\lambda$ for ten years and describe how it changes over time. What do you observe.
+
+3) Execute the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. How do the results differ from each other when using different starting vectors?
 
 ## Conservation measures
 
@@ -176,9 +177,10 @@ N.0
 
 At the end of this exercise, you should answer the following questions.
 
-1. Draw the life cycle graph corresponding to this matrix. What kind of life history does this plant have?
+1. Draw the life cycle graph corresponding to this matrix. What kind of life history does this plant have? You can do this drawing by hand on a piece of paper, which you then scan and submit as a separate file, or, if you use RMarkdown, you can incorporate this digital image into your report using the command 
+```![picture label](path to your picture/picture_name.png)``` (search the web for help).
 
-2. Calculate the population growth factor $\lambda$ and the total population size ```N.tot``` for 10 years and plot them as a function of time. After how many years would this population be expected to have less than 10 adults where it would be considered severely endangered?
+2. Calculate the population growth factor $\lambda$ and the total population size ```Ntot``` for 10 years and plot them as a function of time. After how many years is this population expected to consists of less than 10 adults, where it would be considered severely endangered?
 
 3. To protect this population, two different measures are considered. For each of these methods, project the population dynamics and plot the number of adults against time. Which conservation measure is preferable?
 
@@ -229,8 +231,8 @@ for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 
 
 ts # check that the all positions in the data frame are now indeed filled with numbers
 ```
-It is now easy to add an additional column with the total population size at each time step, using the function ```rowSums()```.
-```{r echo=FALSE}
+It is now easy to add an additional column with the total population size at each time step, using the function ```rowSums()```. You should obtain the following data frame.
+```{r results='hide'}
 ts$N <- rowSums(ts[, -1]) # computes the total population size at each time step and add this as a new column called N
 ts
 ```
