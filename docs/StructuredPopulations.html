@@ -381,7 +381,7 @@ steps until <code>t=10</code>.</p>
 class="math inline">\(\lambda\)</span> at each time step. For this we
 have to divide the total population size of two consecutive time steps
 by each other: <span class="math display">\[
-\lambda(i) = \frac{N_{\rm tot}(i+1)}{N_{\rm tot}(i)}.
+\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
 \]</span> Thus</p>
 <pre class="r"><code>(lambda.0 &lt;- Ntot.1/Ntot.0)</code></pre>
 <pre><code>## [1] 1.570335</code></pre>
@@ -476,7 +476,8 @@ a matrix where we can give names to rows and columns to describe what is
 stored in the different cells of the data frame.</p>
 <pre class="r"><code>ts &lt;- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))</code></pre>
 <p>Let’s check how the data frame looks at the moment. Note that this
-data frame has 11 rows, one for time 0 and 10 for future time steps.</p>
+data frame has 11 rows, one for time 0 and ten for the future time
+steps.</p>
 <pre class="r"><code>ts</code></pre>
 <pre><code>##    time Seeds Juv Adults
 ## 1     0    NA  NA     NA
@@ -497,8 +498,8 @@ ts$Juv[1] &lt;- N.0[2]
 ts$Adults[1] &lt;- N.0[3]
 
 ts # Check whether this was entered correctly by printing the data frame.</code></pre>
-<p>How does the above code work? Recall that you can call a column of a
-data frame by adding the name of the column to the name of the data
+<p>How does the above code work? Recall that you can refer to a column
+of a data frame by adding the name of the column to the name of the data
 frame, separated by a $-sign. Thus, <code>ts$Seeds</code> refers to the
 second column in our data frame <code>ts</code>. Furthermore, adding a
 pair of square brackets lets us refer to certain entries in a column.
@@ -511,7 +512,7 @@ data frame.</p>
 <code>N.1</code>, we have to multiply the population vector at time 0,
 <code>N.0</code>, with the <code>meadow.matrix</code>. Using the fact
 that <code>N.0</code> is now written in the first row of the data frame
-<code>ts</code>, we can write this as follows:</p>
+<code>ts</code>, we can program this as follows:</p>
 <pre class="r"><code>meadow.matrix %*% as.numeric(ts[1, -1]) </code></pre>
 <pre><code>##      [,1]
 ## [1,] 6003
@@ -519,21 +520,21 @@ that <code>N.0</code> is now written in the first row of the data frame
 ## [3,]   36</code></pre>
 <p>There are two new things happening in this code. First, now we have
 two numbers in the square brackets after <code>ts</code>,
-<code>ts[1, -1]</code>. Usually, the first number refers to the row and
-the second number to the column. But what does -1 mean for the column?
-It means “all entries except the first one”. Thus, with the code
+<code>ts[1, -1]</code>. The first number refers to the row and the
+second number to the column. But what does -1 mean for the column? It
+means “all entries except the first one”. Thus, with the code
 <code>ts[1, -1]</code> we select the first row but without the first
-entry in this row. This makes sense this the first column is time, and
-we only want the population vector, which is stored in the columns 2, 3
-and 4.</p>
-<p>Second, the vector that we just created is put into a function
+entry in this row. This makes sense as this the first column is time,
+and we only want the population vector, which is stored in the columns
+2, 3 and 4.</p>
+<p>Second, the vector that we just created is inside the function
 <code>as.numeric()</code>. This is necessary, since data frames can in
 principle store objects other than numbers and we have to tell R that
 the vector that we extracted from the data frame contains numbers such
 that R can do calculations with it.</p>
 <p>Now we are ready to compute a time series of length 10 by using a
 for-loop.</p>
-<pre class="r"><code>for (i in 1:10) # the loop &quot;runs&quot; from i=1 to n=10 (representing the years 1 to 10 in the data frame)
+<pre class="r"><code>for (i in 1:10) # the loop &quot;runs&quot; from i=1 to i=10 (representing the years 1 to 10 in the data frame)
 {
   ts[i + 1, -1] &lt;- meadow.matrix %*% as.numeric(ts[i, -1]) # computes the population vector one time step into the future and stores it in the next row of the data frame
 }
@@ -556,6 +557,18 @@ size at each time step, using the function <code>rowSums()</code>. You
 should obtain the following data frame.</p>
 <pre class="r"><code>ts$N &lt;- rowSums(ts[, -1]) # computes the total population size at each time step and add this as a new column called N
 ts</code></pre>
+<pre><code>##    time    Seeds       Juv    Adults         N
+## 1     0 3000.000 180.00000 30.000000 3210.0000
+## 2     1 6003.000  66.00000 36.000000 6105.0000
+## 3     2 7206.003  73.23000 13.200000 7292.4330
+## 4     3 2647.206  86.70603 14.646000 2748.5580
+## 5     4 2931.847  43.81327 17.341206 2993.0017
+## 6     5 3471.173  38.08113  8.762653 3518.0168
+## 7     6 1756.002  42.32796  7.616225 1805.9460
+## 8     7 1525.001  26.02561  8.465591 1559.4922
+## 9     8 1694.643  20.45513  5.205122 1720.3035
+## 10    9 1042.719  21.03746  4.091026 1067.8475
+## 11   10  819.248  14.63468  4.207492  838.0902</code></pre>
 <p>Finally, let us calculate the growth factor <span
 class="math inline">\(\lambda\)</span> at each time step: <span
 class="math inline">\(\lambda(0), \ldots, \lambda(9)\)</span>. Note that
@@ -567,13 +580,13 @@ size changes from <span class="math inline">\(t=9\)</span> to <span
 class="math inline">\(t=10\)</span>. Each <span
 class="math inline">\(\lambda\)</span>-value is calculated dividing the
 population size at a time step by the population size at the previous
-time step: <span class="math display">\[
-\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
-\]</span> We can calculate all <span
+time step (see first tab).</p>
+<p>We can calculate all <span
 class="math inline">\(\lambda\)</span>-values in one step by dividing
 the column <code>pop.dev$N</code> without the first entry
 (<code>pop.dev$N[-1]</code>) by <code>pop.dev$N</code> without the last
-entry (<code>pop.dev$N[-length(pop.dev$N)]</code>).</p>
+entry (<code>pop.dev$N[-length(pop.dev$N)]</code>). Make yourself clear
+why this works!</p>
 <pre class="r"><code>lambdas &lt;- ts$N[-length(ts$N)]/ts$N[-1]
 lambdas</code></pre>
 <pre><code>##  [1] 0.5257985 0.8371692 2.6531850 0.9183283 0.8507639 1.9480188 1.1580346
@@ -581,7 +594,7 @@ lambdas</code></pre>
 <p>This gives a vector of length 10. Let us add this vector as a new
 column to our data frame. Since <code>ts</code> has 11 rows we first
 have to make sure that our vector <code>lambdas</code> also has length
-11. We can do this by adding NA (for not available) as last entry.
+11. We can do this by adding NA (for “not available”) as a last entry.
 Indeed, we did not calculate <span
 class="math inline">\(\lambda(10)\)</span>, as this would require that
 we calculate <span class="math inline">\(N_{\rm tot}(10)\)</span>.</p>
@@ -601,7 +614,7 @@ ts # let&#39;s have a look at the final data frame</code></pre>
 ## 10    9 1042.719  21.03746  4.091026 1067.8475 1.2741439
 ## 11   10  819.248  14.63468  4.207492  838.0902        NA</code></pre>
 <p>Now we are ready to plot our results. With the following commands, we
-can plot the numbers for a specific column in the data frame, for
+can plot the numbers in a specific column in the data frame, for
 example, the total population size or <span
 class="math inline">\(\lambda\)</span>.</p>
 <pre class="r"><code>plot(ts$time, ts$N, type=&quot;l&quot;, ylab=&quot;Total population size&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>

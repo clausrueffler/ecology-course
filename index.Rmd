@@ -9,7 +9,7 @@ output:
 Click the exercise button and select from the different exercises in the drop-down menu. 
 
 - Exercise 1 and 2 can be done with paper and pencil and pocket calculator, with EXCEl or a comparable spreadsheet program, or with R.
-- Exercises 3 - 6 contain R-code. Please do these exercises by copying the code pieces of R-code and pasting it in the script window of your R-Studio application. For these R-exercises, you should your answers either as an rmarkdown document (if you know how to do it), or by using the function *compile report* in your script window. Your report should contain your code, the output from running this code, and your answers to the questions.
+- Exercises 3 - 6 contain R-code. Please do these exercises by copying the code pieces of R-code and pasting it in the script window of your R-Studio application. For these R-exercises, you should your answers either as an rmarkdown document (if you know how to do it), or by using the function *compile report* in your script window. I prefer if you submit your report in HTML format (rather than as a Word document or a pdf). Your report should contain your code, the output from running this code, and your answers to the questions.
 
 Solutions will appear after the submission deadline for each exercise.
 

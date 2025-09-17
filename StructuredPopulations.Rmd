@@ -124,7 +124,7 @@ What do you observe in terms of the relative state distribution?
 
 Finally, let us calculate the growth factor $\lambda$ at each time step. For this we have to divide the total population size of two consecutive time steps by each other:
 $$
-\lambda(i) = \frac{N_{\rm tot}(i+1)}{N_{\rm tot}(i)}.
+\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
 $$
 Thus
 ```{r}
@@ -196,7 +196,7 @@ Before we "run" the for-loop to create a time series, we create a *data frame* i
 ts <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))
 ```
 
-Let's check how the data frame looks at the moment. Note that this data frame has 11 rows, one for time 0 and 10 for future time steps.
+Let's check how the data frame looks at the moment. Note that this data frame has 11 rows, one for time 0 and ten for the future time steps.
 
 ```{r}
 ts
@@ -211,20 +211,20 @@ ts$Adults[1] <- N.0[3]
 
 ts # Check whether this was entered correctly by printing the data frame.
 ```
-How does the above code work? Recall that you can call a column of a data frame by adding the name of the column to the name of the data frame, separated by a \$-sign. Thus, ```ts$Seeds``` refers to the second column in our data frame ```ts```. Furthermore, adding a pair of square brackets lets us refer to certain entries in a column. For instance, ```ts$Seeds[1]``` refers to the first entry in the column labelled *Seeds*. In conclusion, the command ```ts$Seeds[1] <- N.0[1]``` assigns the first entry of the vector ```N.0``` to the first entry in the Seeds-column in the data frame.
+How does the above code work? Recall that you can refer to a column of a data frame by adding the name of the column to the name of the data frame, separated by a \$-sign. Thus, ```ts$Seeds``` refers to the second column in our data frame ```ts```. Furthermore, adding a pair of square brackets lets us refer to certain entries in a column. For instance, ```ts$Seeds[1]``` refers to the first entry in the column labelled *Seeds*. In conclusion, the command ```ts$Seeds[1] <- N.0[1]``` assigns the first entry of the vector ```N.0``` to the first entry in the Seeds-column in the data frame.
 
-In order to calculate the population vector after one time step, ```N.1```, we have to multiply the population vector at time 0, ```N.0```, with the ```meadow.matrix```. Using the fact that ```N.0``` is now written in the first row of the data frame ```ts```, we can write this as follows:
+In order to calculate the population vector after one time step, ```N.1```, we have to multiply the population vector at time 0, ```N.0```, with the ```meadow.matrix```. Using the fact that ```N.0``` is now written in the first row of the data frame ```ts```, we can program this as follows:
 
 ```{r}
 meadow.matrix %*% as.numeric(ts[1, -1]) 
 ```
-There are two new things happening in this code. First, now we have two numbers in the square brackets after ```ts```, ```ts[1, -1]```. Usually, the first number refers to the row and the second number to the column. But what does -1 mean for the column? It means "all entries except the first one". Thus, with the code ```ts[1, -1]``` we select the first row but without the first entry in this row. This makes sense this the first column is time, and we only want the population vector, which is stored in the columns 2, 3 and 4.
+There are two new things happening in this code. First, now we have two numbers in the square brackets after ```ts```, ```ts[1, -1]```. The first number refers to the row and the second number to the column. But what does -1 mean for the column? It means "all entries except the first one". Thus, with the code ```ts[1, -1]``` we select the first row but without the first entry in this row. This makes sense as this the first column is time, and we only want the population vector, which is stored in the columns 2, 3 and 4.
 
-Second, the vector that we just created is put into a function ```as.numeric()```. This is necessary, since data frames can in principle store objects other than numbers and we have to tell R that the vector that we extracted from the data frame contains numbers such that R can do calculations with it.
+Second, the vector that we just created is inside the function ```as.numeric()```. This is necessary, since data frames can in principle store objects other than numbers and we have to tell R that the vector that we extracted from the data frame contains numbers such that R can do calculations with it.
 
 Now we are ready to compute a time series of length 10 by using a for-loop.
 ```{r}
-for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 10 in the data frame)
+for (i in 1:10) # the loop "runs" from i=1 to i=10 (representing the years 1 to 10 in the data frame)
 {
   ts[i + 1, -1] <- meadow.matrix %*% as.numeric(ts[i, -1]) # computes the population vector one time step into the future and stores it in the next row of the data frame
 }
@@ -232,20 +232,22 @@ for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 
 ts # check that the all positions in the data frame are now indeed filled with numbers
 ```
 It is now easy to add an additional column with the total population size at each time step, using the function ```rowSums()```. You should obtain the following data frame.
-```{r results='hide'}
+```{r}
 ts$N <- rowSums(ts[, -1]) # computes the total population size at each time step and add this as a new column called N
 ts
 ```
-Finally, let us calculate the growth factor $\lambda$ at each time step: $\lambda(0), \ldots, \lambda(9)$. Note that $\lambda(0)$ predicts how the population size changes from $t=0$ to $t=1$ and $\lambda(9)$ predicts how the population size changes from $t=9$ to $t=10$. Each $\lambda$-value is calculated dividing the population size at a time step by the population size at the previous time step:
-$$
-\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
-$$
-We can calculate all $\lambda$-values in one step by dividing the column ```pop.dev$N``` without the first entry (```pop.dev$N[-1]```) by ```pop.dev$N``` without the last entry (```pop.dev$N[-length(pop.dev$N)]```).
+
+Finally, let us calculate the growth factor $\lambda$ at each time step: $\lambda(0), \ldots, \lambda(9)$. Note that $\lambda(0)$ predicts how the population size changes from $t=0$ to $t=1$ and $\lambda(9)$ predicts how the population size changes from $t=9$ to $t=10$. Each $\lambda$-value is calculated dividing the population size at a time step by the population size at the previous time step (see first tab).
+
+We can calculate all $\lambda$-values in one step by dividing the column ```pop.dev$N``` without the first entry (```pop.dev$N[-1]```) by ```pop.dev$N``` without the last entry (```pop.dev$N[-length(pop.dev$N)]```). Make yourself clear why this works!
+
 ```{r}
 lambdas <- ts$N[-length(ts$N)]/ts$N[-1]
 lambdas
 ```
-This gives a vector of length 10. Let us add this vector as a new column to our data frame. Since ```ts``` has 11 rows we first have to make sure that our vector ```lambdas``` also has length 11. We can do this by adding NA (for not available) as last entry. Indeed, we did not calculate $\lambda(10)$, as this would require that we calculate $N_{\rm tot}(10)$.
+
+This gives a vector of length 10. Let us add this vector as a new column to our data frame. Since ```ts``` has 11 rows we first have to make sure that our vector ```lambdas``` also has length 11. We can do this by adding NA (for "not available") as a last entry. Indeed, we did not calculate $\lambda(10)$, as this would require that we calculate $N_{\rm tot}(10)$.
+
 ```{r}
 lambdas <- append(lambdas, NA) # append NA at the 11th position in this vector
 ts$lambda <- lambdas # adding this vector as a column labelled lambda to the data frame
@@ -267,14 +269,14 @@ for (n in 2:11) # the loop "runs" from n=2 to n=11 (representing the years 1 to 
 ```
 
 Now we are ready to plot our results.
-With the following commands, we can plot the numbers for a specific column in the data frame, for example, the total population size or $\lambda$.
+With the following commands, we can plot the numbers in a specific column in the data frame, for example, the total population size or $\lambda$.
 ```{r}
 plot(ts$time, ts$N, type="l", ylab="Total population size", xlab="Time (years)", las=1)
 
 plot(ts$time, ts$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1)
 ```
 
-We have now produced the time series for the base line model. Next, adapt the above code to produce the same results for the two conservation strategies described above. Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you should be able to compare the three scenarios. Specifically, try to reproduce the following two figures.
+We have now produced the time series for the base line model. Next, adapt the above code to produce the same results for the two conservation strategies described above. Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you should be able to compare the three scenarios. Specifically, try to reproduce the following two figures. 
 
 ```{r echo=FALSE}
 # Code to produce the data for two conservation measurements.
