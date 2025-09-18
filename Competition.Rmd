@@ -34,9 +34,12 @@ LVcomp <- function(N, r1, r2, K1, K2, alpha, beta) {
 }
 ```
 
+This user-defined function has seven arguments. The first is the two-dimensional population vector ```N```, then comes the intrinsic growth rates, the carrying capacities, and the competition coefficients for the each species.
 In the next code-block, all parameter values and the initial population size vector ```N.0``` specifying the initial densities for the two species are determined.
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
+# old code
+# Here, all parameter values and the initial population size vector ```N.0``` specifying the initial densities for the two species are determined.
 r1 <- .9 # intrinsic growth rate of species 1
 r2 <- .9 # intrinsic growth rate of species 2
 K1 <- 100 # carrying capacity of species 1
@@ -45,17 +48,41 @@ alpha <- 0.8 # competitive effect of species 2 on species 1
 beta <- 0.9 # competitive effect of species 1 on species 2
 N0 <- c(5, 20) # vector of initial population sizes, N1(0) and N2(0)
 t <- 50 # number of time steps the simulation should run
+# The next piece of code produces the time series. EACH TIME YOU CHANGE A PARAMETER VALUE YOU HAVE TO EVALUATE THE CODE FROM HER ONWARDS IN ORDER TO THE SEE THE RESULTING OUTPUT.
 ```
 
-The next piece of code produces the data. EACH TIME YOU CHANGE A PARAMETER VALUE YOU HAVE TO EVALUATE THE CODE FROM HER ONWARDS IN ORDER TO THE SEE THE RESULTING OUTPUT.
+The following code produces the time series for the two competing species. We use code that you have seen in a similar way in previous exercises. First, we create an empty data frame, called ```N```, in which we store the time series. It has two columns, one for each species, and t+1 rows, one row for the initial population vector, and t rows for the future population vectors.
 
 ```{r}
-N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix with two columns and t+1 rows in which the population vectors of the time series will be stored
-N[1, ] <- N0 # enters the initial population vector into the first row of this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
+t <- 50 # we set the length of the time series, which determines the number of rows in the data frame
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
 ```
 
-Finally, let us plot the time series.
+Let us define an initial population vector at time $t=0$ and store it in the first row of the data frame.
+
+```{r}
+N0 <- c(5, 20)
+N[1, ] <- N0 # we store the initial population vector in the first row
+```
+
+Next, we use a for-loop to iterate the time series. In each iteration of the for-loop we use the function ```LVcomp``` to produce the population vector at the next time step and store the outcome in a new row in the data frame ```N```. Note, that in this example we use the following parameters: ```r1=.9, r2=.9, K1=100, K2=100, alpha=0.8, beta=0.9```.
+
+```{r}
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=.9, r2=.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+  } # this for-loop iterates the population dynamics t-times
+
+head(N) # let's have a sneak peak at the data frame, just to make sure that everything went correctly
+```
+
+```{r echo=FALSE, eval=FALSE}
+# old code
+N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix with two columns and t+1 rows in which the population vectors of the time series will be stored
+N[1, ] <- N0 # enters the initial population vector into the first row of this matrix
+for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1=.9, r2=.9, K1=100, K2=100, alpha=0.8, beta=0.9) # this for-loop iterates the population dynamics t-times
+```
+
+Finally, let us plot the time series. To plot the columns in a data frame as separate lines, we can use the function ```matplot```.
 
 ```{r}
 matplot(0:t, N, type = "p", pch = c(1,16), lty = 1:2, col = 1, ylim = c(0, 90), ylab="Number of individuals", xlab="Time")
@@ -66,9 +93,10 @@ legend("top", c(expression("species 1 "), expression("species 2 ")), pch = c(1,1
 
 Before we actually look at competition between two species, let us go back one step. We can use the above code to investigate the population dynamics of a single species that growths according to logistic growth in *discrete time*. Recall the lecture about the discrete time logistic model.
 *All that we have to do for that is to set the initial population size of one species, say species 2, equal to zero, that is $N_2(t=0)=0$*.
-This works because in a population without immigration and emigration, a species that is not present at the beginning will never be present and the model behaves exactly as a single species model.
+This works because in a population without immigration and emigration, a species that is not present at the beginning will never be present, and the model behaves exactly as a single species model.
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
+# old code
 r1 <- 1 # intrinsic growth rate of species 1
 r2 <- 1.5 # intrinsic growth rate of species 2
 K1 <- 100 # carrying capacity of species 1
@@ -82,13 +110,18 @@ t <- 20 # number of time steps the simulation should run
 Here, you can see the population dynamics as resulting from the above parameter values. The plot also contains a horizontal line indicating the value of the carrying capacity of species 1.
 
 ```{r}
-N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
-N[1, ] <- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
+t <- 50 # we set the length of the time series, which determines the number of rows in the data frame
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1)) # empty data frame
+N0 <- c(10, 0) # starting population vector; note that we set N2=0!
+N[1, ] <- N0 # we store the initial population vector in the first row
 
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=0.9, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+  } # this for-loop iterates the population dynamics t-times
+
+# let's plot the time series
 matplot(0:t, N, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
-abline(h = K1, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
-text(0, K1+1, "K1", adj = c(0, 0))
+abline(h = 100, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
 legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 ```
 
@@ -97,41 +130,34 @@ Vary the intrinsic growth rate ```r1``` to investigate the effect this has on th
 Does the behavior you observe change when you alter (i) the value of the carrying capacity *K* or (ii) the initial population size at time zero?
 
 ```{r}
-r1 <- 0.5 # intrinsic growth rate of species 1 is now increased
 t <- 50
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
 
-N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
-N[1, ] <- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
+N <- matrix(NA, nrow = t + 1, ncol = 2)
+N[1, ] <- N0
 
-N.r.0p5 <- N # here I assign the matrix that contains the data for the new r-value to a new object, called N.r.0p5. When I plot the data with the following command I have to change the name of the matrix there accordingly.
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=0.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+  }
+
+N.r.0p5 <- N # here, we assign the matrix that contains the data for the new r-value to a new object, called N.r.0p5. When we plot the data with the following command, we have to change the name of the matrix there accordingly.
 
 matplot(0:t, N.r.0p5, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
-abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of species 1
-text(0, K1+1, "K1", adj = c(0, 0))
+abline(h = 100, lty = 3) # plots a line indicating the carrying capacity of species 1
 legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 ```
 
-In the above code, we assigned the matrix that contains the data for the new *r*-value to a new object, called ```N.r.0p5``` (reminding us that the *r*-value equals 0.5 in this run). When we plot the data we have to change the name of the matrix in the plotting command accordingly. In this way, it is possible to always evaluate the same piece of code after a parameter value has been changed but simultaneously keeping the results since we have saved them each time to a new object.
+In the above code, we assigned the matrix that contains the data for the new *r*-value to a new object, called ```N.r.0p5``` (reminding us that the *r*-value equals 0.5 in this run). When we plot the data we have to change the name of the matrix in the plotting command accordingly. In this way, it is possible to always evaluate the same piece of code after a parameter value has been changed but simultaneously keeping the results in different data frames.
 
 ## Competition between two species
 
-In order to properly investigate competition between two species, both need to have a non-zero density at *t=0*.
+In order to investigate competition between two species, both species need to have a non-zero density at *t=0*. Thus, in this tab you have to choose a starting vector lines this one, ```N0 <- c(10, 10)```, where both densities are different from zero.
 
-```{r}
-r1 <- 1 # intrinsic growth rate of species 1
-r2 <- 1.5 # intrinsic growth rate of species 2
-K1 <- 100 # carrying capacity of species 1
-K2 <- 100 # carrying capacity of species 2
-alpha <- 0.8 # competitive effect of species 2 on species 1
-beta <- 0.9 # competitive effect of species 1 on species 2
-N0 <- c(10, 5) # vector of initial population sizes, N1(0) and N2(0)
-t <- 30 # number of time steps the simulation should run
-```
+In this part of the exercise, you investigate the effect of the various parameters on the *outcome of competition* between two species. Specifically, investigate the following questions.
 
-For the remainder of this exercise, investigate the effect of the various parameters on the outcome of competition between two species. Specifically, investigate the following questions.
-
-  1) First focus on the case that both carrying capacities are equal, ```K1=K2```, and that the intrinsic growth rates are relatively small, say, ```r1, r2 <1```. Under this scenario, look at the following cases:
+  1) First focus on the case that both carrying capacities are equal, ```K1=K2```, and that the intrinsic growth rates are relatively small, say, ```r1 < 1``` and ```r2 < 1```. Under this scenario, look at the following cases:
 $$
 \begin{align}
   \mathrm{i)\,\,} & \alpha<1<\beta\\
@@ -140,9 +166,10 @@ $$
   \mathrm{iv)\,\,} & \alpha, \beta<1
 \end{align}
 $$
-Note: It makes sense avoid parameter combinations where simultaneously ```K1 = K2```, ```r1 = r2```, and ```alpha = beta```, since under such *complete symmetry* the two species are perfectly neutral with respect to each other. Let us ignore this extremely special case here.
+Note: It makes sense avoid parameter combinations where simultaneously ```K1 = K2```, ```r1 = r2```, and ```alpha = beta```, since under such *complete symmetry* the two species are perfectly neutral with respect to each other. Let us therefore ignore this extremely special case.
   
   2) Allow the two carrying capacities to differ from each other, for instance, ```K1 < K2```. Does this alter your previous results? If yes, how?
   
-  3) The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when *r>2* carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, ```r1 = r2``` and and ```K1 = K2```. What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).
+  3) The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when *r>2* carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, ```r1 = r2``` and and ```K1 = K2``` (but not ```alpha``` and ```beta```). What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).
 
+You can investigate these questions, by re-using the code from the previous tab, change the parameters as needed, store the time series in different data frame that you can then use to plot the dynamics.
