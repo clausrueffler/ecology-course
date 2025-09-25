@@ -25,8 +25,8 @@ left:
         href: ./Competition.html
 #      - text: "5. Excercise: Competition Solutions"
 #        href: ./CompetitionSolutions.html
-      - text: "6. Excercise: Predator-Prey Interactions"
-        href: ./PredatorPrey.html
+#      - text: "6. Excercise: Predator-Prey Interactions"
+#        href: ./PredatorPrey.html
 #      - text: "6. Excercise: Predator-Prey Solutions"
 #        href: ./PredatorPreySolutions.html
 #######
