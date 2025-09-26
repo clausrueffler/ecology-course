@@ -52,7 +52,7 @@ The coefficient of variation expresses variation within a variable relative to t
 
 **Fecundity of the chamois (*Rupicapra rupicapra*) in New Zealand**
 
-The chamois gives birth during a short period in spring (birth pulse, discrete breeder). 275 females from all age groups were shot during this period to study female fecundity (these are hunting data). Females that were pregnant, had active milk glands or bore signs of previous pregnancy were considered as reproductively active during that particular season. Litter size is supposed to be 1, and the sex ratio among the new born is 1/2 (equally many sons and daughters). The following table gives the number of reproductively active females in each age group.\
+The chamois gives birth during a short period in spring (birth pulse, discrete breeder). 275 females from all age groups were shot during this period to study female fecundity (these are hunting data). Females that were pregnant, had active milk glands, or bore signs of previous pregnancy were considered as reproductively active during that particular season. Litter size is supposed to be 1, and the sex ratio among the new born is 1/2 (equally many sons and daughters). The following table gives the number of reproductively active females in each age group.
 
 ```{r, eval=TRUE, echo=FALSE}
 age <- 0:8
@@ -65,12 +65,13 @@ knitr::kable(
 ```
 
 
-1. Calculate fecundity, i.e., the number of daughters per female. This can be calculated as
+1. Calculate fecundity, i.e., the average number of daughters per female. This can be calculated as
 $$
 m_x = B_x /(2f_x),
 $$
-where $f_x$ is the number of shot females that were aged $x$ years old, and $B_x$ is the number of those that were considered reproductively active. The $2$ in the denominator stems from the fact that on average only half of the offspring are female. Here, $f_x$ is supposed to be equal to the number of females at the beginning of the time period and natural mortality is supposed to be negligible.
-2. Draw a figure showing fecundity as a function of age. Explain what you see. When is a chamois female fully fecund? Calculate average fecundity over all fully fecund age groups.
+where $f_x$ is the number of shot females that were aged $x$ years old, and $B_x$ is the number of those that were considered reproductively active. The $2$ in the denominator stems from the fact that on average only half of the offspring are female.
+
+2. Draw a graph showing fecundity as a function of age. Explain what you see. When is a chamois female fully fecund? Calculate average fecundity over all fully fecund age groups.
 
 ## Question 3
 

@@ -13,7 +13,7 @@
 
 <title>Exercise: Demography II</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -297,98 +290,339 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="life-tables-survivorship-curves-and-population-growth" class="section level1 tabset">
-<h1 class="tabset">Life Tables, Survivorship Curves and Population Growth</h1>
-<p>Note that this exercise consists of four <em>tabs</em>. Please work through the code in these tabs. Along the way, you are asked to answer five questions.</p>
+<div id="life-tables-survivorship-curves-and-population-growth"
+class="section level1 tabset">
+<h1 class="tabset">Life Tables, Survivorship Curves and Population
+Growth</h1>
+<p>Note that this exercise consists of four <em>tabs</em>. Please work
+through the code in these tabs. Along the way, you are asked to answer
+five questions.</p>
 <div id="theory" class="section level2">
 <h2>Theory</h2>
-<p>The material from this exercise is taken and modified from <em>Spreadsheet Exercises in Ecology and Evolution</em> by Therese M. Donovan and Charles W. Welden (Sinauer Associates 2002) and adapted for R. While doing this exercise, you will learn/refresh some R-coding related to vectors and data frames. But first a refresher of the theory.</p>
+<p>The material from this exercise is taken and modified from
+<em>Spreadsheet Exercises in Ecology and Evolution</em> by Therese M.
+Donovan and Charles W. Welden (Sinauer Associates 2002) and adapted for
+R. While doing this exercise, you will learn/refresh some R-coding
+related to vectors and data frames. But first a refresher of the
+theory.</p>
 <div id="introduction" class="section level3">
 <h3>Introduction</h3>
-<p>A <strong>life table</strong> is a record of survival and reproductive rates in a population, broken out by age, size, or developmental stage (e.g., egg, hatchling, juvenile, adult). Ecologists and demographers (scientists who study human population dynamics) have found life tables useful in understanding patterns and causes of mortality, predicting the future growth or decline of populations, and managing populations of endangered species.</p>
-<p>Predicting the growth and decline of human populations is one very important application of life tables. As you might expect, whether the population of a country or region increases or decreases depends in part on how many children each person has and the age at which people die. But it may surprise you to learn that population growth or decline also depends on the age at which they have their children. A major part of this exercise will explore the effects of changing patterns of survival and reproduction on population dynamics.</p>
-<p>Life tables come in two varieties: cohort and static. A <strong>cohort life table</strong> follows the survival and reproduction of all members of a cohort from birth to death. A cohort is the set of all individuals born, hatched, or recruited into a population during a defined time interval. Cohorts are frequently defined on an annual basis (e.g., all individuals born in 1978), but other time intervals can be used as well.</p>
-<p>A <strong>static life table</strong> records the number of living individuals of each age in a population and their reproductive output. The two varieties have distinct advantages and disadvantages, some of which we discuss below.</p>
-<p>Life tables (whether cohort or static) that classify individuals by age are called <strong>age-based life tables</strong>. Such life tables treat age the same way we normally do: that is, individuals that have lived less than one full year are assigned age zero; those that have lived one year or more but less than two years are assigned age one; and so on. Life tables represent age by the letter <span class="math inline">\(x\)</span>, and use <span class="math inline">\(x\)</span> as a subscript to refer to survivorship, fecundity, and so on, for each age.</p>
-<p><strong>Size-based</strong> and <strong>stage-based life tables</strong> classify individuals by size or developmental stage, rather than by age. Size-based and stage-based tables are often more useful or more practical for studying organisms that are difficult to classify by age, or whose ecological roles depend more on size or stage than on age. Such analyses are more complex, however, and we will consider them later.</p>
+<p>A <strong>life table</strong> is a record of survival and
+reproductive rates in a population, broken out by age, size, or
+developmental stage (e.g., egg, hatchling, juvenile, adult). Ecologists
+and demographers (scientists who study human population dynamics) have
+found life tables useful in understanding patterns and causes of
+mortality, predicting the future growth or decline of populations, and
+managing populations of endangered species.</p>
+<p>Predicting the growth and decline of human populations is one very
+important application of life tables. As you might expect, whether the
+population of a country or region increases or decreases depends in part
+on how many children each person has and the age at which people die.
+But it may surprise you to learn that population growth or decline also
+depends on the age at which they have their children. A major part of
+this exercise will explore the effects of changing patterns of survival
+and reproduction on population dynamics.</p>
+<p>Life tables come in two varieties: cohort and static. A
+<strong>cohort life table</strong> follows the survival and reproduction
+of all members of a cohort from birth to death. A cohort is the set of
+all individuals born, hatched, or recruited into a population during a
+defined time interval. Cohorts are frequently defined on an annual basis
+(e.g., all individuals born in 1978), but other time intervals can be
+used as well.</p>
+<p>A <strong>static life table</strong> records the number of living
+individuals of each age in a population and their reproductive output.
+The two varieties have distinct advantages and disadvantages, some of
+which we discuss below.</p>
+<p>Life tables (whether cohort or static) that classify individuals by
+age are called <strong>age-based life tables</strong>. Such life tables
+treat age the same way we normally do: that is, individuals that have
+lived less than one full year are assigned age zero; those that have
+lived one year or more but less than two years are assigned age one; and
+so on. Life tables represent age by the letter <span
+class="math inline">\(x\)</span>, and use <span
+class="math inline">\(x\)</span> as a subscript to refer to
+survivorship, fecundity, and so on, for each age.</p>
+<p><strong>Size-based</strong> and <strong>stage-based life
+tables</strong> classify individuals by size or developmental stage,
+rather than by age. Size-based and stage-based tables are often more
+useful or more practical for studying organisms that are difficult to
+classify by age, or whose ecological roles depend more on size or stage
+than on age. Such analyses are more complex, however, and we will
+consider them later.</p>
 </div>
 <div id="cohort-life-tables" class="section level3">
 <h3>Cohort Life Tables</h3>
-<p>To build a cohort life table for, let’s say, humans born in the United States during the year 1900, we would record how many individuals were born during the year 1900, and how many survived to the beginning of 1901, 1902, etc., until there were no more survivors. This record is called the <strong>survivorship schedule</strong>. Unfortunately, different textbooks use different notations for the number of survivors in each age; some write this as <span class="math inline">\(S_x\)</span>, some <span class="math inline">\(a_x\)</span>, and some <span class="math inline">\(n_x\)</span>. We will use <span class="math inline">\(a_x\)</span> here.</p>
-<p>We must also record the <strong>fecundity schedule</strong> - the number of offspring born to individuals of each age. The total number of offpsring is usually divided by the number of individuals in the age, giving the <em>average</em> number of offspring per individual, or per capita fecundity. Again, different texts use different notations for the fecundity schedule, including <span class="math inline">\(b_x\)</span> or <span class="math inline">\(m_x\)</span> (we will use <span class="math inline">\(m_x\)</span>).</p>
-<p>Many life tables count only females and their female offspring; for animals with two sexes and equal numbers of males and females of each age, the resulting numbers are the same as if males and females were both counted. For most plants, hermaphroditic animals, and many other organisms, distinctions between the sexes are nonexistent or more complex, and life table calculations may have to be adjusted.</p>
+<p>To build a cohort life table for, let’s say, humans born in the
+United States during the year 1900, we would record how many individuals
+were born during the year 1900, and how many survived to the beginning
+of 1901, 1902, etc., until there were no more survivors. This record is
+called the <strong>survivorship schedule</strong>. Unfortunately,
+different textbooks use different notations for the number of survivors
+in each age; some write this as <span
+class="math inline">\(S_x\)</span>, some <span
+class="math inline">\(a_x\)</span>, and some <span
+class="math inline">\(n_x\)</span>. We will use <span
+class="math inline">\(a_x\)</span> here.</p>
+<p>We must also record the <strong>fecundity schedule</strong> - the
+number of offspring born to individuals of each age. The total number of
+offpsring is usually divided by the number of individuals in the age,
+giving the <em>average</em> number of offspring per individual, or per
+capita fecundity. Again, different texts use different notations for the
+fecundity schedule, including <span class="math inline">\(b_x\)</span>
+or <span class="math inline">\(m_x\)</span> (we will use <span
+class="math inline">\(m_x\)</span>).</p>
+<p>Many life tables count only females and their female offspring; for
+animals with two sexes and equal numbers of males and females of each
+age, the resulting numbers are the same as if males and females were
+both counted. For most plants, hermaphroditic animals, and many other
+organisms, distinctions between the sexes are nonexistent or more
+complex, and life table calculations may have to be adjusted.</p>
 </div>
 <div id="static-life-tables" class="section level3">
 <h3>Static Life Tables</h3>
-<p>A static life table is similar to a cohort life table but introduces a few complications. For many organisms, especially mobile animals with long life spans, it can be difficult or impossible to follow all the members of a cohort throughout their lives. In such cases, population biologists often count how many individuals of each age are alive at a given time. That is, they count how many members of the population are currently in the 0-1- year-old class, the 1-2-year-old class, etc., which obviously requires that we can measure the age of individuals (which is often difficult).</p>
-<p>These counts can be used as if they were counts of survivors in a cohort, and all the calculations described below for a cohort life table can be performed using them. In doing this, however, the researcher must bear in mind that they assume that age-specific survivorship and fertility rates have remained constant since the oldest members of the population were born. This is usually not the case and can lead to some strange results, such as negative mortality rates. These are often resolved by averaging across several ages, or by making additional assumptions. We will avoid these complications by focusing this exercise on cohort life tables.</p>
+<p>A static life table is similar to a cohort life table but introduces
+a few complications. For many organisms, especially mobile animals with
+long life spans, it can be difficult or impossible to follow all the
+members of a cohort throughout their lives. In such cases, population
+biologists often count how many individuals of each age are alive at a
+given time. That is, they count how many members of the population are
+currently in the 0-1- year-old class, the 1-2-year-old class, etc.,
+which obviously requires that we can measure the age of individuals
+(which is often difficult).</p>
+<p>These counts can be used as if they were counts of survivors in a
+cohort, and all the calculations described below for a cohort life table
+can be performed using them. In doing this, however, the researcher must
+bear in mind that they assume that age-specific survivorship and
+fertility rates have remained constant since the oldest members of the
+population were born. This is usually not the case and can lead to some
+strange results, such as negative mortality rates. These are often
+resolved by averaging across several ages, or by making additional
+assumptions. We will avoid these complications by focusing this exercise
+on cohort life tables.</p>
 </div>
 <div id="quantities-in-a-life-table" class="section level3">
 <h3>Quantities in a Life Table</h3>
-<p>Survivorship and fecundity schedules are the raw data of any life table. From them we can calculate a variety of other quantities, including age-specific rates of survival, mortality, fecundity, survivorship curves, life expectancy, generation time, net reproductive rate, and intrinsic rate of increase. Which of these quantities you calculate will depend on your goals in constructing the life table. Rather than presenting all the quantities that may appear in a life table, we will present two applications of life tables, using the quantities needed in each case. First you will build life tables that illustrate the three classic survivorship curves. These curves are a powerful visual tool for understanding the patterns of survivorship and mortality in populations.Then you will use a life table to predict the future growth or decline of a population. This kind of analysis is frequently used in studies of human populations, in management of fish and game, and in attempts to rescue endangered species.</p>
+<p>Survivorship and fecundity schedules are the raw data of any life
+table. From them we can calculate a variety of other quantities,
+including age-specific rates of survival, mortality, fecundity,
+survivorship curves, life expectancy, generation time, net reproductive
+rate, and intrinsic rate of increase. Which of these quantities you
+calculate will depend on your goals in constructing the life table.
+Rather than presenting all the quantities that may appear in a life
+table, we will present two applications of life tables, using the
+quantities needed in each case. First you will build life tables that
+illustrate the three classic survivorship curves. These curves are a
+powerful visual tool for understanding the patterns of survivorship and
+mortality in populations.Then you will use a life table to predict the
+future growth or decline of a population. This kind of analysis is
+frequently used in studies of human populations, in management of fish
+and game, and in attempts to rescue endangered species.</p>
 </div>
 <div id="survivorship-curves" class="section level3">
 <h3>Survivorship Curves</h3>
-<p>Ecology textbooks frequently present the three classic survivorship curves, called type I, type II, and type III (as shown on the lecture slides). To understand survivorship curves you can use survivorship schedules (<span class="math inline">\(a_x\)</span>) to calculate and graph standardized survivorship (<span class="math inline">\(l_x\)</span>), age-specific survivorship (<span class="math inline">\(g_x\)</span>), and life expectancy (<span class="math inline">\(e_x\)</span>).</p>
-<p><strong>Standardized Survival Schedule (<span class="math inline">\(l_x\)</span>).</strong> Because we want to compare cohorts of different initial sizes, we standardize all cohorts to their initial size at time zero, <span class="math inline">\(a_0\)</span>. We do this by dividing each <span class="math inline">\(a_x\)</span> by <span class="math inline">\(a_0\)</span>. This proportion of original numbers surviving to the beginning of each interval is denoted <span class="math inline">\(l_x\)</span>, and calculated as <span class="math display">\[\begin{equation}
+<p>Ecology textbooks frequently present the three classic survivorship
+curves, called type I, type II, and type III (as shown on the lecture
+slides). To understand survivorship curves you can use survivorship
+schedules (<span class="math inline">\(a_x\)</span>) to calculate and
+graph standardized survivorship (<span
+class="math inline">\(l_x\)</span>), age-specific survivorship (<span
+class="math inline">\(g_x\)</span>), and life expectancy (<span
+class="math inline">\(e_x\)</span>).</p>
+<p><strong>Standardized Survival Schedule (<span
+class="math inline">\(l_x\)</span>).</strong> Because we want to compare
+cohorts of different initial sizes, we standardize all cohorts to their
+initial size at time zero, <span class="math inline">\(a_0\)</span>. We
+do this by dividing each <span class="math inline">\(a_x\)</span> by
+<span class="math inline">\(a_0\)</span>. This proportion of original
+numbers surviving to the beginning of each interval is denoted <span
+class="math inline">\(l_x\)</span>, and calculated as <span
+class="math display">\[\begin{equation}
 \tag{1}
 l_x = \frac{a_x}{a_0}.
 \end{equation}\]</span></p>
-<p>We can also think of <span class="math inline">\(l_x\)</span> as the probability that an individual survives from birth to the beginning of age <span class="math inline">\(x\)</span>. Because we begin with all the individuals born during the year (or other interval), <span class="math inline">\(l_x\)</span> always begins at a value of one (i.e., <span class="math inline">\(a_0/a_0\)</span>), and can only decrease with time. At the last age, <span class="math inline">\(k\)</span>, <span class="math inline">\(a_k\)</span> is zero.</p>
-<p><strong>Age-Specific Survivorship (<span class="math inline">\(g_x\)</span>).</strong> Standardized survivorship, <span class="math inline">\(l_x\)</span>, gives us the probability of an individual surviving from birth to the beginning of age <span class="math inline">\(x\)</span>. But what if we want to know the probability that an individual who has already survived to age <span class="math inline">\(x\)</span> will survive to age <span class="math inline">\(x + 1\)</span>? We calculate this age-specific survivorship as <span class="math inline">\(g_x = l_{x+1}/l_x\)</span>, or, equivalently, <span class="math display">\[\begin{equation}
+<p>We can also think of <span class="math inline">\(l_x\)</span> as the
+probability that an individual survives from birth to the beginning of
+age <span class="math inline">\(x\)</span>. Because we begin with all
+the individuals born during the year (or other interval), <span
+class="math inline">\(l_x\)</span> always begins at a value of one
+(i.e., <span class="math inline">\(a_0/a_0\)</span>), and can only
+decrease with time. At the last age, <span
+class="math inline">\(k\)</span>, <span
+class="math inline">\(a_k\)</span> is zero.</p>
+<p><strong>Age-Specific Survivorship (<span
+class="math inline">\(g_x\)</span>).</strong> Standardized survivorship,
+<span class="math inline">\(l_x\)</span>, gives us the probability of an
+individual surviving from birth to the beginning of age <span
+class="math inline">\(x\)</span>. But what if we want to know the
+probability that an individual who has already survived to age <span
+class="math inline">\(x\)</span> will survive to age <span
+class="math inline">\(x + 1\)</span>? We calculate this age-specific
+survivorship as <span class="math inline">\(g_x = l_{x+1}/l_x\)</span>,
+or, equivalently, <span class="math display">\[\begin{equation}
 \tag{2}
 g_x = \frac{a_{x+1}}{a_x}.
 \end{equation}\]</span></p>
-<p><strong>Life Expectancy (<span class="math inline">\(e_x\)</span>).</strong> You may have heard another demographic statistic, life expectancy, mentioned in discussions of human populations. Life expectancy is how much longer an individual of a given age can be expected to live beyond its present age. Life expectancy is calculated in three steps. First, we compute the proportion of survivors at the mid-point of each time interval (<span class="math inline">\(L_x\)</span> - note the capital <span class="math inline">\(L\)</span> here) by averaging <span class="math inline">\(l_x\)</span> and <span class="math inline">\(l_{x+1}\)</span>; that is, <span class="math display">\[\begin{equation}
+<p><strong>Life Expectancy (<span
+class="math inline">\(e_x\)</span>).</strong> You may have heard another
+demographic statistic, life expectancy, mentioned in discussions of
+human populations. Life expectancy is how much longer an individual of a
+given age can be expected to live beyond its present age. Life
+expectancy is calculated in three steps. First, we compute the
+proportion of survivors at the mid-point of each time interval (<span
+class="math inline">\(L_x\)</span> - note the capital <span
+class="math inline">\(L\)</span> here) by averaging <span
+class="math inline">\(l_x\)</span> and <span
+class="math inline">\(l_{x+1}\)</span>; that is, <span
+class="math display">\[\begin{equation}
 \tag{3}
 L_x = \frac{l_x + l_{x+1}}{2}
 \end{equation}\]</span></p>
-<p>Second, we sum all the <span class="math inline">\(L\)</span>-values from the age of interest (<span class="math inline">\(x\)</span>) up to the oldest age, <span class="math inline">\(k\)</span> (note that in the below formula I use the index <span class="math inline">\(i\)</span> instead of <span class="math inline">\(x\)</span> because <span class="math inline">\(x\)</span> is not the age of interest): <span class="math display">\[\begin{equation}
+<p>Second, we sum all the <span class="math inline">\(L\)</span>-values
+from the age of interest (<span class="math inline">\(x\)</span>) up to
+the oldest age, <span class="math inline">\(k\)</span> (note that in the
+below formula I use the index <span class="math inline">\(i\)</span>
+instead of <span class="math inline">\(x\)</span> because <span
+class="math inline">\(x\)</span> is not the age of interest): <span
+class="math display">\[\begin{equation}
 \tag{4}
 T_x = \sum_{i=x}^k L_i.
 \end{equation}\]</span></p>
-<p>Finally, we calculate life expectancy for an individual that has reached age <span class="math inline">\(x\)</span> as (note the lowercase <span class="math inline">\(l_x\)</span>) <span class="math display">\[\begin{equation}
+<p>Finally, we calculate life expectancy for an individual that has
+reached age <span class="math inline">\(x\)</span> as (note the
+lowercase <span class="math inline">\(l_x\)</span>) <span
+class="math display">\[\begin{equation}
 \tag{5}
 e_x = \frac{T_x}{l_x}.
 \end{equation}\]</span></p>
-<p>Life expectancy is age-specific – it is the expected number of time-intervals remaining to members of a given age. The statistic most often quoted (usually without qualification) is the life expectancy at birth (<span class="math inline">\(e_0\)</span>). As you will see, the implications of <span class="math inline">\(e_0\)</span> depend greatly on the survivorship schedule.</p>
+<p>Life expectancy is age-specific – it is the expected number of
+time-intervals remaining to members of a given age. The statistic most
+often quoted (usually without qualification) is the life expectancy at
+birth (<span class="math inline">\(e_0\)</span>). As you will see, the
+implications of <span class="math inline">\(e_0\)</span> depend greatly
+on the survivorship schedule.</p>
 </div>
 <div id="population-growth-or-decline" class="section level3">
 <h3>Population Growth or Decline</h3>
-<p>We frequently want to know whether a population can be expected to grow, shrink, or remain stable, given its current age-specific : the number of offspring a newborn individual can expect to have during its life time. To predict long-term changes in population size, we must use this net reproductive rate to estimate the intrinsic rate of increase (<span class="math inline">\(r\)</span>).</p>
-<p><strong>Net Reproductive Rate (<span class="math inline">\(R_0\)</span>).</strong> We calculate net reproductive rate (<span class="math inline">\(R_0\)</span>) by multiplying the standardized survivorship of each age (<span class="math inline">\(l_x\)</span>) by its fecundity (<span class="math inline">\(m_x\)</span>), and summing these products: <span class="math display">\[\begin{equation}
+<p>We frequently want to know whether a population can be expected to
+grow, shrink, or remain stable, given its current age-specific : the
+number of offspring a newborn individual can expect to have during its
+life time. To predict long-term changes in population size, we must use
+this net reproductive rate to estimate the intrinsic rate of increase
+(<span class="math inline">\(r\)</span>).</p>
+<p><strong>Net Reproductive Rate (<span
+class="math inline">\(R_0\)</span>).</strong> We calculate net
+reproductive rate (<span class="math inline">\(R_0\)</span>) by
+multiplying the standardized survivorship of each age (<span
+class="math inline">\(l_x\)</span>) by its fecundity (<span
+class="math inline">\(m_x\)</span>), and summing these products: <span
+class="math display">\[\begin{equation}
 \tag{6}
 R_0 = \sum_{x = 0}^k l_x m_x.
 \end{equation}\]</span></p>
-<p>The net reproductive rate is the lifetime reproductive potential of the average female, adjusted for survival. Assuming survival and fertility schedules remain constant over time, if <span class="math inline">\(R_0 &gt; 1\)</span>, then the population will grow exponentially. If <span class="math inline">\(R_0 &lt; 1\)</span>, the population will shrink exponentially, and if <span class="math inline">\(R_0 = 1\)</span>, the population size will not change over time. You may be tempted to conclude the <span class="math inline">\(R_0 = r\)</span>, the intrinsic rate of increase of the exponential model. However, this is not quite correct, because <span class="math inline">\(r\)</span> measures population change in absolute units of time (e.g., years) whereas <span class="math inline">\(R_0\)</span> measures population change in terms of generation time. To convert <span class="math inline">\(R_0\)</span> into <span class="math inline">\(r\)</span>, we must first calculate generation time (<span class="math inline">\(G\)</span>), and then adjust <span class="math inline">\(R_0\)</span>.</p>
-<p><strong>Generation Time.</strong> Generation time, more specifically, the <em>cohort generation time</em> <span class="math inline">\(T_c\)</span> is defined as the average length of time between the birth of an individual and the birth of one of its own offspring, and is calculated as <span class="math display">\[\begin{equation}
+<p>The net reproductive rate is the lifetime reproductive potential of
+the average female, adjusted for survival. Assuming survival and
+fertility schedules remain constant over time, if <span
+class="math inline">\(R_0 &gt; 1\)</span>, then the population will grow
+exponentially. If <span class="math inline">\(R_0 &lt; 1\)</span>, the
+population will shrink exponentially, and if <span
+class="math inline">\(R_0 = 1\)</span>, the population size will not
+change over time. You may be tempted to conclude the <span
+class="math inline">\(R_0 = r\)</span>, the intrinsic rate of increase
+of the exponential model. However, this is not quite correct, because
+<span class="math inline">\(r\)</span> measures population change in
+absolute units of time (e.g., years) whereas <span
+class="math inline">\(R_0\)</span> measures population change in terms
+of generation time. To convert <span class="math inline">\(R_0\)</span>
+into <span class="math inline">\(r\)</span>, we must first calculate
+generation time (<span class="math inline">\(G\)</span>), and then
+adjust <span class="math inline">\(R_0\)</span>.</p>
+<p><strong>Generation Time.</strong> Generation time, more specifically,
+the <em>cohort generation time</em> <span
+class="math inline">\(T_c\)</span> is defined as the average length of
+time between the birth of an individual and the birth of one of its own
+offspring, and is calculated as <span
+class="math display">\[\begin{equation}
 \tag{7}
 T_c = \frac{\sum_{x = 0}^k l_x m_x x}{\sum_{x = 0}^k l_x m_x}.
-\end{equation}\]</span> Here, the numerators is the sum of the ages at which a member of the cohort obtains an offspring and the denominator is simply <span class="math inline">\(R_0\)</span>.</p>
-<p>For organisms that live only one year, the numerator and denominator will be equal, and generation time will equal one year. For all longer-lived organisms, generation time will be greater than one year, but exactly how much greater will depend on the survival and fertility schedules. A long-lived species that reproduces at an early age may have a shorter generation time than a shorter-lived one that delays reproduction.</p>
-<p><strong>Intrinsic Rate of Increase.</strong> We can use our knowledge of exponential population growth and our value of <span class="math inline">\(R_0\)</span> to estimate the intrinsic rate of increase (<span class="math inline">\(r\)</span>). Recall from the lecture that the size of an exponentially growing population at some arbitrary time <span class="math inline">\(t\)</span> is <span class="math inline">\(N(t) = N_0 \exp(rt)\)</span>. If we consider the growth of such a population from time zero through one generation time, G, it is <span class="math display">\[\begin{equation}
+\end{equation}\]</span> Here, the numerators is the sum of the ages at
+which a member of the cohort obtains an offspring and the denominator is
+simply <span class="math inline">\(R_0\)</span>.</p>
+<p>For organisms that live only one year, the numerator and denominator
+will be equal, and generation time will equal one year. For all
+longer-lived organisms, generation time will be greater than one year,
+but exactly how much greater will depend on the survival and fertility
+schedules. A long-lived species that reproduces at an early age may have
+a shorter generation time than a shorter-lived one that delays
+reproduction.</p>
+<p><strong>Intrinsic Rate of Increase.</strong> We can use our knowledge
+of exponential population growth and our value of <span
+class="math inline">\(R_0\)</span> to estimate the intrinsic rate of
+increase (<span class="math inline">\(r\)</span>). Recall from the
+lecture that the size of an exponentially growing population at some
+arbitrary time <span class="math inline">\(t\)</span> is <span
+class="math inline">\(N(t) = N_0 \exp(rt)\)</span>. If we consider the
+growth of such a population from time zero through one generation time,
+G, it is <span class="math display">\[\begin{equation}
 \tag{8}
 N_G = N_0\exp(rT_c)
-\end{equation}\]</span> Dividing both sides by <span class="math inline">\(N_0\)</span> gives us <span class="math display">\[\begin{equation}
+\end{equation}\]</span> Dividing both sides by <span
+class="math inline">\(N_0\)</span> gives us <span
+class="math display">\[\begin{equation}
 \tag{9}
 \frac{N_G}{N_0} = \exp(rT_c).
-\end{equation}\]</span> We can think of <span class="math inline">\(N_G / N_0\)</span> as roughly equivalent to <span class="math inline">\(R_0\)</span>; both are estimates of the rate of population growth over the period of one generation.</p>
-<p>Substituting <span class="math inline">\(R_0\)</span> into the equation gives us <span class="math inline">\(R_0 \approx \exp(rT_c)\)</span>. Taking the natural logarithm of both sides gives us <span class="math inline">\(\ln (R_0) \approx r T_c\)</span> and dividing through by <span class="math inline">\(T_c\)</span> gives us an estimate of <span class="math inline">\(r\)</span>: <span class="math display">\[\begin{equation}
+\end{equation}\]</span> We can think of <span class="math inline">\(N_G
+/ N_0\)</span> as roughly equivalent to <span
+class="math inline">\(R_0\)</span>; both are estimates of the rate of
+population growth over the period of one generation.</p>
+<p>Substituting <span class="math inline">\(R_0\)</span> into the
+equation gives us <span class="math inline">\(R_0 \approx
+\exp(rT_c)\)</span>. Taking the natural logarithm of both sides gives us
+<span class="math inline">\(\ln (R_0) \approx r T_c\)</span> and
+dividing through by <span class="math inline">\(T_c\)</span> gives us an
+estimate of <span class="math inline">\(r\)</span>: <span
+class="math display">\[\begin{equation}
 \tag{10}
 r \approx \frac{\ln(R_0)}{T_c}.
-\end{equation}\]</span> Note, that <span class="math inline">\(r\)</span> is positive if and only if <span class="math inline">\(R_0\)</span> is larger than one: the population growth rate is positive if and only if each female can expect to give birth to more than one daughter during its life time.</p>
-<p>Finally, we can use our estimate of <span class="math inline">\(r\)</span> to predict the size of the population in the future (using <span class="math inline">\(N(t) = N_0 \exp(rt)\)</span>). In this exercise, you will adjust survivorship and fecundity schedules and observe the effects on population growth or decline. This kind of analysis is done for human populations to predict the effects of changes in medical care and birth control programs. If we assume that all age groups are roughly equivalent in size, a similar analysis can be done for endangered species to determine what intervention may be most effective in promoting population growth. The same analysis can be applied to pest species to determine what intervention may be most effective in reducing population size.</p>
+\end{equation}\]</span> Note, that <span
+class="math inline">\(r\)</span> is positive if and only if <span
+class="math inline">\(R_0\)</span> is larger than one: the population
+growth rate is positive if and only if each female can expect to give
+birth to more than one daughter during its life time.</p>
+<p>Finally, we can use our estimate of <span
+class="math inline">\(r\)</span> to predict the size of the population
+in the future (using <span class="math inline">\(N(t) = N_0
+\exp(rt)\)</span>). In this exercise, you will adjust survivorship and
+fecundity schedules and observe the effects on population growth or
+decline. This kind of analysis is done for human populations to predict
+the effects of changes in medical care and birth control programs. If we
+assume that all age groups are roughly equivalent in size, a similar
+analysis can be done for endangered species to determine what
+intervention may be most effective in promoting population growth. The
+same analysis can be applied to pest species to determine what
+intervention may be most effective in reducing population size.</p>
 </div>
 </div>
 <div id="doing-it-in-r" class="section level2">
 <h2>Doing it in <em>R</em></h2>
-<p>Our purpose here is to show how survivorship curves are generated and what they mean. You will use survivorship schedules to calculate and graph <span class="math inline">\(l_x\)</span>, <span class="math inline">\(g_x\)</span>, and <span class="math inline">\(e_x\)</span>, resulting in survivorship curves of type I, II, or III.</p>
-<p>We start by creating a data frame data frame with the survivorship schedule for three hypothetical species that reach an age of up to 11 years. A data frame is R’s equivalent to an EXCEL spreadsheet. It consists of columns and rows, where objects of the same type are stored in columns and where these columns have names.</p>
-<p>Here are the data for the three species, each collected in a vector.</p>
+<p>Our purpose here is to show how survivorship curves are generated and
+what they mean. You will use survivorship schedules to calculate and
+graph <span class="math inline">\(l_x\)</span>, <span
+class="math inline">\(g_x\)</span>, and <span
+class="math inline">\(e_x\)</span>, resulting in survivorship curves of
+type I, II, or III.</p>
+<p>We start by creating a data frame data frame with the survivorship
+schedule for three hypothetical species that reach an age of up to 11
+years. A data frame is R’s equivalent to an EXCEL spreadsheet. It
+consists of columns and rows, where objects of the same type are stored
+in columns and where these columns have names.</p>
+<p>Here are the data for the three species, each collected in a
+vector.</p>
 <pre class="r"><code>axSpecies1 &lt;- c(1000, 990, 970, 940, 900, 850, 750, 500, 200, 40, 1, 0)
 axSpecies2 &lt;- c(2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 0)
 axSpecies3 &lt;- c(10000, 100, 30, 20, 18, 17, 16, 15, 14, 13, 12, 0)</code></pre>
-<p>Next, let us collect these vectors in a data frame, called <em>Counts</em>, and let us add a first column to it, called <em>age</em>:</p>
+<p>Next, let us collect these vectors in a data frame, called
+<em>Counts</em>, and let us add a first column to it, called
+<em>age</em>:</p>
 <pre class="r"><code>Counts &lt;- data.frame(age=0:11, axSpecies1, axSpecies2, axSpecies3)</code></pre>
 <p>This is how this data frame looks:</p>
 <pre class="r"><code>Counts</code></pre>
@@ -405,11 +639,18 @@ axSpecies3 &lt;- c(10000, 100, 30, 20, 18, 17, 16, 15, 14, 13, 12, 0)</code></pr
 ## 10   9         40          4         13
 ## 11  10          1          2         12
 ## 12  11          0          0          0</code></pre>
-<p>This data frame contains the original counts from a <em>cohort life table</em>. Next, let us calculate <span class="math inline">\(l_x\)</span>, the proportion of individuals present in the original cohort surviving to the start of each age class, by dividing each count by the first count. In R, this can simply be done by dividing the vector of counts, by the first entry in the respective vector, which produced a new vector.</p>
+<p>This data frame contains the original counts from a <em>cohort life
+table</em>. Next, let us calculate <span
+class="math inline">\(l_x\)</span>, the proportion of individuals
+present in the original cohort surviving to the start of each age class,
+by dividing each count by the first count. In R, this can simply be done
+by dividing the vector of counts, by the first entry in the respective
+vector, which produced a new vector.</p>
 <pre class="r"><code>lxSpecies1 &lt;- axSpecies1/axSpecies1[1]
 lxSpecies2 &lt;- axSpecies2/axSpecies2[1]
 lxSpecies3 &lt;- axSpecies3/axSpecies3[1]</code></pre>
-<p>Let us again collect these in a data frame, called <em>Relative.Counts</em>.</p>
+<p>Let us again collect these in a data frame, called
+<em>Relative.Counts</em>.</p>
 <pre class="r"><code>Relative.Counts &lt;- data.frame(age=0:11, lxSpecies1, lxSpecies2, lxSpecies3)
 Relative.Counts</code></pre>
 <pre><code>##    age lxSpecies1   lxSpecies2 lxSpecies3
@@ -425,26 +666,51 @@ Relative.Counts</code></pre>
 ## 10   9      0.040 0.0019531250     0.0013
 ## 11  10      0.001 0.0009765625     0.0012
 ## 12  11      0.000 0.0000000000     0.0000</code></pre>
-<p>Now we everything to plot the survivorship curves for our three hypothetical species. Note that I here use <em>base R</em> for plotting. One way to plot several curves in the same graph is by “putting them on top of each other”. This means that we first create a plot with the first curve, to which we can add a name for the figure (<em>Survivorship Curves</em>) and axes labels. Then, using the command <code>lines</code>, we can add the curves for species two and three. For each line, we can specify the the color (<code>col</code>) and the symbol (<code>pch</code>). Finally, we can add a legend to the figure.</p>
+<p>Now we everything to plot the survivorship curves for our three
+hypothetical species. Note that I here use <em>base R</em> for plotting.
+One way to plot several curves in the same graph is by “putting them on
+top of each other”. This means that we first create a plot with the
+first curve, to which we can add a name for the figure (<em>Survivorship
+Curves</em>) and axes labels. Then, using the command
+<code>lines</code>, we can add the curves for species two and three. For
+each line, we can specify the the color (<code>col</code>) and the
+symbol (<code>pch</code>). Finally, we can add a legend to the
+figure.</p>
 <pre class="r"><code>plot(Relative.Counts$age, Relative.Counts$lxSpecies1, type = &quot;b&quot;, pch = 0, col=&quot;red&quot;, xlab = &quot;age&quot;, ylab = &quot;standardized survivorship, lx&quot;, main=&quot;Survivorship Curves&quot;)
 lines(Relative.Counts$age, Relative.Counts$lxSpecies2, type = &quot;b&quot;, pch = 1, col=&quot;blue&quot;)
 lines(Relative.Counts$age, Relative.Counts$lxSpecies3, type = &quot;b&quot;, pch = 2, col=&quot;orange&quot;)
 
 legend(&quot;topright&quot;, c(&quot;lx, type 1&quot;, &quot;lx, type 2&quot;, &quot;lx, type 3&quot;), col =c(&quot;red&quot;, &quot;blue&quot;, &quot;orange&quot;), pch = c(0, 1, 2)) # adds a plot legend</code></pre>
 <p><img src="Demography2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>It is now very easy to plot the survivorship curves with <span class="math inline">\(l_x\)</span>-values on a log-scale. This is indeed the standard way to plot survivorship curves. All that we have to do is to add the command (<code>log="y"</code>) to the plot command.</p>
+<p>It is now very easy to plot the survivorship curves with <span
+class="math inline">\(l_x\)</span>-values on a log-scale. This is indeed
+the standard way to plot survivorship curves. All that we have to do is
+to add the command (<code>log="y"</code>) to the plot command.</p>
 <pre class="r"><code>plot(Relative.Counts$age, Relative.Counts$lxSpecies1, log=&quot;y&quot;, type = &quot;b&quot;, pch = 0, col=&quot;red&quot;, xlab = &quot;age&quot;, ylab = &quot;standardized survivorship, lx&quot;, main=&quot;Survivorship Curves (log-scale)&quot;)
 lines(Relative.Counts$age, Relative.Counts$lxSpecies2, type = &quot;b&quot;, pch = 1, col=&quot;blue&quot;)
 lines(Relative.Counts$age, Relative.Counts$lxSpecies3, type = &quot;b&quot;, pch = 2, col=&quot;orange&quot;)
 
 legend(&quot;topright&quot;, c(&quot;lx, type 1&quot;, &quot;lx, type 2&quot;, &quot;lx, type 3&quot;), col =c(&quot;red&quot;, &quot;blue&quot;, &quot;orange&quot;), pch = c(0, 1, 2)) # adds a plot legend</code></pre>
 <p><img src="Demography2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Doing this will produce an error message. The reason is that in each column the last value for <span class="math inline">\(l_x\)</span> equals zero and that <span class="math inline">\(\ln(0)=-\infty\)</span>, which R does not know how to plot. It therefore omits the value for <span class="math inline">\(x=11\)</span> from the plot.</p>
+<p>Doing this will produce an error message. The reason is that in each
+column the last value for <span class="math inline">\(l_x\)</span>
+equals zero and that <span
+class="math inline">\(\ln(0)=-\infty\)</span>, which R does not know how
+to plot. It therefore omits the value for <span
+class="math inline">\(x=11\)</span> from the plot.</p>
 <ul>
-<li><p><strong>Question 1</strong> Why do we plot survivorship curves on a semi-log scale (y-axis on a log-scale)?</p></li>
-<li><p><strong>Question 2</strong> What do the shapes of the survivorship curves tell us about patterns of survival and mortality? Compare each curve to the corresponding graph of age-specific survivorship (which you produce with the next piece of code).</p></li>
+<li><p><strong>Question 1</strong> Why do we plot survivorship curves on
+a semi-log scale (y-axis on a log-scale)?</p></li>
+<li><p><strong>Question 2</strong> What do the shapes of the
+survivorship curves tell us about patterns of survival and mortality?
+Compare each curve to the corresponding graph of age-specific
+survivorship (which you produce with the next piece of code).</p></li>
 </ul>
-<p>Next, we calculate <span class="math inline">\(g_x\)</span>, the age-specific survivorship, or, in other words, the probability to survive to age <span class="math inline">\(x+1\)</span> for an individual that has survived to age <span class="math inline">\(x\)</span> (see Eq. 2).</p>
+<p>Next, we calculate <span class="math inline">\(g_x\)</span>, the
+age-specific survivorship, or, in other words, the probability to
+survive to age <span class="math inline">\(x+1\)</span> for an
+individual that has survived to age <span
+class="math inline">\(x\)</span> (see Eq. 2).</p>
 <pre class="r"><code>gxSpecies1 &lt;- lxSpecies1[-1]/lxSpecies1[-length(lxSpecies1)]
 gxSpecies2 &lt;- lxSpecies2[-1]/lxSpecies2[-length(lxSpecies2)]
 gxSpecies3 &lt;- lxSpecies3[-1]/lxSpecies3[-length(lxSpecies3)]
@@ -470,7 +736,18 @@ lines(Survivorship$age, Survivorship$gxSpecies3, type = &quot;b&quot;, pch = 2, 
 
 legend(&quot;bottom&quot;, c(&quot;lx, type 1&quot;, &quot;lx, type 2&quot;, &quot;lx, type 3&quot;), col =c(&quot;red&quot;, &quot;blue&quot;, &quot;orange&quot;), pch = c(0, 1, 2)) # adds a plot legend</code></pre>
 <p><img src="Demography2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>Next in line is to calculate <span class="math inline">\(e_x\)</span>, the age-specific life expectancy, or, in other words, the life expectancy for an individual that has reached age <span class="math inline">\(x\)</span> (see Eq. 5) Thus, we first have to calculate <span class="math inline">\(L_x\)</span>, the relative number of survivors at a the midpoint between two age classes (Eq. 3). We can do this in one step by adding the vector <code>lxSpecies1</code> with the last entry removed (<code>lxSpecies1[-length(lxSpecies1)</code>) to <code>lxSpecies1</code> but with with the first entry removed (<code>xSpecies1[-1]</code>), and then divide by 2 (and in the same manner for species 2 and 3). Convince yourself that this procedure indeed gives the desired result.</p>
+<p>Next in line is to calculate <span
+class="math inline">\(e_x\)</span>, the age-specific life expectancy,
+or, in other words, the life expectancy for an individual that has
+reached age <span class="math inline">\(x\)</span> (see Eq. 5) Thus, we
+first have to calculate <span class="math inline">\(L_x\)</span>, the
+relative number of survivors at a the midpoint between two age classes
+(Eq. 3). We can do this in one step by adding the vector
+<code>lxSpecies1</code> with the last entry removed
+(<code>lxSpecies1[-length(lxSpecies1)</code>) to <code>lxSpecies1</code>
+but with with the first entry removed (<code>xSpecies1[-1]</code>), and
+then divide by 2 (and in the same manner for species 2 and 3). Convince
+yourself that this procedure indeed gives the desired result.</p>
 <pre class="r"><code>averagelxSpecies1 &lt;- (lxSpecies1[-length(lxSpecies1)] + lxSpecies1[-1]) / 2
 averagelxSpecies2 &lt;- (lxSpecies2[-length(lxSpecies2)] + lxSpecies2[-1]) / 2
 averagelxSpecies3 &lt;- (lxSpecies3[-length(lxSpecies3)] + lxSpecies3[-1]) / 2
@@ -489,17 +766,38 @@ averagelx</code></pre>
 ## 9    8 0.1200 0.0029296875 0.00135
 ## 10   9 0.0205 0.0014648438 0.00125
 ## 11  10 0.0005 0.0004882812 0.00060</code></pre>
-<p>To calculate the <span class="math inline">\(e_x\)</span>, we use some R-magic, namely, we define a function in R, called <code>ex</code>, that performs the calculation of Eq. 5 and Eq. 6 in one step:</p>
+<p>To calculate the <span class="math inline">\(e_x\)</span>, we use
+some R-magic, namely, we define a function in R, called <code>ex</code>,
+that performs the calculation of Eq. 5 and Eq. 6 in one step:</p>
 <pre class="r"><code>ex &lt;- function(x, averagelx, lx) {
   sum(averagelx[x:11]) / lx[x]
 }</code></pre>
-<p>This function has three arguments: (i) the age class <span class="math inline">\(x\)</span>, (ii) the vector containing all values <span class="math inline">\(L_x\)</span>, and (iii) the vector containing all values <span class="math inline">\(l_x\)</span>. In this function, the expression <code>sum(averagelx[x:11])</code> calculates <span class="math inline">\(T_x\)</span> as given by Eq. 4, which is then divided by the correct value for <span class="math inline">\(l_x\)</span>. Since we want <span class="math inline">\(e_x\)</span> for all age classes <span class="math inline">\(x\)</span>, we put this function in a <em>for loop</em> (if you take the course <em>Population and Community Ecology</em> in the next study period you will learn in more detail about for-loops).</p>
+<p>This function has three arguments: (i) the age class <span
+class="math inline">\(x\)</span>, (ii) the vector containing all values
+<span class="math inline">\(L_x\)</span>, and (iii) the vector
+containing all values <span class="math inline">\(l_x\)</span>. In this
+function, the expression <code>sum(averagelx[x:11])</code> calculates
+<span class="math inline">\(T_x\)</span> as given by Eq. 4, which is
+then divided by the correct value for <span
+class="math inline">\(l_x\)</span>. Since we want <span
+class="math inline">\(e_x\)</span> for all age classes <span
+class="math inline">\(x\)</span>, we put this function in a <em>for
+loop</em> (if you take the course <em>Population and Community
+Ecology</em> in the next study period you will learn in more detail
+about for-loops).</p>
 <pre class="r"><code>e1 &lt;- c() # creates an empty vector for storing the values ex
 for (i in 0:11) {
   e1[i] &lt;- ex(i, averagelxSpecies1, lxSpecies1)
 }</code></pre>
-<p>This code produces a vector with all values <span class="math inline">\(a_x\)</span> for species 1. In order to calculate the corresponding vector for species 2 and 3, you have to replace in this code <code>e1</code> with <code>e2</code> and <code>e3</code>, respectively, and change <code>Species1</code> to <code>Species2</code> and <code>Species3</code>, respectively.</p>
-<p>Once you did these calculations (and stored the results for species 2 and 3 in vectors called <code>e2</code> and <code>e3</code>) you should obtain the following data frame:</p>
+<p>This code produces a vector with all values <span
+class="math inline">\(a_x\)</span> for species 1. In order to calculate
+the corresponding vector for species 2 and 3, you have to replace in
+this code <code>e1</code> with <code>e2</code> and <code>e3</code>,
+respectively, and change <code>Species1</code> to <code>Species2</code>
+and <code>Species3</code>, respectively.</p>
+<p>Once you did these calculations (and stored the results for species 2
+and 3 in vectors called <code>e2</code> and <code>e3</code>) you should
+obtain the following data frame:</p>
 <pre class="r"><code>lifeexp &lt;- data.frame(age=0:10, e1, e2, e3)
 lifeexp</code></pre>
 <pre><code>##    age       e1       e2       e3
@@ -522,15 +820,23 @@ lines(0:10, lifeexp$e3, type = &quot;b&quot;, pch = 2, col=&quot;orange&quot;)
 legend(&quot;topright&quot;, c(&quot;ex, type 1&quot;, &quot;ex, type 2&quot;, &quot;ex, type 3&quot;), col =c(&quot;red&quot;, &quot;blue&quot;, &quot;orange&quot;), pch = c(0, 1, 2)) # adds a plot legend</code></pre>
 <p><img src="Demography2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <ul>
-<li><strong>Question 3</strong> How can you explain the patterns shown in the graphs for life expectancy?</li>
+<li><strong>Question 3</strong> How can you explain the patterns shown
+in the graphs for life expectancy?</li>
 </ul>
 </div>
 <div id="fecundity-and-population-growth" class="section level2">
 <h2>Fecundity and Population Growth</h2>
-<p>Suvival is just one part of a life table. The other is fecundity at age <span class="math inline">\(x\)</span>, <span class="math inline">\(m_x\)</span>. For the purpose of this exercise, let us assume that all three species have the same fecundity schedule as collected the following vector <code>m</code>:</p>
+<p>Suvival is just one part of a life table. The other is fecundity at
+age <span class="math inline">\(x\)</span>, <span
+class="math inline">\(m_x\)</span>. For the purpose of this exercise,
+let us assume that all three species have the same fecundity schedule as
+collected the following vector <code>m</code>:</p>
 <pre class="r"><code>m &lt;- c(0,0,0,0,3,3,3,3,3,3,3,1)</code></pre>
-<p>This will allow us to investigate the effect of the different survival curves on population growth.</p>
-<p>Let us now collect the survival and fecundity in a single data frame. You here see the code for species 1. Adapt this code to obtain the corresponding life table for species 2 and 3.</p>
+<p>This will allow us to investigate the effect of the different
+survival curves on population growth.</p>
+<p>Let us now collect the survival and fecundity in a single data frame.
+You here see the code for species 1. Adapt this code to obtain the
+corresponding life table for species 2 and 3.</p>
 <pre class="r"><code>species1 &lt;- data.frame(age=0:11, ax=axSpecies1, lx=lxSpecies1, mx=m)
 species1</code></pre>
 <pre><code>##    age   ax    lx mx
@@ -546,7 +852,11 @@ species1</code></pre>
 ## 10   9   40 0.040  3
 ## 11  10    1 0.001  3
 ## 12  11    0 0.000  1</code></pre>
-<p>Note that we added a fecundity schedule. Let us now calculate the expected life time number of offspring, <span class="math inline">\(R_0\)</span> (see Eq. 6). To do this, let us add a column with the product of <span class="math inline">\(l_x\)</span> and <span class="math inline">\(m_x\)</span>.</p>
+<p>Note that we added a fecundity schedule. Let us now calculate the
+expected life time number of offspring, <span
+class="math inline">\(R_0\)</span> (see Eq. 6). To do this, let us add a
+column with the product of <span class="math inline">\(l_x\)</span> and
+<span class="math inline">\(m_x\)</span>.</p>
 <pre class="r"><code>species1$lxmx &lt;- species1$lx*species1$mx
 species1</code></pre>
 <pre><code>##    age   ax    lx mx  lxmx
@@ -562,11 +872,16 @@ species1</code></pre>
 ## 10   9   40 0.040  3 0.120
 ## 11  10    1 0.001  3 0.003
 ## 12  11    0 0.000  1 0.000</code></pre>
-<p>In order to calculate <span class="math inline">\(R_0\)</span>, we simply have to sum all entries in this last column. Here the result for species 1.</p>
+<p>In order to calculate <span class="math inline">\(R_0\)</span>, we
+simply have to sum all entries in this last column. Here the result for
+species 1.</p>
 <pre class="r"><code>R0.1 &lt;- sum(species1$lxmx)
 R0.1</code></pre>
 <pre><code>## [1] 9.723</code></pre>
-<p>Finally, to estimate the intrinsic growth rate we have to calculate the cohort generation time <span class="math inline">\(T_c\)</span>. Let us first add one more column to the data frame, namely one with the product <span class="math inline">\(x*l_x*m_x\)</span>.</p>
+<p>Finally, to estimate the intrinsic growth rate we have to calculate
+the cohort generation time <span class="math inline">\(T_c\)</span>. Let
+us first add one more column to the data frame, namely one with the
+product <span class="math inline">\(x*l_x*m_x\)</span>.</p>
 <pre class="r"><code>species1$xlxmx &lt;- species1$age*species1$lx*species1$mx
 species1</code></pre>
 <pre><code>##    age   ax    lx mx  lxmx xlxmx
@@ -586,12 +901,14 @@ species1</code></pre>
 <pre class="r"><code>Tc1 &lt;- sum(species1$xlxmx) / sum(species1$lxmx)
 Tc1</code></pre>
 <pre><code>## [1] 5.498303</code></pre>
-<p>and then, using Eq. 10, an estimate for the intrinsic growth rate,</p>
+<p>and then, using Eq. 10, an estimate for the intrinsic growth
+rate,</p>
 <pre class="r"><code>r1 &lt;- log(R0.1) / Tc1
 r1</code></pre>
 <pre><code>## [1] 0.413672</code></pre>
 <p>Repeat the same procedure for species 2 and 3.</p>
-<p>You should obtain the following results, for all three species collected in a single data frame:</p>
+<p>You should obtain the following results, for all three species
+collected in a single data frame:</p>
 <pre class="r"><code>data.frame(species=c(1 ,2, 3), R0=c(R0.1, R0.2, R0.3), Tc=c(Tc1, Tc2, Tc3), r=c(r1, r2, r3), lamdda=exp(c(r1, r2, r3)))</code></pre>
 <pre><code>##   species        R0       Tc          r    lamdda
 ## 1       1 9.7230000 5.498303  0.4136720 1.5123611
@@ -610,13 +927,22 @@ r1</code></pre>
 <pre class="r"><code>sum(species3$xlxmx)/sum(species3$lxmx)</code></pre>
 <pre><code>## [1] 6.733333</code></pre>
 <ul>
-<li><strong>Question 4</strong> Given the three species, have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?</li>
+<li><strong>Question 4</strong> Given the three species, have the same
+fecundity schedule, describe the effect of the different survival
+schedules on the reported quantities. What conclusions can you draw
+about the future population dynamics?</li>
 </ul>
 </div>
 <div id="three-real-world-examples" class="section level2">
 <h2>Three Real World Examples</h2>
-<p>In this part of the exercise, we will compare the survivorship curves for three species, a mammal, a bird, and a Crustacean. The data on which these curves are based are real data collected in the wild.</p>
-<p>The first table shows the survivorship schedule for the <a href="https://en.wikipedia.org/wiki/Ovis_dalli_dalli">Dall Mountain Sheep</a> (<em>Ovis dalli dalli</em>). Data are taken from Deevey (1947, Life tables for natural populations of animals, <em>The Quarterly Review of Biology</em> 22:283-314).</p>
+<p>In this part of the exercise, we will compare the survivorship curves
+for three species, a mammal, a bird, and a Crustacean. The data on which
+these curves are based are real data collected in the wild.</p>
+<p>The first table shows the survivorship schedule for the <a
+href="https://en.wikipedia.org/wiki/Ovis_dalli_dalli">Dall Mountain
+Sheep</a> (<em>Ovis dalli dalli</em>). Data are taken from Deevey (1947,
+Life tables for natural populations of animals, <em>The Quarterly Review
+of Biology</em> 22:283-314).</p>
 <pre><code>##    age   ax    lx
 ## 1    0 1000 1.000
 ## 2    1  801 0.801
@@ -633,7 +959,11 @@ r1</code></pre>
 ## 13  12    6 0.006
 ## 14  13    3 0.003
 ## 15  14    0 0.000</code></pre>
-<p>The second table shows the survivorship schedule for the <a href="https://en.wikipedia.org/wiki/Song_thrush">Song Thrush</a> (<em>Turdus philomelos</em>). Data are from Deevey (1947, Life tables for natural populations of animals, <em>The Quarterly Review of Biology</em> 22:283-314).</p>
+<p>The second table shows the survivorship schedule for the <a
+href="https://en.wikipedia.org/wiki/Song_thrush">Song Thrush</a>
+(<em>Turdus philomelos</em>). Data are from Deevey (1947, Life tables
+for natural populations of animals, <em>The Quarterly Review of
+Biology</em> 22:283-314).</p>
 <pre><code>##    age   ax    lx
 ## 1    0 1000 1.000
 ## 2    1  444 0.444
@@ -645,7 +975,11 @@ r1</code></pre>
 ## 8    7    6 0.006
 ## 9    8    3 0.003
 ## 10   9    0 0.000</code></pre>
-<p>The third table shows the survivorship schedule for the <a href="https://en.wikipedia.org/wiki/Balanus_glandula">barnacle <em>Balanus glandula</em></a>. Data are from Connell (1970, A predator-prey system in the marine intertidal region. I. <em>Balanus glandula</em>, <em>Ecological Monographs</em> 40:49-78).</p>
+<p>The third table shows the survivorship schedule for the <a
+href="https://en.wikipedia.org/wiki/Balanus_glandula">barnacle
+<em>Balanus glandula</em></a>. Data are from Connell (1970, A
+predator-prey system in the marine intertidal region. I. <em>Balanus
+glandula</em>, <em>Ecological Monographs</em> 40:49-78).</p>
 <pre><code>##    age        ax        lx
 ## 1    0 1000000.0 1.0000000
 ## 2    1      62.0 0.0000620
@@ -658,11 +992,21 @@ r1</code></pre>
 ## 9    8       2.0 0.0000020
 ## 10   9       0.0 0.0000000</code></pre>
 <ul>
-<li><strong>Question 5</strong> Plot the survivorship curves for the three species on a log-scale. For this, you have to modify some code from the beginning of this exercise. You should obtain a figure that looks as below. Note that, since the <span class="math inline">\(l_x\)</span>-values for the barnacle are much lower than for the other species, you have to add the option <code>ylim=c(2.00e-06, 1)</code> to the plot command. This option sets explicitly the range of the y-axis. Without this command, the curve for the barnacles will be cut off.</li>
+<li><strong>Question 5</strong> Plot the survivorship curves for the
+three species on a log-scale. For this, you have to modify some code
+from the beginning of this exercise. You should obtain a figure that
+looks as below. Note that, since the <span
+class="math inline">\(l_x\)</span>-values for the barnacle are much
+lower than for the other species, you have to add the option
+<code>ylim=c(2.00e-06, 1)</code> to the plot command. This option sets
+explicitly the range of the y-axis. Without this command, the curve for
+the barnacles will be cut off.</li>
 </ul>
 <p><img src="Demography2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <ul>
-<li><strong>Question 6</strong> How would you classify the three survivorship curves? Does this make sense in the light of the biology of the three species?</li>
+<li><strong>Question 6</strong> How would you classify the three
+survivorship curves? Does this make sense in the light of the biology of
+the three species?</li>
 </ul>
 </div>
 </div>
