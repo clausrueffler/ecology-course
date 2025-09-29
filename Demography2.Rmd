@@ -337,7 +337,7 @@ sum(species3$xlxmx)/sum(species3$lxmx)
 
 
 * **Question 4**
-Given the three species, have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?
+Given the three species have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?
 
 ## Three Real World Examples
 
