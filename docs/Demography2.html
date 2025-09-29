@@ -498,7 +498,7 @@ averagelx</code></pre>
 for (i in 0:11) {
   e1[i] &lt;- ex(i, averagelxSpecies1, lxSpecies1)
 }</code></pre>
-<p>This code produces a vector with all values <span class="math inline">\(a_x\)</span> for species 1. In order to calculate the corresponding vector for species 2 and 3, you have to replace in this code <code>e1</code> with <code>e2</code> and <code>e3</code>, respectively, and change <code>Species1</code> to <code>Species2</code> and <code>Species3</code>, respectively.</p>
+<p>This code produces a vector with all values <span class="math inline">\(e_x\)</span> for species 1. In order to calculate the corresponding vector for species 2 and 3, you have to replace in this code <code>e1</code> with <code>e2</code> and <code>e3</code>, respectively, and change <code>Species1</code> to <code>Species2</code> and <code>Species3</code>, respectively.</p>
 <p>Once you did these calculations (and stored the results for species 2 and 3 in vectors called <code>e2</code> and <code>e3</code>) you should obtain the following data frame:</p>
 <pre class="r"><code>lifeexp &lt;- data.frame(age=0:10, e1, e2, e3)
 lifeexp</code></pre>
@@ -597,18 +597,6 @@ r1</code></pre>
 ## 1       1 9.7230000 5.498303  0.4136720 1.5123611
 ## 2       2 0.3720703 4.944882 -0.1999385 0.8187811
 ## 3       3 0.0315000 6.733333 -0.5135299 0.5983796</code></pre>
-<pre class="r"><code>sum(species2$lxmx)</code></pre>
-<pre><code>## [1] 0.3720703</code></pre>
-<pre class="r"><code>sum(species2$xlxmx)</code></pre>
-<pre><code>## [1] 1.839844</code></pre>
-<pre class="r"><code>sum(species2$xlxmx)/sum(species2$lxmx)</code></pre>
-<pre><code>## [1] 4.944882</code></pre>
-<pre class="r"><code>sum(species3$lxmx)</code></pre>
-<pre><code>## [1] 0.0315</code></pre>
-<pre class="r"><code>sum(species3$xlxmx)</code></pre>
-<pre><code>## [1] 0.2121</code></pre>
-<pre class="r"><code>sum(species3$xlxmx)/sum(species3$lxmx)</code></pre>
-<pre><code>## [1] 6.733333</code></pre>
 <ul>
 <li><strong>Question 4</strong> Given the three species have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?</li>
 </ul>
@@ -660,7 +648,7 @@ r1</code></pre>
 <ul>
 <li><strong>Question 5</strong> Plot the survivorship curves for the three species on a log-scale. For this, you have to modify some code from the beginning of this exercise. You should obtain a figure that looks as below. Note that, since the <span class="math inline">\(l_x\)</span>-values for the barnacle are much lower than for the other species, you have to add the option <code>ylim=c(2.00e-06, 1)</code> to the plot command. This option sets explicitly the range of the y-axis. Without this command, the curve for the barnacles will be cut off.</li>
 </ul>
-<p><img src="Demography2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="Demography2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <ul>
 <li><strong>Question 6</strong> How would you classify the three survivorship curves? Does this make sense in the light of the biology of the three species?</li>
 </ul>

@@ -45,7 +45,7 @@ The type III curve is probably the most unexpected. It shows life expectancy inc
 This last pattern of survival and mortality brings up a common misinterpretation of demographic data. You may have heard that people in some region or society have high infant and juvenile mortality and short life expectancy. Sometimes people conclude from this that everyone in the society dies young and there are no old people. However, the type III pattern of survival and life expectancy should show you that this is not exactly the case. Once a person in reaches young adulthood, they may live many years more, and the oldest members of the society may be nearly as old as the oldest individuals in any other. It is true, however, that there will be proportionately fewer old people.
 
 * **Question 4**
-Given the three species, have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?
+Given the three species have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?
 
 A newborn female of species 1 can expect to have approximately 21 female offspring during here life time, while for species 2 and 3 this number is below 1 ($\approx 0.4$ for species 2 and $\approx 0.03$ for species 3). Accordingly, the the population of species 1 is expected to increase, as indicated by $r>0$. More accurately, the population is expected to increase by a factor of $\lambda = 1.73$ per year. In contrast, species 2 and 3 are expected to decrease ($r<0$) by a factor $\lambda = 0.82$ and $\lambda = 0.6$, respectively.
 

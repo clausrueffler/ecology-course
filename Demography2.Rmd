@@ -193,6 +193,7 @@ Why do we plot survivorship curves on a semi-log scale (y-axis on a log-scale)?
 What do the shapes of the survivorship curves tell us about patterns of survival and mortality? Compare each curve to the corresponding graph of age-specific survivorship (which you produce with the next piece of code).
 
 Next, we calculate $g_x$, the age-specific survivorship, or, in other words, the probability to survive to age $x+1$ for an individual that has survived to age $x$ (see Eq. 2).
+
 ```{r}
 gxSpecies1 <- lxSpecies1[-1]/lxSpecies1[-length(lxSpecies1)]
 gxSpecies2 <- lxSpecies2[-1]/lxSpecies2[-length(lxSpecies2)]
@@ -203,6 +204,7 @@ Survivorship
 ```
 
 Let us plot age-specific survival for each species.
+
 ```{r}
 plot(Survivorship$age, Survivorship$gxSpecies1, type = "b", pch = 0, col="red", xlab = "age", ylab = "age-specific survival, gx", main="Age-Specific Survival")
 lines(Survivorship$age, Survivorship$gxSpecies2, type = "b", pch = 1, col="blue")
@@ -213,6 +215,7 @@ legend("bottom", c("lx, type 1", "lx, type 2", "lx, type 3"), col =c("red", "blu
 
 Next in line is to calculate $e_x$, the age-specific life expectancy, or, in other words, the life expectancy for an individual that has reached age $x$ (see Eq. 5)
 Thus, we first have to calculate $L_x$, the relative number of survivors at a the midpoint between two age classes (Eq. 3). We can do this in one step by adding the vector ```lxSpecies1``` with the last entry removed (```lxSpecies1[-length(lxSpecies1)```) to ```lxSpecies1``` but with with the first entry removed (```xSpecies1[-1]```), and then divide by 2 (and in the same manner for species 2 and 3). Convince yourself that this procedure indeed gives the desired result.
+
 ```{r}
 averagelxSpecies1 <- (lxSpecies1[-length(lxSpecies1)] + lxSpecies1[-1]) / 2
 averagelxSpecies2 <- (lxSpecies2[-length(lxSpecies2)] + lxSpecies2[-1]) / 2
@@ -223,19 +226,24 @@ averagelx
 ```
 
 To calculate the $e_x$, we use some R-magic, namely, we define a function in R, called ```ex```, that performs the calculation of Eq. 5 and Eq. 6 in one step:
+
 ```{r}
 ex <- function(x, averagelx, lx) {
   sum(averagelx[x:11]) / lx[x]
 }
 ```
+
 This function has three arguments: (i) the age class $x$, (ii) the vector containing all values $L_x$, and (iii) the vector containing all values $l_x$. In this function, the expression ```sum(averagelx[x:11])``` calculates $T_x$ as given by Eq. 4, which is then divided by the correct value for $l_x$. Since we want $e_x$ for all age classes $x$, we put this function in a *for loop* (if you take the course *Population and Community Ecology* in the next study period you will learn in more detail about for-loops).
+
 ```{r}
 e1 <- c() # creates an empty vector for storing the values ex
 for (i in 0:11) {
   e1[i] <- ex(i, averagelxSpecies1, lxSpecies1)
 }
 ```
-This code produces a vector with all values $a_x$ for species 1. In order to calculate the corresponding vector for species 2 and 3, you have to replace in this code ```e1``` with ```e2``` and ```e3```, respectively, and change ```Species1``` to ```Species2``` and ```Species3```, respectively.
+
+This code produces a vector with all values $e_x$ for species 1. In order to calculate the corresponding vector for species 2 and 3, you have to replace in this code ```e1``` with ```e2``` and ```e3```, respectively, and change ```Species1``` to ```Species2``` and ```Species3```, respectively.
+
 ```{r echo=FALSE}
 e2 <- c()
 for (i in 0:11) {
@@ -247,12 +255,15 @@ for (i in 0:11) {
   e3[i] <- ex(i, averagelxSpecies3, lxSpecies3)
 }
 ```
+
 Once you did these calculations (and stored the results for species 2 and 3 in vectors called ```e2``` and ```e3```) you should obtain the following data frame:
+
 ```{r}
 lifeexp <- data.frame(age=0:10, e1, e2, e3)
 lifeexp
 ```
 and a plot as this:
+
 ```{r}
 plot(lifeexp$age, lifeexp$e1, type = "b", pch = 0, col="red", xlab = "age", ylab = "life expectancy, ex", main="Life Expectancy")
 lines(0:10, lifeexp$e2, type = "b", pch = 1, col="blue")
@@ -273,37 +284,44 @@ m <- c(0,0,0,0,3,3,3,3,3,3,3,1)
 This will allow us to investigate the effect of the different survival curves on population growth.
 
 Let us now collect the survival and fecundity in a single data frame. You here see the code for species 1. Adapt this code to obtain the corresponding life table for species 2 and 3.
+
 ```{r}
 species1 <- data.frame(age=0:11, ax=axSpecies1, lx=lxSpecies1, mx=m)
 species1
 ```
 
 Note that we added a fecundity schedule. Let us now calculate the expected life time number of offspring, $R_0$ (see Eq. 6). To do this, let us add a column with the product of $l_x$ and $m_x$.
+
 ```{r}
 species1$lxmx <- species1$lx*species1$mx
 species1
 ```
 In order to calculate $R_0$, we simply have to sum all entries in this last column. Here the result for species 1.
+
 ```{r}
 R0.1 <- sum(species1$lxmx)
 R0.1
 ```
 Finally, to estimate the intrinsic growth rate we have to calculate the cohort generation time $T_c$. Let us first add one more column to the data frame, namely one with the product $x*l_x*m_x$.
+
 ```{r}
 species1$xlxmx <- species1$age*species1$lx*species1$mx
 species1
 ```
 Using Eq. 7, we obtain, for species 1,
+
 ```{r}
 Tc1 <- sum(species1$xlxmx) / sum(species1$lxmx)
 Tc1
 ```
 and then, using Eq. 10, an estimate for the intrinsic growth rate,
+
 ```{r}
 r1 <- log(R0.1) / Tc1
 r1
 ```
 Repeat the same procedure for species 2 and 3.
+
 ```{r echo=FALSE}
 species2 <- data.frame(age=0:11, ax=axSpecies2, lx=lxSpecies2, mx=m)
 species2$lxmx <- species2$lx*species2$mx
@@ -321,20 +339,12 @@ R0.3 <- sum(species3$lxmx)
 Tc3 <- sum(species3$xlxmx) / sum(species3$lxmx)
 r3 <- log(R0.3) / Tc3
 ```
+
 You should obtain the following results, for all three species collected in a single data frame:
+
 ```{r}
 data.frame(species=c(1 ,2, 3), R0=c(R0.1, R0.2, R0.3), Tc=c(Tc1, Tc2, Tc3), r=c(r1, r2, r3), lamdda=exp(c(r1, r2, r3)))
 ```
-```{r}
-sum(species2$lxmx)
-sum(species2$xlxmx)
-sum(species2$xlxmx)/sum(species2$lxmx)
-
-sum(species3$lxmx)
-sum(species3$xlxmx)
-sum(species3$xlxmx)/sum(species3$lxmx)
-```
-
 
 * **Question 4**
 Given the three species have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?
@@ -344,6 +354,7 @@ Given the three species have the same fecundity schedule, describe the effect of
 In this part of the exercise, we will compare the survivorship curves for three species, a mammal, a bird, and a Crustacean. The data on which these curves are based are real data collected in the wild.
 
 The first table shows the survivorship schedule for the [Dall Mountain Sheep](https://en.wikipedia.org/wiki/Ovis_dalli_dalli) (*Ovis dalli dalli*). Data are taken from Deevey (1947, Life tables for natural populations of animals, *The Quarterly Review of Biology* 22:283-314).
+
 ```{r echo=FALSE}
 dallsheep <- data.frame(age=0:14, ax=c(1000, 801, 789, 776, 764, 734, 688, 640, 571, 439, 252, 96, 6, 3, 0))
 dallsheep$lx <- dallsheep$ax / dallsheep$ax[1]
@@ -351,6 +362,7 @@ dallsheep
 ```
 
 The second table shows the survivorship schedule for the [Song Thrush](https://en.wikipedia.org/wiki/Song_thrush) (*Turdus philomelos*). Data are from Deevey (1947, Life tables for natural populations of animals, *The Quarterly Review of Biology* 22:283-314).
+
 ```{r echo=FALSE}
 songthrush <- data.frame(age=0:9, ax=c(1000, 444, 259, 123, 51, 30, 17, 6, 3, 0))
 songthrush$lx <- songthrush$ax / songthrush$ax[1]
@@ -358,6 +370,7 @@ songthrush
 ```
 
 The third table shows the survivorship schedule for the [barnacle *Balanus glandula*](https://en.wikipedia.org/wiki/Balanus_glandula). Data are from Connell (1970, A predator-prey system in the marine intertidal region. I. *Balanus glandula*, *Ecological Monographs* 40:49-78).
+
 ```{r echo=FALSE}
 balanus <- data.frame(age=0:9, ax=c(1000000, 62, 34, 20, 15.5, 11, 6.5, 2, 2, 0))
 balanus$lx <- balanus$ax / balanus$ax[1]
