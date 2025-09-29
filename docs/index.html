@@ -13,7 +13,7 @@
 
 <title>Joint ecology course @ Uppsala University</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -178,8 +178,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -187,16 +187,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -285,18 +278,30 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Joint ecology course @ Uppsala University</h1>
+<h1 class="title toc-ignore">Joint ecology course @ Uppsala
+University</h1>
 
 </div>
 
 
 <p><em>Claus’ Exercises</em></p>
-<p>Click the exercise button and select from the different exercises in the drop-down menu.</p>
+<p>Click the exercise button and select from the different exercises in
+the drop-down menu.</p>
 <ul>
-<li>Exercise 1 and 2 can be done with paper and pencil and pocket calculator, with EXCEl or a comparable spreadsheet program, or with R.</li>
-<li>Exercises 3 - 5 contain R-code. Please do these exercises by copying the code pieces of R-code and pasting it in the script window of your R-Studio application. For these R-exercises, you should your answers either as an rmarkdown document (if you know how to do it), or by using the function <em>compile report</em> in your script window. I prefer if you submit your report in HTML format (rather than as a Word document or a pdf). Your report should contain your code, the output from running this code, and your answers to the questions.</li>
+<li>Exercise 1 and 2 can be done with paper and pencil and pocket
+calculator, with EXCEl or a comparable spreadsheet program, or with
+R.</li>
+<li>Exercises 3 - 5 contain R-code. Please do these exercises by copying
+the code pieces of R-code and pasting it in the script window of your
+R-Studio application. For these R-exercises, you should your answers
+either as an rmarkdown document (if you know how to do it), or by using
+the function <em>compile report</em> in your script window. I prefer if
+you submit your report in HTML format (rather than as a Word document or
+a pdf). Your report should contain your code, the output from running
+this code, and your answers to the questions.</li>
 </ul>
-<p>Solutions will appear after the submission deadline for each exercise.</p>
+<p>Solutions will appear after the submission deadline for each
+exercise.</p>
 <p><strong>Enjoy!</strong></p>
 <p>Claus</p>
 

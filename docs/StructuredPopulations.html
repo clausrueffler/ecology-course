@@ -13,7 +13,7 @@
 
 <title>Exercise: Structured Populations</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -302,73 +295,126 @@ $(document).ready(function () {
 <div id="population-projection" class="section level2">
 <h2>Population projection</h2>
 <p>Note that this exercise consists of two tabs!</p>
-<p>Using the example from the lecture, you will in this exercise apply matrix multiplication to project population dynamics for a couple of time steps into the future.</p>
-<p>The following code shows how to define a population projection matrix in R. We here use the three-by-three matrix from the lecture.</p>
+<p>Using the example from the lecture, you will in this exercise apply
+matrix multiplication to project population dynamics for a couple of
+time steps into the future.</p>
+<p>The following code shows how to define a population projection matrix
+in R. We here use the three-by-three matrix from the lecture.</p>
 <pre class="r"><code>transition.matrix &lt;- matrix(c(0.1,0,100,0.02,0.2,0,0,0.2,0.6), nrow=3, ncol=3, byrow=T)
 transition.matrix # let&#39;s have a look at the matrix</code></pre>
 <pre><code>##      [,1] [,2]  [,3]
 ## [1,] 0.10  0.0 100.0
 ## [2,] 0.02  0.2   0.0
 ## [3,] 0.00  0.2   0.6</code></pre>
-<p>Let us now define the initial population vector at time <span class="math inline">\(t=0\)</span>.</p>
+<p>Let us now define the initial population vector at time <span
+class="math inline">\(t=0\)</span>.</p>
 <pre class="r"><code>N.0 &lt;- c(1000, 30, 15)
 N.0 # let&#39;s have a look at the vector</code></pre>
 <pre><code>## [1] 1000   30   15</code></pre>
-<p>In order to obtain the vector describing the population composition one time step into the future, we multiply the current population vector <code>N.0</code> from the right to the population projection matrix <code>transition.matrix</code>. The multiplication between a matrix and a vector is executed in R using the symbol <code>%*%</code>.</p>
+<p>In order to obtain the vector describing the population composition
+one time step into the future, we multiply the current population vector
+<code>N.0</code> from the right to the population projection matrix
+<code>transition.matrix</code>. The multiplication between a matrix and
+a vector is executed in R using the symbol <code>%*%</code>.</p>
 <pre class="r"><code>(N.1 &lt;- transition.matrix %*% N.0) # the parentheses around a command make that the vector N.1 is immediately shown, that is, without explicitly asking for it as was done in the two previous commands.</code></pre>
 <pre><code>##      [,1]
 ## [1,] 1600
 ## [2,]   26
 ## [3,]   15</code></pre>
-<p>The next piece of code shows how you can alter the code above to produce to the population vector <code>N.2</code> describing the population composition two time steps into the future.</p>
+<p>The next piece of code shows how you can alter the code above to
+produce to the population vector <code>N.2</code> describing the
+population composition two time steps into the future.</p>
 <pre class="r"><code>(N.2 &lt;- transition.matrix %*% N.1)</code></pre>
 <pre><code>##        [,1]
 ## [1,] 1660.0
 ## [2,]   37.2
 ## [3,]   14.2</code></pre>
-<p>Use the this procedure to produce the population vectors for the first ten time steps, <code>N.1, N.2,..., N.10</code>. How do you have to adapt the code to do this?</p>
-<p>Next, let us compute the total number of individuals at time <code>t=0</code>, <code>t=1</code> until <code>t=10</code> using the command <code>sum()</code>. Below you see the code showing how to do this for the first three time steps.</p>
+<p>Use the this procedure to produce the population vectors for the
+first ten time steps, <code>N.1, N.2,..., N.10</code>. How do you have
+to adapt the code to do this?</p>
+<p>Next, let us compute the total number of individuals at time
+<code>t=0</code>, <code>t=1</code> until <code>t=10</code> using the
+command <code>sum()</code>. Below you see the code showing how to do
+this for the first three time steps.</p>
 <pre class="r"><code>(Ntot.0 &lt;- sum(N.0)) </code></pre>
 <pre><code>## [1] 1045</code></pre>
 <pre class="r"><code>(Ntot.1 &lt;- sum(N.1))</code></pre>
 <pre><code>## [1] 1641</code></pre>
 <pre class="r"><code>(Ntot.2 &lt;- sum(N.2))</code></pre>
 <pre><code>## [1] 1711.4</code></pre>
-<p>Now we have everything to create a time series plot. With this we mean a plot with time on the x-axis and <code>Ntot</code> on the y-axis. The next piece of code shows how to do that for the first three time steps, <code>Ntot.0</code>, <code>Ntot.1</code> and <code>Ntot.2</code>.</p>
+<p>Now we have everything to create a time series plot. With this we
+mean a plot with time on the x-axis and <code>Ntot</code> on the y-axis.
+The next piece of code shows how to do that for the first three time
+steps, <code>Ntot.0</code>, <code>Ntot.1</code> and
+<code>Ntot.2</code>.</p>
 <pre class="r"><code>plot(x=c(0:2), y=c(Ntot.0, Ntot.1, Ntot.2), type = &quot;b&quot;, xlab=&quot;Time (years)&quot;, ylab=&quot;Ntot.t&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulations_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>If you have computed <code>Ntot</code> for the first ten time steps you can add them to the plot by changing <code>c(0:2)</code> to <code>c(0:10)</code> (the points on the axis) and <code>y=c(Ntot.0, Ntot.1, Ntot.2)</code> to <code>y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)</code> (the values on the y-axis) in the above code.</p>
-<p>Next, let’s have a look at the population composition. How is the total number of individuals distributed over the different life-history states? Thus, let us first plot the population vectors <code>N.0</code>, <code>N.1</code> and <code>N.2</code>in form of a bar plot.</p>
+<p>If you have computed <code>Ntot</code> for the first ten time steps
+you can add them to the plot by changing <code>c(0:2)</code> to
+<code>c(0:10)</code> (the points on the axis) and
+<code>y=c(Ntot.0, Ntot.1, Ntot.2)</code> to
+<code>y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)</code>
+(the values on the y-axis) in the above code.</p>
+<p>Next, let’s have a look at the population composition. How is the
+total number of individuals distributed over the different life-history
+states? Thus, let us first plot the population vectors <code>N.0</code>,
+<code>N.1</code> and <code>N.2</code>in form of a bar plot.</p>
 <pre class="r"><code>barplot(cbind(N.0, N.1, N.2), las=1, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), names.arg=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;, ylim = c(0, 2000))
 legend(&quot;topright&quot;, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=T)</code></pre>
 <p><img src="StructuredPopulations_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Please adapt this code to include the data for the all time steps until <code>t=10</code>.</p>
-<p>It is also common (and informative) to plot the population vectors as relative numbers to show what relative proportion of the population belongs to each life history state. For this we have to divide the number of individuals in each state by the total population size at that time step.</p>
+<p>Please adapt this code to include the data for the all time steps
+until <code>t=10</code>.</p>
+<p>It is also common (and informative) to plot the population vectors as
+relative numbers to show what relative proportion of the population
+belongs to each life history state. For this we have to divide the
+number of individuals in each state by the total population size at that
+time step.</p>
 <pre class="r"><code>barplot(cbind(N.0/Ntot.0, N.1/Ntot.1, N.2/Ntot.2), col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), las=1, names=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;), ylab=&quot;Proportion of individuals&quot;, xlab=&quot;Time (years)&quot;)
 legend(&quot;bottom&quot;, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=F)</code></pre>
-<p>Again, please adapt this code to include the data for the all time steps until <code>t=10</code>.</p>
+<p>Again, please adapt this code to include the data for the all time
+steps until <code>t=10</code>.</p>
 <p>What do you observe in terms of the relative state distribution?</p>
-<p>Finally, let us calculate the growth factor <span class="math inline">\(\lambda\)</span> at each time step. For this we have to divide the total population size of two consecutive time steps by each other: <span class="math display">\[
+<p>Finally, let us calculate the growth factor <span
+class="math inline">\(\lambda\)</span> at each time step. For this we
+have to divide the total population size of two consecutive time steps
+by each other: <span class="math display">\[
 \lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
 \]</span> Thus</p>
 <pre class="r"><code>(lambda.0 &lt;- Ntot.1/Ntot.0)</code></pre>
 <pre><code>## [1] 1.570335</code></pre>
 <pre class="r"><code>(lambda.1 &lt;- Ntot.2/Ntot.1)</code></pre>
 <pre><code>## [1] 1.042901</code></pre>
-<p>and so forth. Please, do this computation for all 10 <span class="math inline">\(\lambda\)</span>-values</p>
-<p>Let’s make a plot that shows how <span class="math inline">\(\lambda\)</span> changes over time from <span class="math inline">\(t=0\)</span> to <span class="math inline">\(t=10\)</span>.</p>
+<p>and so forth. Please, do this computation for all 10 <span
+class="math inline">\(\lambda\)</span>-values</p>
+<p>Let’s make a plot that shows how <span
+class="math inline">\(\lambda\)</span> changes over time from <span
+class="math inline">\(t=0\)</span> to <span
+class="math inline">\(t=10\)</span>.</p>
 <pre class="r"><code>plot(x=c(0:9), y=c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9), type = &quot;b&quot;, xlab=&quot;Time (years)&quot;, ylab=&quot;growth factor lambda&quot;, las=1)</code></pre>
 <p>At the end of this part, you should complete the following tasks.</p>
 <ol style="list-style-type: decimal">
-<li><p>Project the population ten years into the future and describe in words how the population changes in both absolute and relative numbers.</p></li>
-<li><p>Compute the growth factor <span class="math inline">\(\lambda\)</span> for ten years and describe how it changes over time. What do you observe.</p></li>
-<li><p>Execute the computations under (1) and (2) for three different initial population vectors <span class="math inline">\(N_0\)</span>, namely: <span class="math inline">\(N_0=(1000, 30, 15)\)</span>, <span class="math inline">\(N_0=(10, 0, 0)\)</span> and <span class="math inline">\(N_0=(0, 10, 0)\)</span>. How do the results differ from each other when using different starting vectors?</p></li>
+<li><p>Project the population ten years into the future and describe in
+words how the population changes in both absolute and relative
+numbers.</p></li>
+<li><p>Compute the growth factor <span
+class="math inline">\(\lambda\)</span> for ten years and describe how it
+changes over time. What do you observe.</p></li>
+<li><p>Execute the computations under (1) and (2) for three different
+initial population vectors <span class="math inline">\(N_0\)</span>,
+namely: <span class="math inline">\(N_0=(1000, 30, 15)\)</span>, <span
+class="math inline">\(N_0=(10, 0, 0)\)</span> and <span
+class="math inline">\(N_0=(0, 10, 0)\)</span>. How do the results differ
+from each other when using different starting vectors?</p></li>
 </ol>
 </div>
 <div id="conservation-measures" class="section level2">
 <h2>Conservation measures</h2>
-<p>Consider a population of a rare meadow plant. In this exercise, we explore how we can use matrix models to investigate the efficiency of different conservation strategies. Along, the way you will learn (or refresh) some R-code related vectors and data frames.</p>
-<p>Assume that after an intensive period of data collection we determined the following population transition matrix.</p>
+<p>Consider a population of a rare meadow plant. In this exercise, we
+explore how we can use matrix models to investigate the efficiency of
+different conservation strategies. Along, the way you will learn (or
+refresh) some R-code related vectors and data frames.</p>
+<p>Assume that after an intensive period of data collection we
+determined the following population transition matrix.</p>
 <pre class="r"><code>meadow.matrix &lt;- matrix(c(0.001, 0, 200, 0.01, 0.2, 0, 0, 0.2, 0), nrow=3, ncol=3, byrow=T) # the vector of nine numbers is used to fill a three by three matrix
 meadow.matrix # this is how the matrix looks</code></pre>
 <pre><code>##       [,1] [,2] [,3]
@@ -379,20 +425,56 @@ meadow.matrix # this is how the matrix looks</code></pre>
 <pre class="r"><code>N.0 &lt;- c(3000, 180, 30)
 N.0</code></pre>
 <pre><code>## [1] 3000  180   30</code></pre>
-<p>At the end of this exercise, you should answer the following questions.</p>
+<p>At the end of this exercise, you should answer the following
+questions.</p>
 <ol style="list-style-type: decimal">
-<li><p>Draw the life cycle graph corresponding to this matrix. What kind of life history does this plant have? You can do this drawing by hand on a piece of paper, which you then scan and submit as a separate file, or, if you use RMarkdown, you can incorporate this digital image into your report using the command <code>![picture label](path to your picture/picture_name.png)</code> (search the web for help).</p></li>
-<li><p>Calculate the population growth factor <span class="math inline">\(\lambda\)</span> and the total population size <code>Ntot</code> for 10 years and plot them as a function of time. After how many years is this population expected to consists of less than 10 adults, where it would be considered severely endangered?</p></li>
-<li><p>To protect this population, two different measures are considered. For each of these methods, project the population dynamics and plot the number of adults against time. Which conservation measure is preferable?</p>
+<li><p>Draw the life cycle graph corresponding to this matrix. What kind
+of life history does this plant have? You can do this drawing by hand on
+a piece of paper, which you then scan and submit as a separate file, or,
+if you use RMarkdown, you can incorporate this digital image into your
+report using the command
+<code>![picture label](path to your picture/picture_name.png)</code>
+(search the web for help).</p></li>
+<li><p>Calculate the population growth factor <span
+class="math inline">\(\lambda\)</span> and the total population size
+<code>Ntot</code> for 10 years and plot them as a function of time.
+After how many years is this population expected to consists of less
+than 10 adults, where it would be considered severely
+endangered?</p></li>
+<li><p>To protect this population, two different measures are
+considered. For each of these methods, project the population dynamics
+and plot the number of adults against time. Which conservation measure
+is preferable?</p>
 <ol style="list-style-type: lower-roman">
-<li><p>Adding 100 adult plants from a different population once at year <span class="math inline">\(t=0\)</span>. This can be done by changing the starting vector to <code>N.0 &lt;- c(3000, 180, 130)</code></p></li>
-<li><p>Increasing recruitment of juveniles from seeds by creating small open sites in the meadow each year. This is expected to result in a transition probability from seeds to juveniles equal to <span class="math inline">\(0.025\)</span>. To implement this, you have to change the corresponding entry in the <code>meadow.matrix</code>.</p></li>
+<li><p>Adding 100 adult plants from a different population once at year
+<span class="math inline">\(t=0\)</span>. This can be done by changing
+the starting vector to <code>N.0 &lt;- c(3000, 180, 130)</code></p></li>
+<li><p>Increasing recruitment of juveniles from seeds by creating small
+open sites in the meadow each year. This is expected to result in a
+transition probability from seeds to juveniles equal to <span
+class="math inline">\(0.025\)</span>. To implement this, you have to
+change the corresponding entry in the
+<code>meadow.matrix</code>.</p></li>
 </ol></li>
 </ol>
-<p>In order to make investigating these questions easier, we need some additional R-magic. In particular, we want to use R-code that let’s us compute a whole time series with a single command. For this, we make use of what is called a <em>for-loop</em>.</p>
-<p>Before we “run” the for-loop to create a time series, we create a <em>data frame</em> in which we can store the data from the time series of length <em>10</em>. Specifically, each row in the data frame will correspond to one time step, with the starting population vector <span class="math inline">\(N_0\)</span> in the first row. We name this data frame <code>ts</code>, abbreviating <em>time series</em>, and initially fill all entries with <code>NA</code>(for “not available”). You can think of a data frame as an EXCEL sheet but in R. Thus, a data frame is a matrix where we can give names to rows and columns to describe what is stored in the different cells of the data frame.</p>
+<p>In order to make investigating these questions easier, we need some
+additional R-magic. In particular, we want to use R-code that let’s us
+compute a whole time series with a single command. For this, we make use
+of what is called a <em>for-loop</em>.</p>
+<p>Before we “run” the for-loop to create a time series, we create a
+<em>data frame</em> in which we can store the data from the time series
+of length <em>10</em>. Specifically, each row in the data frame will
+correspond to one time step, with the starting population vector <span
+class="math inline">\(N_0\)</span> in the first row. We name this data
+frame <code>ts</code>, abbreviating <em>time series</em>, and initially
+fill all entries with <code>NA</code>(for “not available”). You can
+think of a data frame as an EXCEL sheet but in R. Thus, a data frame is
+a matrix where we can give names to rows and columns to describe what is
+stored in the different cells of the data frame.</p>
 <pre class="r"><code>ts &lt;- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))</code></pre>
-<p>Let’s check how the data frame looks at the moment. Note that this data frame has 11 rows, one for time 0 and ten for the future time steps.</p>
+<p>Let’s check how the data frame looks at the moment. Note that this
+data frame has 11 rows, one for time 0 and ten for the future time
+steps.</p>
 <pre class="r"><code>ts</code></pre>
 <pre><code>##    time Seeds Juv Adults
 ## 1     0    NA  NA     NA
@@ -406,22 +488,49 @@ N.0</code></pre>
 ## 9     8    NA  NA     NA
 ## 10    9    NA  NA     NA
 ## 11   10    NA  NA     NA</code></pre>
-<p>Let us fill the first column of the data frame with the population vector at time zero.</p>
+<p>Let us fill the first column of the data frame with the population
+vector at time zero.</p>
 <pre class="r"><code>ts$Seeds[1] &lt;- N.0[1]
 ts$Juv[1] &lt;- N.0[2]
 ts$Adults[1] &lt;- N.0[3]
 
 ts # Check whether this was entered correctly by printing the data frame.</code></pre>
-<p>How does the above code work? Recall that you can refer to a column of a data frame by adding the name of the column to the name of the data frame, separated by a $-sign. Thus, <code>ts$Seeds</code> refers to the second column in our data frame <code>ts</code>. Furthermore, adding a pair of square brackets lets us refer to certain entries in a column. For instance, <code>ts$Seeds[1]</code> refers to the first entry in the column labelled <em>Seeds</em>. In conclusion, the command <code>ts$Seeds[1] &lt;- N.0[1]</code> assigns the first entry of the vector <code>N.0</code> to the first entry in the Seeds-column in the data frame.</p>
-<p>In order to calculate the population vector after one time step, <code>N.1</code>, we have to multiply the population vector at time 0, <code>N.0</code>, with the <code>meadow.matrix</code>. Using the fact that <code>N.0</code> is now written in the first row of the data frame <code>ts</code>, we can program this as follows:</p>
+<p>How does the above code work? Recall that you can refer to a column
+of a data frame by adding the name of the column to the name of the data
+frame, separated by a $-sign. Thus, <code>ts$Seeds</code> refers to the
+second column in our data frame <code>ts</code>. Furthermore, adding a
+pair of square brackets lets us refer to certain entries in a column.
+For instance, <code>ts$Seeds[1]</code> refers to the first entry in the
+column labelled <em>Seeds</em>. In conclusion, the command
+<code>ts$Seeds[1] &lt;- N.0[1]</code> assigns the first entry of the
+vector <code>N.0</code> to the first entry in the Seeds-column in the
+data frame.</p>
+<p>In order to calculate the population vector after one time step,
+<code>N.1</code>, we have to multiply the population vector at time 0,
+<code>N.0</code>, with the <code>meadow.matrix</code>. Using the fact
+that <code>N.0</code> is now written in the first row of the data frame
+<code>ts</code>, we can program this as follows:</p>
 <pre class="r"><code>meadow.matrix %*% as.numeric(ts[1, -1]) </code></pre>
 <pre><code>##      [,1]
 ## [1,] 6003
 ## [2,]   66
 ## [3,]   36</code></pre>
-<p>There are two new things happening in this code. First, now we have two numbers in the square brackets after <code>ts</code>, <code>ts[1, -1]</code>. The first number refers to the row and the second number to the column. But what does -1 mean for the column? It means “all entries except the first one”. Thus, with the code <code>ts[1, -1]</code> we select the first row but without the first entry in this row. This makes sense as this the first column is time, and we only want the population vector, which is stored in the columns 2, 3 and 4.</p>
-<p>Second, the vector that we just created is inside the function <code>as.numeric()</code>. This is necessary, since data frames can in principle store objects other than numbers and we have to tell R that the vector that we extracted from the data frame contains numbers such that R can do calculations with it.</p>
-<p>Now we are ready to compute a time series of length 10 by using a for-loop.</p>
+<p>There are two new things happening in this code. First, now we have
+two numbers in the square brackets after <code>ts</code>,
+<code>ts[1, -1]</code>. The first number refers to the row and the
+second number to the column. But what does -1 mean for the column? It
+means “all entries except the first one”. Thus, with the code
+<code>ts[1, -1]</code> we select the first row but without the first
+entry in this row. This makes sense as this the first column is time,
+and we only want the population vector, which is stored in the columns
+2, 3 and 4.</p>
+<p>Second, the vector that we just created is inside the function
+<code>as.numeric()</code>. This is necessary, since data frames can in
+principle store objects other than numbers and we have to tell R that
+the vector that we extracted from the data frame contains numbers such
+that R can do calculations with it.</p>
+<p>Now we are ready to compute a time series of length 10 by using a
+for-loop.</p>
 <pre class="r"><code>for (i in 1:10) # the loop &quot;runs&quot; from i=1 to i=10 (representing the years 1 to 10 in the data frame)
 {
   ts[i + 1, -1] &lt;- meadow.matrix %*% as.numeric(ts[i, -1]) # computes the population vector one time step into the future and stores it in the next row of the data frame
@@ -440,7 +549,9 @@ ts # check that the all positions in the data frame are now indeed filled with n
 ## 9     8 1694.643  20.45513  5.205122
 ## 10    9 1042.719  21.03746  4.091026
 ## 11   10  819.248  14.63468  4.207492</code></pre>
-<p>It is now easy to add an additional column with the total population size at each time step, using the function <code>rowSums()</code>. You should obtain the following data frame.</p>
+<p>It is now easy to add an additional column with the total population
+size at each time step, using the function <code>rowSums()</code>. You
+should obtain the following data frame.</p>
 <pre class="r"><code>ts$N &lt;- rowSums(ts[, -1]) # computes the total population size at each time step and add this as a new column called N
 ts</code></pre>
 <pre><code>##    time    Seeds       Juv    Adults         N
@@ -455,13 +566,35 @@ ts</code></pre>
 ## 9     8 1694.643  20.45513  5.205122 1720.3035
 ## 10    9 1042.719  21.03746  4.091026 1067.8475
 ## 11   10  819.248  14.63468  4.207492  838.0902</code></pre>
-<p>Finally, let us calculate the growth factor <span class="math inline">\(\lambda\)</span> at each time step: <span class="math inline">\(\lambda(0), \ldots, \lambda(9)\)</span>. Note that <span class="math inline">\(\lambda(0)\)</span> predicts how the population size changes from <span class="math inline">\(t=0\)</span> to <span class="math inline">\(t=1\)</span> and <span class="math inline">\(\lambda(9)\)</span> predicts how the population size changes from <span class="math inline">\(t=9\)</span> to <span class="math inline">\(t=10\)</span>. Each <span class="math inline">\(\lambda\)</span>-value is calculated dividing the population size at a time step by the population size at the previous time step (see first tab).</p>
-<p>We can calculate all <span class="math inline">\(\lambda\)</span>-values in one step by dividing the column <code>pop.dev$N</code> without the first entry (<code>pop.dev$N[-1]</code>) by <code>pop.dev$N</code> without the last entry (<code>pop.dev$N[-length(pop.dev$N)]</code>). Make yourself clear why this works!</p>
+<p>Finally, let us calculate the growth factor <span
+class="math inline">\(\lambda\)</span> at each time step: <span
+class="math inline">\(\lambda(0), \ldots, \lambda(9)\)</span>. Note that
+<span class="math inline">\(\lambda(0)\)</span> predicts how the
+population size changes from <span class="math inline">\(t=0\)</span> to
+<span class="math inline">\(t=1\)</span> and <span
+class="math inline">\(\lambda(9)\)</span> predicts how the population
+size changes from <span class="math inline">\(t=9\)</span> to <span
+class="math inline">\(t=10\)</span>. Each <span
+class="math inline">\(\lambda\)</span>-value is calculated dividing the
+population size at a time step by the population size at the previous
+time step (see first tab).</p>
+<p>We can calculate all <span
+class="math inline">\(\lambda\)</span>-values in one step by dividing
+the column <code>pop.dev$N</code> without the first entry
+(<code>pop.dev$N[-1]</code>) by <code>pop.dev$N</code> without the last
+entry (<code>pop.dev$N[-length(pop.dev$N)]</code>). Make yourself clear
+why this works!</p>
 <pre class="r"><code>lambdas &lt;- ts$N[-length(ts$N)]/ts$N[-1]
 lambdas</code></pre>
 <pre><code>##  [1] 0.5257985 0.8371692 2.6531850 0.9183283 0.8507639 1.9480188 1.1580346
 ##  [8] 0.9065216 1.6110011 1.2741439</code></pre>
-<p>This gives a vector of length 10. Let us add this vector as a new column to our data frame. Since <code>ts</code> has 11 rows we first have to make sure that our vector <code>lambdas</code> also has length 11. We can do this by adding NA (for “not available”) as a last entry. Indeed, we did not calculate <span class="math inline">\(\lambda(10)\)</span>, as this would require that we calculate <span class="math inline">\(N_{\rm tot}(10)\)</span>.</p>
+<p>This gives a vector of length 10. Let us add this vector as a new
+column to our data frame. Since <code>ts</code> has 11 rows we first
+have to make sure that our vector <code>lambdas</code> also has length
+11. We can do this by adding NA (for “not available”) as a last entry.
+Indeed, we did not calculate <span
+class="math inline">\(\lambda(10)\)</span>, as this would require that
+we calculate <span class="math inline">\(N_{\rm tot}(10)\)</span>.</p>
 <pre class="r"><code>lambdas &lt;- append(lambdas, NA) # append NA at the 11th position in this vector
 ts$lambda &lt;- lambdas # adding this vector as a column labelled lambda to the data frame
 ts # let&#39;s have a look at the final data frame</code></pre>
@@ -477,12 +610,21 @@ ts # let&#39;s have a look at the final data frame</code></pre>
 ## 9     8 1694.643  20.45513  5.205122 1720.3035 1.6110011
 ## 10    9 1042.719  21.03746  4.091026 1067.8475 1.2741439
 ## 11   10  819.248  14.63468  4.207492  838.0902        NA</code></pre>
-<p>Now we are ready to plot our results. With the following commands, we can plot the numbers in a specific column in the data frame, for example, the total population size or <span class="math inline">\(\lambda\)</span>.</p>
+<p>Now we are ready to plot our results. With the following commands, we
+can plot the numbers in a specific column in the data frame, for
+example, the total population size or <span
+class="math inline">\(\lambda\)</span>.</p>
 <pre class="r"><code>plot(ts$time, ts$N, type=&quot;l&quot;, ylab=&quot;Total population size&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulations_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <pre class="r"><code>plot(ts$time, ts$lambda, type=&quot;l&quot;, ylab=&quot;Growth factor lambda&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
 <p><img src="StructuredPopulations_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
-<p>We have now produced the time series for the base line model. Next, adapt the above code to produce the same results for the two conservation strategies described above. Once you have the time series for the three different scenarios (population without conservation, population with conservation measurement 1 and population with conservation measurement 2), you should be able to compare the three scenarios. Specifically, try to reproduce the following two figures.</p>
+<p>We have now produced the time series for the base line model. Next,
+adapt the above code to produce the same results for the two
+conservation strategies described above. Once you have the time series
+for the three different scenarios (population without conservation,
+population with conservation measurement 1 and population with
+conservation measurement 2), you should be able to compare the three
+scenarios. Specifically, try to reproduce the following two figures.</p>
 <p><img src="StructuredPopulations_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="StructuredPopulations_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
 </div>
 </div>
