@@ -16,6 +16,9 @@ klippy::klippy(position = c('top', 'right'))
 # Competition - Solutions {.tabset}
 
 ## LV in discrete time
+
+NO QUESTIONS WERE ASKED IN THE FIRST TAB. THIS TAB THEREFORE REPEATS THE FIRST TAB FROM THE EXERCISE.
+
 The Lotka-Volterra competition model in discrete time can be written as the following system of two difference equations:
 $$
 \begin{align}
@@ -24,7 +27,7 @@ N_2(t+1)&=N_2(t)+N_2(t)r_2\bigg(1-\frac{N_2(t)+\beta N_1(t)}{K_2}\bigg)
 \end{align}
 $$
 
-In this exercise, you will investigate the behavior of the Lotka-Volterra competition model by iterating this system of equations. To do this, we first define a function that describes how the population size of two competing species one time step in the future depends on their population sizes at the current time step.
+In this exercise, you will investigate the behavior of this Lotka-Volterra competition model by iterating this system of equations. To do this, we first define a function that describes how the population size of two competing species one time step in the future depends on their population sizes at the current time step.
 
 ```{r}
 LVcomp <- function(N, r1, r2, K1, K2, alpha, beta) {
@@ -34,9 +37,12 @@ LVcomp <- function(N, r1, r2, K1, K2, alpha, beta) {
 }
 ```
 
+This user-defined function has seven arguments. The first is the two-dimensional population vector ```N```, then comes the intrinsic growth rates, the carrying capacities, and the competition coefficients for the each species.
 In the next code-block, all parameter values and the initial population size vector ```N.0``` specifying the initial densities for the two species are determined.
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
+# old code
+# Here, all parameter values and the initial population size vector ```N.0``` specifying the initial densities for the two species are determined.
 r1 <- .9 # intrinsic growth rate of species 1
 r2 <- .9 # intrinsic growth rate of species 2
 K1 <- 100 # carrying capacity of species 1
@@ -45,30 +51,55 @@ alpha <- 0.8 # competitive effect of species 2 on species 1
 beta <- 0.9 # competitive effect of species 1 on species 2
 N0 <- c(5, 20) # vector of initial population sizes, N1(0) and N2(0)
 t <- 50 # number of time steps the simulation should run
+# The next piece of code produces the time series. EACH TIME YOU CHANGE A PARAMETER VALUE YOU HAVE TO EVALUATE THE CODE FROM HER ONWARDS IN ORDER TO THE SEE THE RESULTING OUTPUT.
 ```
 
-The next piece of code produces the data. EACH TIME YOU CHANGE A PARAMETER VALUE YOU HAVE TO EVALUATE THE CODE FROM HER ONWARDS IN ORDER TO THE SEE THE CORRESPONDING RESULT.
+The following code produces the time series for the two competing species. We use code that you have seen in a similar way in previous exercises. First, we create an empty data frame, called ```N```, in which we store the time series. It has two columns, one for each species, and t+1 rows, one row for the initial population vector, and t rows for the future population vectors.
 
 ```{r}
+t <- 50 # we set the length of the time series, which determines the number of rows in the data frame
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+```
+
+Let us define an initial population vector at time $t=0$ and store it in the first row of the data frame.
+
+```{r}
+N0 <- c(5, 20)
+N[1, ] <- N0 # we store the initial population vector in the first row
+```
+
+Next, we use a for-loop to iterate the time series. In each iteration of the for-loop we use the function ```LVcomp``` to produce the population vector at the next time step and store the outcome in a new row in the data frame ```N```. Note, that in this example we use the following parameters: ```r1=.9, r2=.9, K1=100, K2=100, alpha=0.8, beta=0.9```.
+
+```{r}
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=.9, r2=.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+  } # this for-loop iterates the population dynamics t-times
+
+head(N) # let's have a sneak peak at the data frame, just to make sure that everything went correctly
+```
+
+```{r echo=FALSE, eval=FALSE}
+# old code
 N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix with two columns and t+1 rows in which the population vectors of the time series will be stored
 N[1, ] <- N0 # enters the initial population vector into the first row of this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
+for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1=.9, r2=.9, K1=100, K2=100, alpha=0.8, beta=0.9) # this for-loop iterates the population dynamics t-times
 ```
 
-Finally, let us plot the time series.
+Finally, let us plot the time series. To plot the columns in a data frame as separate lines, we can use the function ```matplot```.
 
 ```{r}
-matplot(0:t, N, type = "p", pch = c(1,16), col = 1, ylim = c(0, 90), ylab="Number of individuals", xlab="Time")
+matplot(0:t, N, type = "p", pch = c(1,16), lty = 1:2, col = 1, ylim = c(0, 90), ylab="Number of individuals", xlab="Time")
 legend("top", c(expression("species 1 "), expression("species 2 ")), pch = c(1,16), bty = "n")
 ```
 
 ## Logistic growth in discrete time
 
-Before we actually look at competition between two species let us go back one step. We can use the above code to also investigate the population dynamics of a single species that growths according to logistic growth in discrete time. Recall the lecture about the discrete time logistic model.
+Before we actually look at competition between two species, let us go back one step. We can use the above code to investigate the population dynamics of a single species that growths according to logistic growth in *discrete time*. Recall the lecture about the discrete time logistic model.
 *All that we have to do for that is to set the initial population size of one species, say species 2, equal to zero, that is $N_2(t=0)=0$*.
-This works because in a population without imigration and emigration, a species that is not present at the beginning will never be present and the model behaves exactly as a single species model.
+This works because in a population without immigration and emigration, a species that is not present at the beginning will never be present, and the model behaves exactly as a single species model.
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
+# old code
 r1 <- 1 # intrinsic growth rate of species 1
 r2 <- 1.5 # intrinsic growth rate of species 2
 K1 <- 100 # carrying capacity of species 1
@@ -79,41 +110,182 @@ N0 <- c(10, 0) # vector of initial population sizes where N2(t=0)=0
 t <- 20 # number of time steps the simulation should run
 ```
 
-Here, you can see the population dynamics as resulting from the above parameter values. I also added a horizontal line indicating the value of the carrying capacity of species 1.
+Here, you can see the population dynamics as resulting from the above parameter values. The plot also contains a horizontal line indicating the value of the carrying capacity of species 1.
 
 ```{r}
-N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
-N[1, ] <- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
+t <- 30 # we set the length of the time series, which determines the number of rows in the data frame
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1)) # empty data frame
+N0 <- c(10, 0) # starting population vector; note that we set N2=0!
+N[1, ] <- N0 # we store the initial population vector in the first row
 
-matplot(0:t, N, type = "p", pch = c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
-abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of species 1
-text(0, K1+1, "K1", adj = c(0, 0))
-legend("top", c(expression("species1 "), expression("species2")), pch = c(1,16), bty = "n")
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=0.9, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+  } # this for-loop iterates the population dynamics t-times
+
+# let's plot the time series
+matplot(0:t, N, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
+abline(h = 100, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
+legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 ```
 
-Vary the intrinsic growth rate ```r1``` to investigate the effect is has on the population dynamics. For example, you could try the values ```r1 = 0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6```.
+Vary the intrinsic growth rate ```r1``` to investigate the effect this has on the population dynamics. For example, you could try the values ```r1=0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6```.
 
-```{r}
-r1 <- 0.5 # intrinsic growth rate of species 1 is now increased
-t <- 50
+What do you observe? Feel free to choose additional values to complete your understanding.
 
-N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
-N[1, ] <- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop iterates the population dynamics t-times
+<span style="color:red">The below figure shows the time series for the eight different $r$-values. From these you can observe the following: (i) the carrying capacity is approached monotonically for *0<r<1*, (ii) the carrying capacity is approached in an oscillating manner for *1<r<2* (alternating between over- and undershooting), (iii) for *r>2* the population does not reach the carrying capacity but undergoes sustained cycles, the amplitude of these cycles increases with *r*, (iv) for *2<r<2.449* this limit cycle is a 2-cycle, which means that the same population density is reached every second time step, (v) for *2,45<r<2.57* the limit cycle is a 4-cycle (by looking at more $r$-values one could observe that the length of the cycle doubles with increasing *r* to become cycle of length 8, 16, 32 and so forth), (vi) this regular cyclic pattern stops once *r>2.57*, from then on the population dynamics show deterministic chaos which means that the dynamics never visit the same value more than once.</span>
 
-N.r0p5 <- N # here I assign the matrix that contains the data for the new r-value to a new object, called N.r.0p5. When I plot the data with the following command I have to change the name of the matrix there accordingly.
+```{r echo=FALSE, fig.height=8}
+### r=0.5
+t <- 30
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
 
-matplot(0:t, N.r0p5, type = "p", pch = c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
-abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of species 1
-text(0, K1+1, "K1", adj = c(0, 0))
-legend("top", c(expression("species1 "), expression("species2")), pch = c(1,16), bty = "n")
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=0.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+par(mfrow = c(4, 2), oma = c(0, 0, 3, 0))  # 2 rows, 4 columns
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=0.5")
+abline(h = 100, lty = 3)
+
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=0.9, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=0.9")
+abline(h = 100, lty = 3)
+
+### r=1.5
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=1.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=1.5")
+abline(h = 100, lty = 3)
+#legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
+
+### r=1.9
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=1.9, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=1.9")
+abline(h = 100, lty = 3)
+#legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
+
+### r=2.1
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=2.1, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.1")
+abline(h = 100, lty = 3)
+#legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
+
+### r=2.4
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=2.4, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.4")
+abline(h = 100, lty = 3)
+#legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
+
+### r=2.5
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=2.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.5")
+abline(h = 100, lty = 3)
+#legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
+
+### r=2.6
+N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N[1, ] <- N0
+
+for (i in 1:t){
+  N[i + 1, ] <- LVcomp(N[i, ], r1=2.6, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.6")
+abline(h = 100, lty = 3)
+
+mtext("Eight time series for different r-values", outer = TRUE, cex = 1.5, font = 2)
 ```
 
-<span style="color:red">One can observe that the carrying capacity is approached monotonically for *0<r<1* while it is approached in an oscillating manner for *1<r<2* (alternating between over- and undershooting).
-For *r>2* the population does not reach the carrying capacity but undergoes sustained cycles. The amplitude of these cycles increases with *r*. For *2<r<2.449* this limit cycle is a 2-cycle, which means that the same population density is reached every sedond time step. For *2,45<r<2.57* the limit cycle is a 4-cycle. The length of the cycle doubles with inreasing *r* to become cycle of lenght 8, 16, 32 and so forth. However, these regular cyclic pattern stops once *r>2.57*. From then on the population dynamics show deterministic chaos which means that the dynamics never visit the same value more than once.</span>
+Does the behavior you observe change when you alter the initial population size at time zero? Investigate this in particular for $r=2.6$. How do you interpret your observation?
+
+<span style="color:red">
+The long-term outcome of the population dynamics is independent of the initial population size. In other words, the exact same cyclic pattern is reached for different initial population sizes. This is true as long at the population dynamics is not chaotic. 
+
+Once *r* is so large that the population dynamics shows deterministic chaos, small changes in the initial population size result in completely different time series, as shown in the figure below.</span>
 
 ```{r}
+length <- 30
+N1 <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(10, 0)
+N1[1, ] <- N0
+
+for (i in 1:t){
+  N1[i + 1, ] <- LVcomp(N1[i, ], r1=2.6, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+length <- 30
+N2 <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(50, 0)
+N2[1, ] <- N0
+
+for (i in 1:t){
+  N2[i + 1, ] <- LVcomp(N2[i, ], r1=2.6, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+length <- 30
+N3 <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
+N0 <- c(90, 0)
+N3[1, ] <- N0
+
+for (i in 1:t){
+  N3[i + 1, ] <- LVcomp(N3[i, ], r1=2.6, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
+}
+
+plot(0:t, N1$Species1, type = "l", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.6")
+abline(h = 100, lty = 3)
+lines(0:t, N2$Species1, type = "l", pch =c(1,16), col = 2)
+lines(0:t, N3$Species1, type = "l", pch =c(1,16), col = 3)
+legend("bottom", c(expression("N0=10"), expression("N0=50"), expression("N0=90")), col =c(1, 2, 3), lty=c(1,1,1), bty = "n")
+```
+
+
+```{r eval=FALSE, echo=FALSE}
+# old code
 # next r-value
 r1 <- 0.5 # intrinsic growth rate of species 1 is now increased
 
@@ -187,7 +359,8 @@ for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this 
 N.r2p6 <- N
 ```
 
-```{r}
+```{r eval=FALSE, echo=FALSE}
+# old code
 matplot(0:t, N.r0p5, type = "l", col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
 lines(0:t, N.r0p9[,1], type = "l", col = "red")
 lines(0:t, N.r1p5[,1], type = "l", col = "green")
@@ -204,10 +377,6 @@ par(xpd=TRUE) # adding this allows the legend to be placed outside the plotting 
 legend("bottomright", legend=c("r=2.5", "r=2.6"), 
        col=c("black", "red"), lty=c(1,1,1,1), bty="n", horiz=TRUE, cex=0.9)
 ```
-
-Does the behavior you observe change when you alter (i) the value of the carrying capacity *K* or (ii) the initial population size at time zero?
-
-<span style="color:red">Changing the value of the carrying capacity does not affect the *r*-values at which the length of the cycle changes. The long-term outcome of the population dynamics is also independent of the initial population size. In other words, the exact same cyclic pattern is reached for different initial population sizes. This is true as long at the population dynamics is not chaotic. Once *r* is so large that the population dynamics shows deterministic chaos, small changes in the initial population size result in completely different time series.</span>
 
 ## Competition between two species
 

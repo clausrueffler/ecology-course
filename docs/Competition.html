@@ -383,43 +383,18 @@ for (i in 1:t){
   } # this for-loop iterates the population dynamics t-times
 
 # let&#39;s plot the time series
-matplot(0:t, N, type = &quot;p&quot;, pch =c(1,16), col = 1, ylim = c(0, 120), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time&quot;)
-abline(h = 100, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
-legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), pch =c(1,16), bty = &quot;n&quot;)</code></pre>
+matplot(0:t, N$Species1, type = &quot;p&quot;, pch =c(1,16), col = 1, ylim = c(0, 120), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time&quot;)
+abline(h = 100, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1</code></pre>
 <p><img src="Competition_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Vary the intrinsic growth rate <code>r1</code> to investigate the
 effect this has on the population dynamics. For example, you could try
-the values <code>r1=0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6</code>. What
-do you observe? Feel free to choose additional values to complete your
-understanding.</p>
-<p>Does the behavior you observe change when you alter (i) the value of
-the carrying capacity <em>K</em> or (ii) the initial population size at
-time zero?</p>
-<pre class="r"><code>t &lt;- 50
-N &lt;- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
-N0 &lt;- c(10, 0)
-N[1, ] &lt;- N0
-
-N &lt;- matrix(NA, nrow = t + 1, ncol = 2)
-N[1, ] &lt;- N0
-
-for (i in 1:t){
-  N[i + 1, ] &lt;- LVcomp(N[i, ], r1=0.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
-  }
-
-N.r.0p5 &lt;- N # here, we assign the matrix that contains the data for the new r-value to a new object, called N.r.0p5. When we plot the data with the following command, we have to change the name of the matrix there accordingly.
-
-matplot(0:t, N.r.0p5, type = &quot;p&quot;, pch =c(1,16), col = 1, ylim = c(0, 120), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time&quot;)
-abline(h = 100, lty = 3) # plots a line indicating the carrying capacity of species 1
-legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), pch =c(1,16), bty = &quot;n&quot;)</code></pre>
-<p><img src="Competition_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>In the above code, we assigned the matrix that contains the data for
-the new <em>r</em>-value to a new object, called <code>N.r.0p5</code>
-(reminding us that the <em>r</em>-value equals 0.5 in this run). When we
-plot the data we have to change the name of the matrix in the plotting
-command accordingly. In this way, it is possible to always evaluate the
-same piece of code after a parameter value has been changed but
-simultaneously keeping the results in different data frames.</p>
+the values <code>r1=0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6</code>.</p>
+<p>What do you observe? Feel free to choose additional values to
+complete your understanding.</p>
+<p>Does the behavior you observe change when you alter the initial
+population size at time zero? Investigate this in particular for <span
+class="math inline">\(r=2.6\)</span>. How do you interpret your
+observation?</p>
 </div>
 <div id="competition-between-two-species" class="section level2">
 <h2>Competition between two species</h2>

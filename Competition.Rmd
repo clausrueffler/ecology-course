@@ -120,16 +120,17 @@ for (i in 1:t){
   } # this for-loop iterates the population dynamics t-times
 
 # let's plot the time series
-matplot(0:t, N, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
+matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
 abline(h = 100, lty = 3) # plots a horizontal line indicating the carrying capacity of species 1
-legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 ```
 
-Vary the intrinsic growth rate ```r1``` to investigate the effect this has on the population dynamics. For example, you could try the values ```r1=0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6```. What do you observe? Feel free to choose additional values to complete your understanding.
+Vary the intrinsic growth rate ```r1``` to investigate the effect this has on the population dynamics. For example, you could try the values ```r1=0.5, 0.9, 1.5, 1.9, 2.1, 2.4, 2.5, 2.6```.
 
-Does the behavior you observe change when you alter (i) the value of the carrying capacity *K* or (ii) the initial population size at time zero?
+What do you observe? Feel free to choose additional values to complete your understanding.
 
-```{r}
+Does the behavior you observe change when you alter the initial population size at time zero? Investigate this in particular for $r=2.6$. How do you interpret your observation?
+
+```{r echo=FALSE, eval=FALSE}
 t <- 50
 N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
 N0 <- c(10, 0)
@@ -147,9 +148,9 @@ N.r.0p5 <- N # here, we assign the matrix that contains the data for the new r-v
 matplot(0:t, N.r.0p5, type = "p", pch =c(1,16), col = 1, ylim = c(0, 120), ylab="Number of individuals", xlab="Time")
 abline(h = 100, lty = 3) # plots a line indicating the carrying capacity of species 1
 legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
-```
 
-In the above code, we assigned the matrix that contains the data for the new *r*-value to a new object, called ```N.r.0p5``` (reminding us that the *r*-value equals 0.5 in this run). When we plot the data we have to change the name of the matrix in the plotting command accordingly. In this way, it is possible to always evaluate the same piece of code after a parameter value has been changed but simultaneously keeping the results in different data frames.
+#In the above code, we assigned the matrix that contains the data for the new *r*-value to a new object, called ```N.r.0p5``` (reminding us that the *r*-value equals 0.5 in this run). When we plot the data we have to change the name of the matrix in the plotting command accordingly. In this way, it is possible to always evaluate the same piece of code after a parameter value has been changed but simultaneously keeping the results in different data frames.
+```
 
 ## Competition between two species
 
