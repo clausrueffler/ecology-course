@@ -13,6 +13,272 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Population projection
 
+Note that this exercise consists of two tabs!
+
+Using the example from the lecture, you will in this exercise apply matrix multiplication to project population dynamics for a couple of time steps into the future.
+
+The following code shows how to define a population projection matrix in R. We here use the three-by-three matrix from the lecture.
+
+```{r}
+transition.matrix <- matrix(c(0.1,0,100,0.02,0.2,0,0,0.2,0.6), nrow=3, ncol=3, byrow=T)
+transition.matrix # let's have a look at the matrix
+```
+
+Let us now define the initial population vector at time $t=0$.
+
+```{r}
+N.0 <- c(1000, 30, 15)
+N.0 # let's have a look at the vector
+```
+
+In order to obtain the vector describing the population composition one time step into the future, we multiply the current population vector ```N.0``` from the right to the population projection matrix ```transition.matrix```. The multiplication between a matrix and a vector is executed in R using the symbol ```%*%```.
+
+```{r echo=FALSE, eval=FALSE}
+(N.1 <- transition.matrix %*% N.0) # the parentheses around a command make that the vector N.1 is immediately shown, that is, without explicitly asking for it as was done in the two previous commands.
+```
+
+```{r echo=FALSE, eval=FALSE}
+(N.2 <- transition.matrix %*% N.1)
+```
+
+Use the this procedure to produce the population vectors for the first ten time steps, ```N.1, N.2,..., N.10```.
+
+```{r}
+(N.1 <- transition.matrix %*% N.0)
+(N.2 <- transition.matrix %*% N.1)
+(N.3 <- transition.matrix %*% N.2)
+(N.4 <- transition.matrix %*% N.3)
+(N.5 <- transition.matrix %*% N.4)
+(N.6 <- transition.matrix %*% N.5)
+(N.7 <- transition.matrix %*% N.6)
+(N.8 <- transition.matrix %*% N.7)
+(N.9 <- transition.matrix %*% N.8)
+(N.10 <- transition.matrix %*% N.9)
+```
+
+Next, let us compute the total number of individuals at time `t=0`, `t=1` until `t=10` using the command ```sum()```.
+
+```{r echo=FALSE, eval=FALSE}
+(Ntot.0 <- sum(N.0)) 
+(Ntot.1 <- sum(N.1))
+(Ntot.2 <- sum(N.2))
+```
+
+```{r }
+(Ntot.0 <- sum(N.0)) 
+(Ntot.1 <- sum(N.1))
+(Ntot.2 <- sum(N.2))
+(Ntot.3 <- sum(N.3))
+(Ntot.4 <- sum(N.4)) 
+(Ntot.5 <- sum(N.5))
+(Ntot.6 <- sum(N.6)) 
+(Ntot.7 <- sum(N.7))
+(Ntot.8 <- sum(N.8)) 
+(Ntot.9 <- sum(N.9))
+(Ntot.10 <- sum(N.10))
+```
+
+```{r echo=FALSE}
+Ntot_N01 <- c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)
+```
+
+Now we have everything to create a time series plot. With this we mean a plot with time on the x-axis and ```Ntot``` on the y-axis.
+
+```{r echo=FALSE, eval=FALSE}
+plot(x=c(0:2), y=c(Ntot.0, Ntot.1, Ntot.2), type = "b", xlab="Time (years)", ylab="Ntot.t", las=1)
+```
+
+```{r}
+plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), type = "b", xlab="Time (years)", ylab="Ntot.t", las=1)
+```
+
+Next, let's have a look at the population composition. How is the total number of individuals distributed over the different life-history states?
+
+```{r echo=FALSE, eval=FALSE}
+barplot(cbind(N.0, N.1, N.2), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 2000))
+legend("topright", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+```
+
+```{r}
+barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c("grey", "green", "red"), names.arg=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)", ylim = c(0, 3000), cex.names=0.8)
+
+legend("topleft", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+```
+
+It is also common (and informative) to plot the population vectors as relative numbers to show what relative proportion of the population belongs to each life history state. For this we have to divide the number of individuals in each state by the total population size at that time step.
+
+```{r echo=FALSE, eval=FALSE}
+barplot(cbind(N.0/Ntot.0, N.1/Ntot.1, N.2/Ntot.2), col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2"), ylab="Proportion of individuals", xlab="Time (years)")
+legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=F)
+```
+
+```{r}
+barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2", "N.3", "N.4", "N.5", "N.6", "N.7", "N.8", "N.9", "N.10"), ylab="Number of individuals", xlab="Time (years)", cex.names=0.8)
+legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=T)
+```
+
+Finally, let us calculate the growth factor $\lambda$ at each time step. For this we have to divide the total population size of two consecutive time steps by each other:
+$$
+\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
+$$
+Thus
+```{r echo=FALSE, eval=FALSE}
+(lambda.0 <- Ntot.1/Ntot.0)
+(lambda.1 <- Ntot.2/Ntot.1)
+```
+
+```{r}
+(lambda.0 <- Ntot.1/Ntot.0)
+(lambda.1 <- Ntot.2/Ntot.1)
+(lambda.2 <- Ntot.3/Ntot.2)
+(lambda.3 <- Ntot.4/Ntot.3)
+(lambda.4 <- Ntot.5/Ntot.4)
+(lambda.5 <- Ntot.6/Ntot.5)
+(lambda.6 <- Ntot.7/Ntot.6)
+(lambda.7 <- Ntot.8/Ntot.7)
+(lambda.8 <- Ntot.9/Ntot.8)
+(lambda.9 <- Ntot.10/Ntot.9)
+```
+
+```{r echo=FALSE}
+lambda_N01 <- c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9)
+```
+
+Let's make a plot that shows how $\lambda$ changes over time from $t=0$ to $t=10$.
+
+```{r}
+plot(x=c(0:9), y=c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9), type = "b", xlab="Time (years)", ylab="growth factor lambda", las=1)
+```
+
+Now let us repeat the calculations for the two other starting vectors. First, $N(0)=(1000, 0, 0)$, 
+
+```{r}
+N.0 <- matrix(c(1000, 0, 0), nrow=3, ncol=1, byrow=T)
+```
+
+```{r echo=FALSE, results="hide"}
+(N.1 <- transition.matrix %*% N.0)
+(N.2 <- transition.matrix %*% N.1)
+(N.3 <- transition.matrix %*% N.2)
+(N.4 <- transition.matrix %*% N.3)
+(N.5 <- transition.matrix %*% N.4)
+(N.6 <- transition.matrix %*% N.5)
+(N.7 <- transition.matrix %*% N.6)
+(N.8 <- transition.matrix %*% N.7)
+(N.9 <- transition.matrix %*% N.8)
+(N.10 <- transition.matrix %*% N.9)
+
+(Ntot.0 <- sum(N.0)) 
+(Ntot.1 <- sum(N.1))
+(Ntot.2 <- sum(N.2))
+(Ntot.3 <- sum(N.3))
+(Ntot.4 <- sum(N.4)) 
+(Ntot.5 <- sum(N.5))
+(Ntot.6 <- sum(N.6)) 
+(Ntot.7 <- sum(N.7))
+(Ntot.8 <- sum(N.8)) 
+(Ntot.9 <- sum(N.9))
+(Ntot.10 <- sum(N.10))
+
+Ntot_N02 <- c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)
+```
+
+```{r echo=FALSE, results="hide"}
+(lambda.0 <- Ntot.1/Ntot.0)
+(lambda.1 <- Ntot.2/Ntot.1)
+(lambda.2 <- Ntot.3/Ntot.2)
+(lambda.3 <- Ntot.4/Ntot.3)
+(lambda.4 <- Ntot.5/Ntot.4)
+(lambda.5 <- Ntot.6/Ntot.5)
+(lambda.6 <- Ntot.7/Ntot.6)
+(lambda.7 <- Ntot.8/Ntot.7)
+(lambda.8 <- Ntot.9/Ntot.8)
+(lambda.9 <- Ntot.10/Ntot.9)
+
+lambda_N02 <- c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9)
+```
+
+and then $N(0)=(0, 100, 0)$.
+
+```{r}
+N.0 <- matrix(c(0, 100, 0), nrow=3, ncol=1, byrow=T)
+```
+
+```{r echo=FALSE, results="hide"}
+(N.1 <- transition.matrix %*% N.0)
+(N.2 <- transition.matrix %*% N.1)
+(N.3 <- transition.matrix %*% N.2)
+(N.4 <- transition.matrix %*% N.3)
+(N.5 <- transition.matrix %*% N.4)
+(N.6 <- transition.matrix %*% N.5)
+(N.7 <- transition.matrix %*% N.6)
+(N.8 <- transition.matrix %*% N.7)
+(N.9 <- transition.matrix %*% N.8)
+(N.10 <- transition.matrix %*% N.9)
+
+(Ntot.0 <- sum(N.0)) 
+(Ntot.1 <- sum(N.1))
+(Ntot.2 <- sum(N.2))
+(Ntot.3 <- sum(N.3))
+(Ntot.4 <- sum(N.4)) 
+(Ntot.5 <- sum(N.5))
+(Ntot.6 <- sum(N.6)) 
+(Ntot.7 <- sum(N.7))
+(Ntot.8 <- sum(N.8)) 
+(Ntot.9 <- sum(N.9))
+(Ntot.10 <- sum(N.10))
+
+Ntot_N03 <- c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)
+```
+
+```{r echo=FALSE, results="hide"}
+(lambda.0 <- Ntot.1/Ntot.0)
+(lambda.1 <- Ntot.2/Ntot.1)
+(lambda.2 <- Ntot.3/Ntot.2)
+(lambda.3 <- Ntot.4/Ntot.3)
+(lambda.4 <- Ntot.5/Ntot.4)
+(lambda.5 <- Ntot.6/Ntot.5)
+(lambda.6 <- Ntot.7/Ntot.6)
+(lambda.7 <- Ntot.8/Ntot.7)
+(lambda.8 <- Ntot.9/Ntot.8)
+(lambda.9 <- Ntot.10/Ntot.9)
+
+lambda_N03 <- c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9)
+```
+
+```{r echo=FALSE}
+plot(0:10, Ntot_N01, type = "b", pch = 0, col="red", ylim=c(0, 3000), xlab = "time", ylab = "Ntot(t)")
+lines(0:10, Ntot_N02, type = "b", pch = 1, col="blue")
+lines(0:10, Ntot_N03, type = "b", pch = 2, col="orange")
+legend("topleft", c("N.0=(1000, 30, 15)", "N.0=(1000, 0, 0)", "N.0=(0, 100, 0)"), col =c("red", "blue", "orange"), pch = c(0, 1, 2)) 
+```
+
+```{r echo=FALSE}
+plot(0:9, lambda_N01, type = "b", pch = 0, col="red", xlab = "time", ylab = "lambda(t)", ylim = c(0, 20))
+lines(0:9, lambda_N02, type = "b", pch = 1, col="blue")
+lines(0:9, lambda_N03, type = "b", pch = 2, col="orange")
+legend("topright", c("N.0=(1000, 30, 15)", "N.0=(1000, 0, 0)", "N.0=(0, 100, 0)"), col =c("red", "blue", "orange"), pch = c(0, 1, 2)) 
+```
+
+
+Answer the following questions.
+
+1) Project the population ten years into the future and describe in words how the population changes in both absolute and relative numbers. Does the population fluctuate, increase or decrease?
+
+<span style="color:red">Population size fluctuates until the fourth time step and from then on shows a monotonic increase. If we would project the time series for more than ten time steps, we could see that the increase in total population size is exponential.
+The distribution of individuals over the three stages also fluctuates slightly during the first time steps but is almost constant from the fourth time step onward. This is in fact an important property of matrix models. Once the population starts to grow (or decline) exponentially the population also reaches a stable stage distribution: the proportion of individuals in the different stages stays constant, here given by (0.968, 0.022, 0.01).</span>
+
+2) Compute the growth factor $\lambda$ for ten years and describe how it changes over time. What do you observe.
+
+<span style="color:red">The observation under (1) is reflected in the behavior of the $\lambda$: this annual growth factor fluctuates slightly for the first four time steps but then stabilizes around 1.07. In other words, from the fourth time step onwards the population grows from one year to the next by a fixed factor 1.07.</span>
+
+3) Execute the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. Can you make a figure that shows the time series for the three different starting values together? Similarly, can the time series for the three different starting values together in the same figure? Can you do a similar figure but with the $\lambda$-values as computed from the different starting vectors? Summarize your observations.
+
+<span style="color:red">Changing the initial population vector only affects the dynamics during the first couple of time steps in which the dynamics fluctuate. Once the fluctuations have disappeared all populations grow with the same annual grwoth factor $\lambda\approx 1.07$ and reach the same stable stage distribution (0.968, 0.022, 0.01). For the choice $N_0=(10, 0, 0)$ we can see that the initial fluctuations are more extreme and that it takes at least until the sixth time step before the fluctuations disappear.</span>
+
+
+----------------
+
 Using the example from the lecture, you will in this exercise apply matrix multiplication to project population dynamics for some time steps into the future. At the end of this part, you should complet the following tasks.
 
 1) Project the population ten years into the future and describe how the population changes in both absolute and relative numbers.

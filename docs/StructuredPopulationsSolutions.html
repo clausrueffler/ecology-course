@@ -287,6 +287,216 @@ class="section level1 tabset">
 <h1 class="tabset">Exercise: Structured populations - Solutions</h1>
 <div id="population-projection" class="section level2">
 <h2>Population projection</h2>
+<p>Note that this exercise consists of two tabs!</p>
+<p>Using the example from the lecture, you will in this exercise apply
+matrix multiplication to project population dynamics for a couple of
+time steps into the future.</p>
+<p>The following code shows how to define a population projection matrix
+in R. We here use the three-by-three matrix from the lecture.</p>
+<pre class="r"><code>transition.matrix &lt;- matrix(c(0.1,0,100,0.02,0.2,0,0,0.2,0.6), nrow=3, ncol=3, byrow=T)
+transition.matrix # let&#39;s have a look at the matrix</code></pre>
+<pre><code>##      [,1] [,2]  [,3]
+## [1,] 0.10  0.0 100.0
+## [2,] 0.02  0.2   0.0
+## [3,] 0.00  0.2   0.6</code></pre>
+<p>Let us now define the initial population vector at time <span
+class="math inline">\(t=0\)</span>.</p>
+<pre class="r"><code>N.0 &lt;- c(1000, 30, 15)
+N.0 # let&#39;s have a look at the vector</code></pre>
+<pre><code>## [1] 1000   30   15</code></pre>
+<p>In order to obtain the vector describing the population composition
+one time step into the future, we multiply the current population vector
+<code>N.0</code> from the right to the population projection matrix
+<code>transition.matrix</code>. The multiplication between a matrix and
+a vector is executed in R using the symbol <code>%*%</code>.</p>
+<p>Use the this procedure to produce the population vectors for the
+first ten time steps, <code>N.1, N.2,..., N.10</code>.</p>
+<pre class="r"><code>(N.1 &lt;- transition.matrix %*% N.0)</code></pre>
+<pre><code>##      [,1]
+## [1,] 1600
+## [2,]   26
+## [3,]   15</code></pre>
+<pre class="r"><code>(N.2 &lt;- transition.matrix %*% N.1)</code></pre>
+<pre><code>##        [,1]
+## [1,] 1660.0
+## [2,]   37.2
+## [3,]   14.2</code></pre>
+<pre class="r"><code>(N.3 &lt;- transition.matrix %*% N.2)</code></pre>
+<pre><code>##         [,1]
+## [1,] 1586.00
+## [2,]   40.64
+## [3,]   15.96</code></pre>
+<pre class="r"><code>(N.4 &lt;- transition.matrix %*% N.3)</code></pre>
+<pre><code>##          [,1]
+## [1,] 1754.600
+## [2,]   39.848
+## [3,]   17.704</code></pre>
+<pre class="r"><code>(N.5 &lt;- transition.matrix %*% N.4)</code></pre>
+<pre><code>##           [,1]
+## [1,] 1945.8600
+## [2,]   43.0616
+## [3,]   18.5920</code></pre>
+<pre class="r"><code>(N.6 &lt;- transition.matrix %*% N.5)</code></pre>
+<pre><code>##            [,1]
+## [1,] 2053.78600
+## [2,]   47.52952
+## [3,]   19.76752</code></pre>
+<pre class="r"><code>(N.7 &lt;- transition.matrix %*% N.6)</code></pre>
+<pre><code>##            [,1]
+## [1,] 2182.13060
+## [2,]   50.58162
+## [3,]   21.36642</code></pre>
+<pre class="r"><code>(N.8 &lt;- transition.matrix %*% N.7)</code></pre>
+<pre><code>##            [,1]
+## [1,] 2354.85466
+## [2,]   53.75894
+## [3,]   22.93617</code></pre>
+<pre class="r"><code>(N.9 &lt;- transition.matrix %*% N.8)</code></pre>
+<pre><code>##            [,1]
+## [1,] 2529.10291
+## [2,]   57.84888
+## [3,]   24.51349</code></pre>
+<pre class="r"><code>(N.10 &lt;- transition.matrix %*% N.9)</code></pre>
+<pre><code>##            [,1]
+## [1,] 2704.25949
+## [2,]   62.15183
+## [3,]   26.27787</code></pre>
+<p>Next, let us compute the total number of individuals at time
+<code>t=0</code>, <code>t=1</code> until <code>t=10</code> using the
+command <code>sum()</code>.</p>
+<pre class="r"><code>(Ntot.0 &lt;- sum(N.0)) </code></pre>
+<pre><code>## [1] 1045</code></pre>
+<pre class="r"><code>(Ntot.1 &lt;- sum(N.1))</code></pre>
+<pre><code>## [1] 1641</code></pre>
+<pre class="r"><code>(Ntot.2 &lt;- sum(N.2))</code></pre>
+<pre><code>## [1] 1711.4</code></pre>
+<pre class="r"><code>(Ntot.3 &lt;- sum(N.3))</code></pre>
+<pre><code>## [1] 1642.6</code></pre>
+<pre class="r"><code>(Ntot.4 &lt;- sum(N.4)) </code></pre>
+<pre><code>## [1] 1812.152</code></pre>
+<pre class="r"><code>(Ntot.5 &lt;- sum(N.5))</code></pre>
+<pre><code>## [1] 2007.514</code></pre>
+<pre class="r"><code>(Ntot.6 &lt;- sum(N.6)) </code></pre>
+<pre><code>## [1] 2121.083</code></pre>
+<pre class="r"><code>(Ntot.7 &lt;- sum(N.7))</code></pre>
+<pre><code>## [1] 2254.079</code></pre>
+<pre class="r"><code>(Ntot.8 &lt;- sum(N.8)) </code></pre>
+<pre><code>## [1] 2431.55</code></pre>
+<pre class="r"><code>(Ntot.9 &lt;- sum(N.9))</code></pre>
+<pre><code>## [1] 2611.465</code></pre>
+<pre class="r"><code>(Ntot.10 &lt;- sum(N.10))</code></pre>
+<pre><code>## [1] 2792.689</code></pre>
+<p>Now we have everything to create a time series plot. With this we
+mean a plot with time on the x-axis and <code>Ntot</code> on the
+y-axis.</p>
+<pre class="r"><code>plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), type = &quot;b&quot;, xlab=&quot;Time (years)&quot;, ylab=&quot;Ntot.t&quot;, las=1)</code></pre>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Next, let’s have a look at the population composition. How is the
+total number of individuals distributed over the different life-history
+states?</p>
+<pre class="r"><code>barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), names.arg=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;, &quot;N.3&quot;, &quot;N.4&quot;, &quot;N.5&quot;, &quot;N.6&quot;, &quot;N.7&quot;, &quot;N.8&quot;, &quot;N.9&quot;, &quot;N.10&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;, ylim = c(0, 3000), cex.names=0.8)
+
+legend(&quot;topleft&quot;, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=T)</code></pre>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>It is also common (and informative) to plot the population vectors as
+relative numbers to show what relative proportion of the population
+belongs to each life history state. For this we have to divide the
+number of individuals in each state by the total population size at that
+time step.</p>
+<pre class="r"><code>barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), las=1, names=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;, &quot;N.3&quot;, &quot;N.4&quot;, &quot;N.5&quot;, &quot;N.6&quot;, &quot;N.7&quot;, &quot;N.8&quot;, &quot;N.9&quot;, &quot;N.10&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;, cex.names=0.8)
+legend(&quot;bottom&quot;, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=T)</code></pre>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Finally, let us calculate the growth factor <span
+class="math inline">\(\lambda\)</span> at each time step. For this we
+have to divide the total population size of two consecutive time steps
+by each other: <span class="math display">\[
+\lambda(t) = \frac{N_{\rm tot}(t+1)}{N_{\rm tot}(t)}.
+\]</span> Thus</p>
+<pre class="r"><code>(lambda.0 &lt;- Ntot.1/Ntot.0)</code></pre>
+<pre><code>## [1] 1.570335</code></pre>
+<pre class="r"><code>(lambda.1 &lt;- Ntot.2/Ntot.1)</code></pre>
+<pre><code>## [1] 1.042901</code></pre>
+<pre class="r"><code>(lambda.2 &lt;- Ntot.3/Ntot.2)</code></pre>
+<pre><code>## [1] 0.959799</code></pre>
+<pre class="r"><code>(lambda.3 &lt;- Ntot.4/Ntot.3)</code></pre>
+<pre><code>## [1] 1.103222</code></pre>
+<pre class="r"><code>(lambda.4 &lt;- Ntot.5/Ntot.4)</code></pre>
+<pre><code>## [1] 1.107806</code></pre>
+<pre class="r"><code>(lambda.5 &lt;- Ntot.6/Ntot.5)</code></pre>
+<pre><code>## [1] 1.056572</code></pre>
+<pre class="r"><code>(lambda.6 &lt;- Ntot.7/Ntot.6)</code></pre>
+<pre><code>## [1] 1.062702</code></pre>
+<pre class="r"><code>(lambda.7 &lt;- Ntot.8/Ntot.7)</code></pre>
+<pre><code>## [1] 1.078733</code></pre>
+<pre class="r"><code>(lambda.8 &lt;- Ntot.9/Ntot.8)</code></pre>
+<pre><code>## [1] 1.073992</code></pre>
+<pre class="r"><code>(lambda.9 &lt;- Ntot.10/Ntot.9)</code></pre>
+<pre><code>## [1] 1.069395</code></pre>
+<p>Let’s make a plot that shows how <span
+class="math inline">\(\lambda\)</span> changes over time from <span
+class="math inline">\(t=0\)</span> to <span
+class="math inline">\(t=10\)</span>.</p>
+<pre class="r"><code>plot(x=c(0:9), y=c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9), type = &quot;b&quot;, xlab=&quot;Time (years)&quot;, ylab=&quot;growth factor lambda&quot;, las=1)</code></pre>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Now let us repeat the calculations for the two other starting
+vectors. First, <span class="math inline">\(N(0)=(1000, 0,
+0)\)</span>,</p>
+<pre class="r"><code>N.0 &lt;- matrix(c(1000, 0, 0), nrow=3, ncol=1, byrow=T)</code></pre>
+<p>and then <span class="math inline">\(N(0)=(0, 100, 0)\)</span>.</p>
+<pre class="r"><code>N.0 &lt;- matrix(c(0, 100, 0), nrow=3, ncol=1, byrow=T)</code></pre>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>Answer the following questions.</p>
+<ol style="list-style-type: decimal">
+<li>Project the population ten years into the future and describe in
+words how the population changes in both absolute and relative numbers.
+Does the population fluctuate, increase or decrease?</li>
+</ol>
+<p><span style="color:red">Population size fluctuates until the fourth
+time step and from then on shows a monotonic increase. If we would
+project the time series for more than ten time steps, we could see that
+the increase in total population size is exponential. The distribution
+of individuals over the three stages also fluctuates slightly during the
+first time steps but is almost constant from the fourth time step
+onward. This is in fact an important property of matrix models. Once the
+population starts to grow (or decline) exponentially the population also
+reaches a stable stage distribution: the proportion of individuals in
+the different stages stays constant, here given by (0.968, 0.022,
+0.01).</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Compute the growth factor <span
+class="math inline">\(\lambda\)</span> for ten years and describe how it
+changes over time. What do you observe.</li>
+</ol>
+<p><span style="color:red">The observation under (1) is reflected in the
+behavior of the <span class="math inline">\(\lambda\)</span>: this
+annual growth factor fluctuates slightly for the first four time steps
+but then stabilizes around 1.07. In other words, from the fourth time
+step onwards the population grows from one year to the next by a fixed
+factor 1.07.</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Execute the computations under (1) and (2) for three different
+initial population vectors <span class="math inline">\(N_0\)</span>,
+namely: <span class="math inline">\(N_0=(1000, 30, 15)\)</span>, <span
+class="math inline">\(N_0=(10, 0, 0)\)</span> and <span
+class="math inline">\(N_0=(0, 10, 0)\)</span>. Can you make a figure
+that shows the time series for the three different starting values
+together? Similarly, can the time series for the three different
+starting values together in the same figure? Can you do a similar figure
+but with the <span class="math inline">\(\lambda\)</span>-values as
+computed from the different starting vectors? Summarize your
+observations.</li>
+</ol>
+<p><span style="color:red">Changing the initial population vector only
+affects the dynamics during the first couple of time steps in which the
+dynamics fluctuate. Once the fluctuations have disappeared all
+populations grow with the same annual grwoth factor <span
+class="math inline">\(\lambda\approx 1.07\)</span> and reach the same
+stable stage distribution (0.968, 0.022, 0.01). For the choice <span
+class="math inline">\(N_0=(10, 0, 0)\)</span> we can see that the
+initial fluctuations are more extreme and that it takes at least until
+the sixth time step before the fluctuations disappear.</span></p>
+<hr />
 <p>Using the example from the lecture, you will in this exercise apply
 matrix multiplication to project population dynamics for some time steps
 into the future. At the end of this part, you should complet the
@@ -394,7 +604,7 @@ can add them to the plot by changing <code>c(0:2)</code> to
 <code>y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10)</code>
 (the values on the y-axis) in the above code.</p>
 <pre class="r"><code>plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), xlab=&quot;Time (years)&quot;, ylab=&quot;Ntot.t&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>Next, let’s have a look at the population composition. How is the
 total number of individuals distributed over the different life-history
 states? For this, we can plot the population vectors in form of a bar
@@ -403,7 +613,7 @@ plot.</p>
 barplot(cbind(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), las=1, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), names.arg=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;, &quot;N.3&quot;, &quot;N.4&quot;, &quot;N.5&quot;, &quot;N.6&quot;, &quot;N.7&quot;, &quot;N.8&quot;, &quot;N.9&quot;, &quot;N.10&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;)
 
 legend(&quot;topleft&quot;, x=0.1, y=2000, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=T)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>It is also common (and informative) to plot the population vectors as
 relative numbers to show what fraction of the total population belongs
 to each life history state. For this we have to divide the number of
@@ -411,7 +621,7 @@ individuals in each state by the total population size at that time
 step.</p>
 <pre class="r"><code>barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), las=1, names=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;, &quot;N.3&quot;, &quot;N.4&quot;, &quot;N.5&quot;, &quot;N.6&quot;, &quot;N.7&quot;, &quot;N.8&quot;, &quot;N.9&quot;, &quot;N.10&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;)
 legend(x=0.1, y=120, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=T)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <pre class="r"><code>N.10/sum(N.10) # vector giving the distribution at the end of the time series</code></pre>
 <pre><code>##             [,1]
 ## [1,] 0.968335286
@@ -436,7 +646,7 @@ class="math inline">\(\lambda\)</span> changes over time from <span
 class="math inline">\(t=0\)</span> to <span
 class="math inline">\(t=10\)</span>.</p>
 <pre class="r"><code>plot(x=c(1:10), y=c(lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9, lambda.10), type=&quot;l&quot;, xlab=&quot;Time (years)&quot;, ylab=&quot;lambda&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>Here the calucations for an alternative initial population vector
 <span class="math inline">\(N_0=(10, 0, 0)\)</span>.</p>
 <pre class="r"><code>N.0 &lt;- matrix(c(10, 0, 0), nrow=3, ncol=1, byrow=T)
@@ -465,10 +675,10 @@ Ntot.9 &lt;- sum(N.9)
 Ntot.10 &lt;- sum(N.10)
 
 plot(x=c(0:10), y=c(Ntot.0, Ntot.1, Ntot.2, Ntot.3, Ntot.4, Ntot.5, Ntot.6, Ntot.7, Ntot.8, Ntot.9, Ntot.10), xlab=&quot;Time (years)&quot;, ylab=&quot;Ntot.t&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <pre class="r"><code>barplot(cbind(N.0/sum(N.0), N.1/sum(N.1), N.2/sum(N.2), N.3/sum(N.3), N.4/sum(N.4), N.5/sum(N.5), N.6/sum(N.6), N.7/sum(N.7), N.8/sum(N.8), N.9/sum(N.9), N.10/sum(N.10))*100, col=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), las=1, names=c(&quot;N.0&quot;, &quot;N.1&quot;, &quot;N.2&quot;, &quot;N.3&quot;, &quot;N.4&quot;, &quot;N.5&quot;, &quot;N.6&quot;, &quot;N.7&quot;, &quot;N.8&quot;, &quot;N.9&quot;, &quot;N.10&quot;), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time (years)&quot;)
 legend(x=0.1, y=120, bty=&quot;n&quot;, legend=c(&quot;Seeds&quot;, &quot;Seedlings&quot;, &quot;Adults&quot;), fill=c(&quot;grey&quot;, &quot;green&quot;, &quot;red&quot;), horiz=T)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-37-2.png" width="672" /></p>
 <pre class="r"><code>N.10/sum(N.10) # vector giving the distribution at the end of the time series</code></pre>
 <pre><code>##             [,1]
 ## [1,] 0.968646603
@@ -486,7 +696,7 @@ lambda.9 &lt;- Ntot.9/Ntot.8
 lambda.10 &lt;- Ntot.10/Ntot.9
 
 plot(x=c(1:10), y=c(lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9, lambda.10), type=&quot;l&quot;, xlab=&quot;Time (years)&quot;, ylab=&quot;lambda&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-11-3.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-37-3.png" width="672" /></p>
 </div>
 <div id="conservation-measures" class="section level2">
 <h2>Conservation measures</h2>
@@ -619,18 +829,18 @@ for (n in 2:11) # the loop &quot;runs&quot; from n=2 to n=11 (representing the y
 column in the data frame, for example, the total population size
 <em>N</em>.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$N, type=&quot;l&quot;, ylab=&quot;Total population size&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 <p>In order to plot the entries of another column, we have to add the
 name of that column to the second <code>pop.dev$</code> in the last line
 of code. For example, if we want to plot the number of adults we have to
 replace <code>pop.dev$N</code> with <code>pop.dev$Adults</code> (and
 change the name of the label on the y-axis accordingly).</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 <p>And here is the code if you wish to plot the growth factor <span
 class="math inline">\(\lambda\)</span> as a function of time.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$lambda, type=&quot;l&quot;, ylab=&quot;Growth factor lambda&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
 <p>Now you have to decide how you have to change the above code so that
 it takes into account the above two conservation strategies.</p>
 <p><span style="color:red">The following code produces the data for the
@@ -660,7 +870,7 @@ for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
 }
 
 plot(pop.dev.strategy.1$time, pop.dev.strategy.1$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1, col=&quot;green&quot;)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
 <p><span style="color:red">The following code produces the data for the
 SECOND conservation measurement. For this we have to change the first
 entry in the second column from 0.01 to 0.025. This entry describes the
@@ -688,7 +898,7 @@ for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
 }
 
 plot(pop.dev.strategy.2$time, pop.dev.strategy.2$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1, col=&quot;blue&quot;)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 <p>Once you have the time series for the three different scenarios
 (population without conservation, population with measurement 1 and
 population with measurement 2), you could use code like the following to
@@ -698,7 +908,7 @@ lines(pop.dev$time, pop.dev.strategy.1$Adults, col=&quot;green&quot;)
 lines(pop.dev$time, pop.dev.strategy.2$Adults, col=&quot;blue&quot;)
 legend(&quot;top&quot;, legend=c(&quot;no measure&quot;, &quot;Meth. 1&quot;, &quot;Meth. 2&quot;), 
        col=c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;), lty=c(1,1,1), bty=&quot;n&quot;, horiz=TRUE, cex=0.9)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <!-- (Code to produce the data for the SECOND conservation measurement. Here, I added ```+30```in the for loop where the population size at the next year is determined.) -->
 </div>
 </div>
