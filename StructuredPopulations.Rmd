@@ -69,7 +69,6 @@ Next, let us compute the total number of individuals at time `t=0`, `t=1` until 
 ```
 
 ```{r echo=FALSE, eval=FALSE}
-(Ntot.2 <- sum(N.2)) 
 (Ntot.3 <- sum(N.3))
 (Ntot.4 <- sum(N.4)) 
 (Ntot.5 <- sum(N.5))
@@ -113,6 +112,7 @@ It is also common (and informative) to plot the population vectors as relative n
 barplot(cbind(N.0/Ntot.0, N.1/Ntot.1, N.2/Ntot.2), col=c("grey", "green", "red"), las=1, names=c("N.0", "N.1", "N.2"), ylab="Proportion of individuals", xlab="Time (years)")
 legend("bottom", bty="n", legend=c("Seeds", "Seedlings", "Adults"), fill=c("grey", "green", "red"), horiz=F)
 ```
+
 Again, please adapt this code to include the data for the all time steps until ```t=10```.
 
 ```{r echo=FALSE, eval=FALSE}
@@ -131,10 +131,10 @@ Thus
 (lambda.0 <- Ntot.1/Ntot.0)
 (lambda.1 <- Ntot.2/Ntot.1)
 ```
+
 and so forth. Please, do this computation for all 10 $\lambda$-values
 
 ```{r echo=FALSE, eval=FALSE}
-(lambda.1 <- Ntot.2/Ntot.1)
 (lambda.2 <- Ntot.3/Ntot.2)
 (lambda.3 <- Ntot.4/Ntot.3)
 (lambda.4 <- Ntot.5/Ntot.4)
@@ -146,16 +146,18 @@ and so forth. Please, do this computation for all 10 $\lambda$-values
 ```
 
 Let's make a plot that shows how $\lambda$ changes over time from $t=0$ to $t=10$.
+
 ```{r eval=FALSE}
 plot(x=c(0:9), y=c(lambda.0, lambda.1, lambda.2, lambda.3, lambda.4, lambda.5, lambda.6, lambda.7, lambda.8, lambda.9), type = "b", xlab="Time (years)", ylab="growth factor lambda", las=1)
 ```
+
 At the end of this part, you should complete the following tasks.
 
-1) Project the population ten years into the future and describe in words how the population changes in both absolute and relative numbers.
+1) Project the population ten years into the future and describe in words how the population changes in both absolute and relative numbers. Does the population fluctuate, increase or decrease?
 
 2) Compute the growth factor $\lambda$ for ten years and describe how it changes over time. What do you observe.
 
-3) Execute the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. How do the results differ from each other when using different starting vectors?
+3) Execute the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. Can you make a figure that shows the time series for the three different starting values together? Similarly, can the time series for the three different starting values together in the same figure? Can you do a similar figure but with the $\lambda$-values as computed from the different starting vectors? Summarize your observations.
 
 ## Conservation measures
 
