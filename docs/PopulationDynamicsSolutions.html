@@ -264,6 +264,9 @@ $(document).ready(function () {
       <a href="./PopulationDynamics.html">1. Excercise: Population Dynamics</a>
     </li>
     <li>
+      <a href="./PopulationDynamicsSolutions.html">1. Excercise: Population Dynamics Solutions</a>
+    </li>
+    <li>
       <a href="./Demography.html">2. Excercise: Demography I</a>
     </li>
     <li>
@@ -314,7 +317,25 @@ N_6 &amp;= 3000* \exp(0.08*6) = 3000*1.0833^6= 4848
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
 <p>You estimate the size of a flatworm population to be the following at five consecutive days: 100, 158, 315, 398 and 794 individuals. Plot the natural logarithm (i.e., to the base e) of the population size and estimate <em>r</em>. You can plot the data by hand on a piece of paper, or by using EXCEL or R.</p>
-<p><strong>Answer:</strong> Start by taking the natural logarithm of the five population estimates, resulting in 4.605, 5.063, 5.753, 5.986, and 6.677. Plot these as a function of time (days). Draw a straight line through the data points. There are exact mathematical methods, for example, the method of least squares (linear regression) that can be excuted in R or Excel. However, for our purpose it is sufficient to draw the line with the “naked eye”. The slope equals <em>r</em>. It is calculated as <em>Delta y/Delta x</em>, for example <em>(5.6-5.1)/(3-2) = 0.5</em>.</p>
+<p><strong>Answer:</strong> Start by taking the natural logarithm of the five population estimates, resulting in 4.605, 5.063, 5.753, 5.986, and 6.677. Plot these as a function of time (days).</p>
+<p>Draw a straight line through the data points. There are exact mathematical methods, for example, the method of least squares (linear regression) that can be executed in R or Excel. Here you can see the R-code for doing this.</p>
+<pre class="r"><code>x &lt;- 1:5
+y &lt;- c(4.605, 5.063, 5.753, 5.986, 6.677)
+
+plot(x, y, xlab = &quot;day&quot;, ylab = &quot;population size&quot;)
+linear.regression &lt;- lm(y ~ x)
+linear.regression</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Coefficients:
+## (Intercept)            x  
+##      4.0967       0.5067</code></pre>
+<pre class="r"><code>abline(linear.regression)</code></pre>
+<p><img src="PopulationDynamicsSolutions_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The regression analysis also shows the value for the slope, namely <span class="math inline">\(0.5067\)</span>. This slope is equal to the population growth rate <span class="math inline">\(r\)</span>.</p>
+<p>For the purpose of this exercise it is sufficient to draw the line with the “naked eye” and estimate its slope by dividing the change in <span class="math inline">\(y\)</span> by the change in <span class="math inline">\(x\)</span>, <span class="math inline">\(\Delta y/\Delta x\)</span>.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
@@ -331,28 +352,50 @@ N_6 &amp;= 3000* \exp(0.08*6) = 3000*1.0833^6= 4848
     1984 &amp;\,\,\,\,\, 40 &amp; 1993 &amp;\,\,\,\,\, 179 \\
     1985 &amp;\,\,\,\,\, 54 &amp;&amp;
 \end{align*}
+\]</span> Plot these data. What shape of population growth is shown by these data? Could one fit the logistic equation to these data? Use a discrete-time model to calculate the net reproductive ratio <span class="math inline">\(\lambda\)</span> for this population.</p>
+<p><strong>Answer:</strong></p>
+<pre class="r"><code>x &lt;- c(1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993)
+y &lt;- c(8, 13, 14, NA, 15, NA, 20, 21, 27, 40, 54, 68, 67, 72, 79, 94, 110, 146, 179)
+
+plot(x, y, xlab = &quot;year&quot;, ylab = &quot;population size&quot;)</code></pre>
+<p><img src="PopulationDynamicsSolutions_files/figure-html/unnamed-chunk-2-1.png" width="672" /> There is no evidence for the curve to level off around an equilibrium <em>K</em>. Rather, the elk population seems to grow exponentially.</p>
+<p>We can use the same method as under Q2 to calculate <span class="math inline">\(\lambda\)</span>:</p>
+<pre class="r"><code>lny &lt;- log(y)
+plot(x, lny, xlab = &quot;day&quot;, ylab = &quot;population size&quot;)
+linear.regression &lt;- lm(lny ~ x)
+linear.regression</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lny ~ x)
+## 
+## Coefficients:
+## (Intercept)            x  
+##   -320.8056       0.1635</code></pre>
+<pre class="r"><code>abline(linear.regression)</code></pre>
+<p><img src="PopulationDynamicsSolutions_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Thus <span class="math inline">\(r=0.1635\)</span>, and <span class="math display">\[
+\lambda=\exp(r)=\exp(0.1635)=1.177625.
 \]</span></p>
-<p>Plot these data. What shape of population growth is shown by these data? Could one fit the logistic equation to these data? Use a discrete-time model to calculate the net reproductive ratio <em>lambda</em> for this population.</p>
-<p><strong>Answer:</strong> The elk population grows exponential, there is no evidence for the curve levelling off around an equilibrium <em>K</em>. Solving for <em>r</em> can be done as follows: <span class="math display">\[
+<p>Alternatively, solving for <em>r</em> can done as follows: <span class="math display">\[
 \begin{align}
 N_t &amp;= N_0 \lambda^{t}\\
 \lambda^{t} &amp;= \frac{N_t}{N_0}\\
 \lambda &amp;=\left(\frac{N_t}{N_0}\right)^{\frac{1}{t}}=\sqrt[^{t}]{\frac{N_t}{N_0}}\\
 \lambda &amp;= \sqrt[^{18}]{\frac{179}{8}} = \sqrt[^{18}]{22.375}\approx1.19
 \end{align}
-\]</span> Alternatively, you could use the same method as in Question (2) an convert <span class="math inline">\(r\)</span> to <em>lambda</em> using the formula <em>lambda=exp(r)</em>.</p>
+\]</span></p>
 </div>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
 <p>Suppose that a butterfly population shows logistic growth with <em>K = 500</em> and <em>r = 0.1</em> individuals/(individuals*month). What is the maximal growth rate for this population?</p>
-<p><strong>Answer:</strong> Recall that the growth rate of a logistic growing population is highest when population size equals <em>N = K/2</em>. Since <em>K = 500</em> this population will grow fastest at <em>N = 500/2 = 250</em>. Then <span class="math display">\[
+<p><strong>Answer:</strong> Recall that the growth rate of a logistically growing population is highest when population size equals <em>N = K/2</em>. Since <em>K = 500</em> this population will grow fastest at <em>N = 500/2 = 250</em>. Then <span class="math display">\[
 \frac{\mathrm{d}N}{\mathrm{d}t} = rN\left(1-\frac{N}{K}\right) \Longrightarrow 0.1*250\left(1-\frac{250}{500}\right)= 12.5.
 \]</span> Thus, the maximal population growth rate equals 12.5 individuals per month.</p>
 </div>
 <div id="question-5" class="section level2">
 <h2>Question 5</h2>
 <p>A fisher is maximizing their fishing yield by maintaining a population of logistically growing lake trout at the density where the population growth rate is fastest. For the population in question, this occurs at a density of 500 individuals. Predict the realized population growth rate after the population has been stocked with an additional 600 fish. Assume that for the trout <em>r=0.005</em> individuals/(individual*day).</p>
-<p><strong>Answer:</strong> The fact that this logistically growing population is growing fastest at <em>K/2=500</em> individuals implies that <em>K = 1000</em>. With 600 fish added the new population size equals 1100. <span class="math display">\[
+<p><strong>Answer:</strong> The fact that this logistically growing population is growing fastest at <em>K/2=500</em> individuals implies that <em>K = 1000</em>. With 600 fish added the new population size equals 1100. Then <span class="math display">\[
 \frac{\mathrm{d}N}{\mathrm{d}t} = rN\left(1-\frac{N}{K}\right) \Longrightarrow 0.005*1100\left(1-\frac{1100}{1000}\right) = -0.55.
 \]</span> Thus, the growth rate equals -0.55 fish per day. The growth rate is negative because the additional stock pushes the population above its carrying capacity.</p>
 </div>
