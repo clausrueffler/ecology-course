@@ -13,7 +13,7 @@
 
 <title>Exercise: Demography II</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,9 +191,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -290,138 +297,37 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="life-tables-survivorship-curves-and-population-growth"
-class="section level1 tabset">
-<h1 class="tabset">Life Tables, Survivorship Curves and Population
-Growth</h1>
+<div id="life-tables-survivorship-curves-and-population-growth" class="section level1 tabset">
+<h1 class="tabset">Life Tables, Survivorship Curves and Population Growth</h1>
 <p>This page contains answers to the five questions.</p>
 <ul>
-<li><strong>Question 1</strong> Why do we plot survivorship curves on a
-semi-log scale (y-axis on a log-scale)?</li>
+<li><strong>Question 1</strong> Why do we plot survivorship curves on a semi-log scale (y-axis on a log-scale)?</li>
 </ul>
-<p>We plot survivorship curves on semi-log graphs because <span
-class="math inline">\(l_x\)</span> is a proportion: the proportion of
-the original cohort surviving to age <span
-class="math inline">\(x\)</span>. The distance between points on a
-logarithmic axis reflects their proportional relationship, and so a
-logarithmic scale is appropriate.</p>
-<p>This kind of graph also makes clear important differences between the
-three types of survivorship curve. Note that on the linear graph, type
-II and type III curves have qualitatively similar shapes, whereas on the
-semi-log graph they look quite different.</p>
+<p>We plot survivorship curves on semi-log graphs because <span class="math inline">\(l_x\)</span> is a proportion: the proportion of the original cohort surviving to age <span class="math inline">\(x\)</span>. The distance between points on a logarithmic axis reflects their proportional relationship, and so a logarithmic scale is appropriate.</p>
+<p>This kind of graph also makes clear important differences between the three types of survivorship curve. Note that on the linear graph, type II and type III curves have qualitatively similar shapes, whereas on the semi-log graph they look quite different.</p>
 <ul>
-<li><strong>Question 2</strong> What do the shapes of the survivorship
-curves tell us about patterns of survival and mortality? Compare each
-curve to the corresponding graph of age-specific survivorship (which you
-produce with the next piece of code).</li>
+<li><strong>Question 2</strong> What do the shapes of the survivorship curves tell us about patterns of survival and mortality? Compare each curve to the corresponding graph of age-specific survivorship (which you produce with the next piece of code).</li>
 </ul>
-<p>The keys to interpreting the shapes of survivorship curves are to
-look at their slopes compared with the graphs of age-specific survival
-(<span class="math inline">\(g_x\)</span>). The type I curve begins with
-a shallow slope, indicating low mortality among the young - that is, a
-high proportion of individuals of each age survive to the next age
-throughout the early part of life. The curve steepens at older ages,
-indicating increased mortality in old age. A type I curve tells us that
-most individuals in this population survive a long time and die at old
-ages. The graph of <span class="math inline">\(g_x\)</span> supports
-this interpretation: survival is high in the young, and drops off with
-age.</p>
-<p>The type III curve reflects the opposite pattern of survival and
-mortality. The curve begins with a steep slope, indicating low survival
-(and high mortality) among the young. The shallow slope in middle and
-old ages indicates that most of the individuals that survive their youth
-survive to old age. The graph of <span
-class="math inline">\(g_x\)</span> shows the same thing—survival among
-the young is very low, and increases with age (until the oldest
-age).</p>
-<p>The type II curve indicates a constant rate of survival across all
-ages (until the last). Note that a straight line on a semi-log plot
-indicates change by a constant proportion. The graph of <span
-class="math inline">\(g_x\)</span> (a horizontal line) also shows that
-survival is the same for all ages (except the oldest).</p>
+<p>The keys to interpreting the shapes of survivorship curves are to look at their slopes compared with the graphs of age-specific survival (<span class="math inline">\(g_x\)</span>). The type I curve begins with a shallow slope, indicating low mortality among the young - that is, a high proportion of individuals of each age survive to the next age throughout the early part of life. The curve steepens at older ages, indicating increased mortality in old age. A type I curve tells us that most individuals in this population survive a long time and die at old ages. The graph of <span class="math inline">\(g_x\)</span> supports this interpretation: survival is high in the young, and drops off with age.</p>
+<p>The type III curve reflects the opposite pattern of survival and mortality. The curve begins with a steep slope, indicating low survival (and high mortality) among the young. The shallow slope in middle and old ages indicates that most of the individuals that survive their youth survive to old age. The graph of <span class="math inline">\(g_x\)</span> shows the same thing—survival among the young is very low, and increases with age (until the oldest age).</p>
+<p>The type II curve indicates a constant rate of survival across all ages (until the last). Note that a straight line on a semi-log plot indicates change by a constant proportion. The graph of <span class="math inline">\(g_x\)</span> (a horizontal line) also shows that survival is the same for all ages (except the oldest).</p>
 <ul>
-<li><strong>Question 3</strong> How can you explain the patterns shown
-in the graphs for life expectancy?</li>
+<li><strong>Question 3</strong> How can you explain the patterns shown in the graphs for life expectancy?</li>
 </ul>
-<p>The type I curve of life expectancy is probably not surprising, as it
-shows that the expected number of years of life remaining decreases with
-increasing age.</p>
-<p>The type II curve may strike you as somewhat surprising. It indicates
-that an individual can expect to live about 2 more years, regardless of
-age, up to about 6 years of age. After this, life expectancy decreases,
-to 1 year at 10 years of age. How can this be? A type II survivorship
-curve occurs when the same proportion of survivors die at each age (in
-other words, when the risk of death is constant for all ages). In this
-circumstance, life expectancy is the reciprocal of risk of death. If you
-look at <span class="math inline">\(g_x\)</span>, you will see that half
-of the survivors die at each age. The reciprocal of <span
-class="math inline">\(1/2\)</span> is 2 - the life expectancy.</p>
-<p>The type III curve is probably the most unexpected. It shows life
-expectancy increasing with age up to 3 years of age, after which it
-declines. How can an older individual expect to live longer than a
-younger one? Because of high juvenile mortality. A newborn individual is
-unlikely survive its first year. However, individuals that do survive
-can expect to live a bit more than 3 additional years. Those that
-survive to 2 years of age can expect to live almost another 6 years.</p>
-<p>This last pattern of survival and mortality brings up a common
-misinterpretation of demographic data. You may have heard that people in
-some region or society have high infant and juvenile mortality and short
-life expectancy. Sometimes people conclude from this that everyone in
-the society dies young and there are no old people. However, the type
-III pattern of survival and life expectancy should show you that this is
-not exactly the case. Once a person in reaches young adulthood, they may
-live many years more, and the oldest members of the society may be
-nearly as old as the oldest individuals in any other. It is true,
-however, that there will be proportionately fewer old people.</p>
+<p>The type I curve of life expectancy is probably not surprising, as it shows that the expected number of years of life remaining decreases with increasing age.</p>
+<p>The type II curve may strike you as somewhat surprising. It indicates that an individual can expect to live about 2 more years, regardless of age, up to about 6 years of age. After this, life expectancy decreases, to 1 year at 10 years of age. How can this be? A type II survivorship curve occurs when the same proportion of survivors die at each age (in other words, when the risk of death is constant for all ages). In this circumstance, life expectancy is the reciprocal of risk of death. If you look at <span class="math inline">\(g_x\)</span>, you will see that half of the survivors die at each age. The reciprocal of <span class="math inline">\(1/2\)</span> is 2 - the life expectancy.</p>
+<p>The type III curve is probably the most unexpected. It shows life expectancy increasing with age up to 3 years of age, after which it declines. How can an older individual expect to live longer than a younger one? Because of high juvenile mortality. A newborn individual is unlikely survive its first year. However, individuals that do survive can expect to live a bit more than 3 additional years. Those that survive to 2 years of age can expect to live almost another 6 years.</p>
+<p>This last pattern of survival and mortality brings up a common misinterpretation of demographic data. You may have heard that people in some region or society have high infant and juvenile mortality and short life expectancy. Sometimes people conclude from this that everyone in the society dies young and there are no old people. However, the type III pattern of survival and life expectancy should show you that this is not exactly the case. Once a person in reaches young adulthood, they may live many years more, and the oldest members of the society may be nearly as old as the oldest individuals in any other. It is true, however, that there will be proportionately fewer old people.</p>
 <ul>
-<li><strong>Question 4</strong> Given the three species have the same
-fecundity schedule, describe the effect of the different survival
-schedules on the reported quantities. What conclusions can you draw
-about the future population dynamics?</li>
+<li><strong>Question 4</strong> Given the three species have the same fecundity schedule, describe the effect of the different survival schedules on the reported quantities. What conclusions can you draw about the future population dynamics?</li>
 </ul>
-<p>A newborn female of species 1 can expect to have approximately 21
-female offspring during here life time, while for species 2 and 3 this
-number is below 1 (<span class="math inline">\(\approx 0.4\)</span> for
-species 2 and <span class="math inline">\(\approx 0.03\)</span> for
-species 3). Accordingly, the the population of species 1 is expected to
-increase, as indicated by <span class="math inline">\(r&gt;0\)</span>.
-More accurately, the population is expected to increase by a factor of
-<span class="math inline">\(\lambda = 1.73\)</span> per year. In
-contrast, species 2 and 3 are expected to decrease (<span
-class="math inline">\(r&lt;0\)</span>) by a factor <span
-class="math inline">\(\lambda = 0.82\)</span> and <span
-class="math inline">\(\lambda = 0.6\)</span>, respectively.</p>
-<p>This might be surprising given that for all species the expected
-number of offspring at any given age <span
-class="math inline">\(x\)</span> is identical. The reason for the
-difference lies of course in the different survival schedules. Given the
-type I survivorship curve for species 1, a large number of individuals
-become sufficiently old to actually be able to reproduce for several
-years, while for species 3, having a type III survivorship curve, most
-individuals die before they could start reproducing. The pattern for
-species 2 is in between.</p>
-<p>Notice also how the survivorship schedules affects the cohort
-generation time <span class="math inline">\(T_c\)</span>, defined as the
-average length of time between the birth of an individual and the birth
-of one of its own offspring. Somewhat surprisingly, this number is
-largest for species 3, despite the fact that this species has the lowest
-<span class="math inline">\(R_0\)</span>. The reason is that the
-numerator in Eq.~7, which is the sum of the ages at which a member of
-the cohort obtains an offspring, decreases by a smaller factor than
-<span class="math inline">\(R_0\)</span> for species 3 when compared to
-the other two species.</p>
+<p>A newborn female of species 1 can expect to have approximately 21 female offspring during here life time, while for species 2 and 3 this number is below 1 (<span class="math inline">\(\approx 0.4\)</span> for species 2 and <span class="math inline">\(\approx 0.03\)</span> for species 3). Accordingly, the the population of species 1 is expected to increase, as indicated by <span class="math inline">\(r&gt;0\)</span>. More accurately, the population is expected to increase by a factor of <span class="math inline">\(\lambda = 1.73\)</span> per year. In contrast, species 2 and 3 are expected to decrease (<span class="math inline">\(r&lt;0\)</span>) by a factor <span class="math inline">\(\lambda = 0.82\)</span> and <span class="math inline">\(\lambda = 0.6\)</span>, respectively.</p>
+<p>This might be surprising given that for all species the expected number of offspring at any given age <span class="math inline">\(x\)</span> is identical. The reason for the difference lies of course in the different survival schedules. Given the type I survivorship curve for species 1, a large number of individuals become sufficiently old to actually be able to reproduce for several years, while for species 3, having a type III survivorship curve, most individuals die before they could start reproducing. The pattern for species 2 is in between.</p>
+<p>Notice also how the survivorship schedules affects the cohort generation time <span class="math inline">\(T_c\)</span>, defined as the average length of time between the birth of an individual and the birth of one of its own offspring. Somewhat surprisingly, this number is largest for species 3, despite the fact that this species has the lowest <span class="math inline">\(R_0\)</span>. The reason is that the numerator in Eq.~7, which is the sum of the ages at which a member of the cohort obtains an offspring, decreases by a smaller factor than <span class="math inline">\(R_0\)</span> for species 3 when compared to the other two species.</p>
 <ul>
-<li><strong>Question 5</strong> How would you classify the three
-survivorship curves? Does this make sense in the light of the biology of
-the three species?</li>
+<li><strong>Question 5</strong> How would you classify the three survivorship curves? Does this make sense in the light of the biology of the three species?</li>
 </ul>
-<p>You should see that Dall Moutain Sheep have a type I survivorship
-curve, Song Thrushes a type II, and barnacles a type III. None of these
-will be as neat as the hypothetical examples given in the second tab,
-but they come close. Other populations may display a mixture of types.
-Human populations, especially in developing countries, often have high
-infant and juvenile mortality followed by low mortality until old age.
-Such curves have features of type III and type I survivorship.</p>
+<p>You should see that Dall Moutain Sheep have a type I survivorship curve, Song Thrushes a type II, and barnacles a type III. None of these will be as neat as the hypothetical examples given in the second tab, but they come close. Other populations may display a mixture of types. Human populations, especially in developing countries, often have high infant and juvenile mortality followed by low mortality until old age. Such curves have features of type III and type I survivorship.</p>
 </div>
 
 

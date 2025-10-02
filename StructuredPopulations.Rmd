@@ -244,7 +244,7 @@ Finally, let us calculate the growth factor $\lambda$ at each time step: $\lambd
 We can calculate all $\lambda$-values in one step by dividing the column ```pop.dev$N``` without the first entry (```pop.dev$N[-1]```) by ```pop.dev$N``` without the last entry (```pop.dev$N[-length(pop.dev$N)]```). Make yourself clear why this works!
 
 ```{r}
-lambdas <- ts$N[-length(ts$N)]/ts$N[-1]
+lambdas <- ts$N[-1]/ts$N[-length(ts$N)]
 lambdas
 ```
 
