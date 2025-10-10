@@ -33,49 +33,52 @@ N.0 # let's have a look at the vector
 
 In order to obtain the vector describing the population composition one time step into the future, we multiply the current population vector ```N.0``` from the right to the population projection matrix ```transition.matrix```. The multiplication between a matrix and a vector is executed in R using the symbol ```%*%```.
 
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
 (N.1 <- transition.matrix %*% N.0) # the parentheses around a command make that the vector N.1 is immediately shown, that is, without explicitly asking for it as was done in the two previous commands.
 ```
 
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
 (N.2 <- transition.matrix %*% N.1)
 ```
 
 Use the this procedure to produce the population vectors for the first ten time steps, ```N.1, N.2,..., N.10```.
 
 ```{r}
-(N.1 <- transition.matrix %*% N.0)
-(N.2 <- transition.matrix %*% N.1)
-(N.3 <- transition.matrix %*% N.2)
-(N.4 <- transition.matrix %*% N.3)
-(N.5 <- transition.matrix %*% N.4)
-(N.6 <- transition.matrix %*% N.5)
-(N.7 <- transition.matrix %*% N.6)
-(N.8 <- transition.matrix %*% N.7)
-(N.9 <- transition.matrix %*% N.8)
-(N.10 <- transition.matrix %*% N.9)
+N.3 <- transition.matrix %*% N.2
+N.4 <- transition.matrix %*% N.3
+N.5 <- transition.matrix %*% N.4
+N.6 <- transition.matrix %*% N.5
+N.7 <- transition.matrix %*% N.6
+N.8 <- transition.matrix %*% N.7
+N.9 <- transition.matrix %*% N.8
+N.10 <- transition.matrix %*% N.9
+
+time.series <- as.data.frame(matrix(c(N.0, N.1, N.2, N.3, N.4, N.5, N.6, N.7, N.8, N.9, N.10), ncol=3, byrow=TRUE))
+time.series <- data.frame(0:10, time.series)
+colnames(time.series) <- c("time", "Seeds", "Juv", "Ad")
+time.series
 ```
 
 Next, let us compute the total number of individuals at time `t=0`, `t=1` until `t=10` using the command ```sum()```.
 
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
 (Ntot.0 <- sum(N.0)) 
 (Ntot.1 <- sum(N.1))
 (Ntot.2 <- sum(N.2))
 ```
 
-```{r }
-(Ntot.0 <- sum(N.0)) 
-(Ntot.1 <- sum(N.1))
-(Ntot.2 <- sum(N.2))
-(Ntot.3 <- sum(N.3))
-(Ntot.4 <- sum(N.4)) 
-(Ntot.5 <- sum(N.5))
-(Ntot.6 <- sum(N.6)) 
-(Ntot.7 <- sum(N.7))
-(Ntot.8 <- sum(N.8)) 
-(Ntot.9 <- sum(N.9))
-(Ntot.10 <- sum(N.10))
+```{r echo=FALSE}
+Ntot.3 <- sum(N.3)
+Ntot.4 <- sum(N.4)
+Ntot.5 <- sum(N.5)
+Ntot.6 <- sum(N.6)
+Ntot.7 <- sum(N.7)
+Ntot.8 <- sum(N.8)
+Ntot.9 <- sum(N.9)
+Ntot.10 <- sum(N.10)
+
+time.series$Ntot <- rowSums(time.series[, 2:4])
+time.series
 ```
 
 ```{r echo=FALSE}

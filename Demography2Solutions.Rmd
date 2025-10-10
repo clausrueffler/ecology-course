@@ -22,7 +22,7 @@ Why do we plot survivorship curves on a semi-log scale (y-axis on a log-scale)?
 
 We plot survivorship curves on semi-log graphs because $l_x$ is a proportion: the proportion of the original cohort surviving to age $x$. The distance between points on a logarithmic axis reflects their proportional relationship, and so a logarithmic scale is appropriate.
 
-This kind of graph also makes clear important differences between the three types of survivorship curve. Note that on the linear graph, type II and type III curves have qualitatively similar shapes, whereas on the semi-log graph they look quite different.
+This kind of graph also makes clear important differences between the three types of survivorship curve. Note that on the linear graph, type II and type III curves have qualitatively similar shapes, whereas on the semi-log graph they look quite different. Furthermore, the survivorship curve with constant mortality becomes a straight line.
 
 * **Question 2**
 What do the shapes of the survivorship curves tell us about patterns of survival and mortality? Compare each curve to the corresponding graph of age-specific survivorship (which you produce with the next piece of code).

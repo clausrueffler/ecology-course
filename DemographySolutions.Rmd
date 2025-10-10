@@ -60,6 +60,11 @@ knitr::kable(
 \
 *Geospiza fortis* is more sensitive to weather fluctuations because it has a higher $C.V.$
 
+Note, that it could actually be argued that the data reported here constitute the whole population, in which case the appropriate measure of variance is not the *sample variance* but the *population variance*, which we calculate according to
+$$
+\sigma^2 = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n}.
+$$
+
 ## Question 2
 
 **Fecundity of the chamois (*Rupicapra rupicapra*) in New Zealand**
