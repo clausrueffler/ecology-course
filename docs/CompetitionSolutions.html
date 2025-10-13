@@ -280,6 +280,9 @@ $(document).ready(function () {
     <li>
       <a href="./Competition.html">5. Excercise: Competition</a>
     </li>
+    <li>
+      <a href="./CompetitionSolutions.html">5. Excercise: Competition Solutions</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -432,9 +435,8 @@ observation?</p>
 <p><span style="color:red"> The long-term outcome of the population
 dynamics is independent of the initial population size. In other words,
 the exact same cyclic pattern is reached for different initial
-population sizes. This is true as long at the population dynamics is not
-chaotic.</p>
-<p>Once <em>r</em> is so large that the population dynamics shows
+population sizes. This is true as long as the population dynamics is not
+chaotic. Once <em>r</em> is so large that the population dynamics shows
 deterministic chaos, small changes in the initial population size result
 in completely different time series, as shown in the figure
 below.</span></p>
@@ -474,7 +476,7 @@ legend(&quot;bottom&quot;, c(expression(&quot;N0=10&quot;), expression(&quot;N0=
 </div>
 <div id="competition-between-two-species" class="section level2">
 <h2>Competition between two species</h2>
-<p>In order to properly investigate the competion between two species
+<p>In order to properly investigate the competition between two species,
 both need to have a non-zero density at <em>t=0</em>.</p>
 <pre class="r"><code>r1 &lt;- 1 # intrinsic growth rate of species 1
 r2 &lt;- 1.5 # intrinsic growth rate of species 2
@@ -595,38 +597,32 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
 legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<ol start="2" style="list-style-type: decimal">
-<li>Allow the two carrying capacities to differ from each other, for
-instance, <code>K1 &lt; K2</code>. Does this alter your previous
-results? If yes, how?</li>
-</ol>
-<p><span style="color:red">Making the carrying capacities unequal
-slightly modifies the above results. Just as an example, let us look at
-a case where <span class="math inline">\(\alpha&lt;1&lt;\beta\)</span>.
-According to our above simulation, species 2 is expected to win the
-competition. Let us additionally assume that <span
-class="math inline">\(K_1&gt;K_2\)</span>, more specifically, <span
-class="math inline">\(K_1=120\)</span> and <span
-class="math inline">\(K_2=100\)</span>. The above simulation shows that
-in this case it is species 1 that wins the competition. This is again in
-line with the expectations based on the analytical results presented in
-the lecture.</span></p>
-<pre class="r"><code>N0 &lt;- c(1, 1)
-K1 &lt;- 120 # carrying capacity of species 1
-K2 &lt;- 100 # carrying capacity of species 2
-alpha &lt;- 1.1 # competitive effect of species 2 on species 1
-beta &lt;- 0.9 # competitive effect of species 1 on species 2
-t &lt;- 50
-N &lt;- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
-N[1, ] &lt;- N0 # enters the initial population vector as a column into this matrix
-for (i in 1:t) N[i + 1, ] &lt;- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop interates the population dynamics t-times
+<!--
+2) Allow the two carrying capacities to differ from each other, for instance, ```K1 < K2```. Does this alter your previous results? If yes, how?
+  
+<span style="color:red">Making the carrying capacities unequal, slightly modifies the above results. Just as an example, let us look at a case where $\alpha<1<\beta$. According to our above simulation, species 2 is expected to win the competition. Let us additionally assume that $K_1>K_2$, more specifically, $K_1=120$ and $K_2=100$. The above simulation shows that in this case it is species 1 that wins the competition. This is again in line with the expectations based on the analytical results presented in the lecture.</span>
+  
 
-matplot(0:t, N, type = &quot;p&quot;, pch = c(1,16), col = 1, ylim = c(0, 150), ylab=&quot;Number of individuals&quot;, xlab=&quot;Time&quot;)
+```r
+N0 <- c(1, 1)
+K1 <- 120 # carrying capacity of species 1
+K2 <- 100 # carrying capacity of species 2
+alpha <- 1.1 # competitive effect of species 2 on species 1
+beta <- 0.9 # competitive effect of species 1 on species 2
+t <- 50
+N <- matrix(NA, nrow = t + 1, ncol = 2) # defines a matrix in which the population vectors of the time series will be stored
+N[1, ] <- N0 # enters the initial population vector as a column into this matrix
+for (i in 1:t) N[i + 1, ] <- LVcomp(N[i, ], r1, r2, K1, K2, alpha, beta) # this for-loop interates the population dynamics t-times
+
+matplot(0:t, N, type = "p", pch = c(1,16), col = 1, ylim = c(0, 150), ylab="Number of individuals", xlab="Time")
 abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of species 1
-text(0, K1+1, &quot;K1&quot;, adj = c(0, 0))
-legend(&quot;top&quot;, c(expression(&quot;species1 wins&quot;), expression(&quot;species2 goes extinct&quot;)), pch = c(1,16), bty = &quot;n&quot;)</code></pre>
-<p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<ol start="3" style="list-style-type: decimal">
+text(0, K1+1, "K1", adj = c(0, 0))
+legend("top", c(expression("species1 wins"), expression("species2 goes extinct")), pch = c(1,16), bty = "n")
+```
+
+<img src="CompetitionSolutions_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+-->
+<ol start="2" style="list-style-type: decimal">
 <li>The fact that the single-species logistic equation allows for
 overshooting and complicated population dynamical cycles when
 <em>r&gt;2</em> carries over to the LV-competition model in discrete
@@ -684,18 +680,30 @@ abline(h = K1, lty = 3)
 text(0, K1, &quot;K1&quot;, adj = c(0, 0)) 
 legend(&quot;top&quot;, c(expression(&quot;species1 &quot;), expression(&quot;species2&quot;)), lty = 1:2, bty = &quot;n&quot;)</code></pre>
 <p><img src="CompetitionSolutions_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<p><span style="color:red">In fact, one can prove mathematically that a
-stable equilibrium that allows two species to coexist, becomes unstable
-if at least one of the following two conditions is not fulfilled. And
-indeed, with the last set of parameters the second condition is false as
-is evident by the fluctuating dynamics.</span></p>
-<pre class="r"><code>c1 &lt;- r1*(K1-alpha*K2)/((1-alpha*beta)*K1) # here, we define three different constants c1, c2 and c3
-c2 &lt;- r2*(K2-beta*K1)/((1-alpha*beta)*K2)
-c3 &lt;- (1 + (c1*c2*(1-alpha*beta))/4)
-0 &lt; (c1+c2)/2 # this is the first condition that has to be fulfilled for the coexistence equilibrium to be stable</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>(c1+c2)/2 &lt; min(c3, 2) # this is the second condition that has to be fulfilled for the coexistence equilibrium to be stable</code></pre>
-<pre><code>## [1] FALSE</code></pre>
+<!--
+# I removed this, I guess I am overambitious...
+<span style="color:red">In fact, one can prove mathematically that a stable equilibrium that allows two species to coexist, becomes unstable if at least one of the following two conditions is not fulfilled. And indeed, with the last set of parameters the second condition is false as is evident by the fluctuating dynamics.</span>
+
+
+```r
+c1 <- r1*(K1-alpha*K2)/((1-alpha*beta)*K1) # here, we define three different constants c1, c2 and c3
+c2 <- r2*(K2-beta*K1)/((1-alpha*beta)*K2)
+c3 <- (1 + (c1*c2*(1-alpha*beta))/4)
+0 < (c1+c2)/2 # this is the first condition that has to be fulfilled for the coexistence equilibrium to be stable
+```
+
+```
+## [1] TRUE
+```
+
+```r
+(c1+c2)/2 < min(c3, 2) # this is the second condition that has to be fulfilled for the coexistence equilibrium to be stable
+```
+
+```
+## [1] FALSE
+```
+-->
 </div>
 </div>
 

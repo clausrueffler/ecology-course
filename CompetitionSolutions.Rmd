@@ -147,7 +147,7 @@ for (i in 1:t){
 
 par(mfrow = c(4, 2), oma = c(0, 0, 3, 0))  # 2 rows, 4 columns
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=0.5")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=0.5")
 abline(h = 100, lty = 3)
 
 N <- data.frame(Species1=rep(NA, t+1), Species2=rep(NA, t+1))
@@ -158,7 +158,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=0.9, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=0.9")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=0.9")
 abline(h = 100, lty = 3)
 
 ### r=1.5
@@ -170,7 +170,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=1.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=1.5")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=1.5")
 abline(h = 100, lty = 3)
 #legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 
@@ -183,7 +183,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=1.9, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=1.9")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=1.9")
 abline(h = 100, lty = 3)
 #legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 
@@ -196,7 +196,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=2.1, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.1")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.1")
 abline(h = 100, lty = 3)
 #legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 
@@ -209,7 +209,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=2.4, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.4")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.4")
 abline(h = 100, lty = 3)
 #legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 
@@ -222,7 +222,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=2.5, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.5")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.5")
 abline(h = 100, lty = 3)
 #legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), bty = "n")
 
@@ -235,7 +235,7 @@ for (i in 1:t){
   N[i + 1, ] <- LVcomp(N[i, ], r1=2.6, r2=0.9, K1=100, K2=100, alpha=0.8, beta=0.9)
 }
 
-matplot(0:t, N$Species1, type = "p", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.6")
+matplot(0:t, N$Species1, type = "b", pch =c(1,16), col = 1, ylim = c(0, 130), ylab="N", xlab="Time", main="r=2.6")
 abline(h = 100, lty = 3)
 
 mtext("Eight time series for different r-values", outer = TRUE, cex = 1.5, font = 2)
@@ -244,8 +244,7 @@ mtext("Eight time series for different r-values", outer = TRUE, cex = 1.5, font 
 Does the behavior you observe change when you alter the initial population size at time zero? Investigate this in particular for $r=2.6$. How do you interpret your observation?
 
 <span style="color:red">
-The long-term outcome of the population dynamics is independent of the initial population size. In other words, the exact same cyclic pattern is reached for different initial population sizes. This is true as long at the population dynamics is not chaotic. 
-
+The long-term outcome of the population dynamics is independent of the initial population size. In other words, the exact same cyclic pattern is reached for different initial population sizes. This is true as long as the population dynamics is not chaotic. 
 Once *r* is so large that the population dynamics shows deterministic chaos, small changes in the initial population size result in completely different time series, as shown in the figure below.</span>
 
 ```{r}
@@ -380,7 +379,7 @@ legend("bottomright", legend=c("r=2.5", "r=2.6"),
 
 ## Competition between two species
 
-In order to properly investigate the competion between two species both need to have a non-zero density at *t=0*.
+In order to properly investigate the competition between two species, both need to have a non-zero density at *t=0*.
 
 ```{r}
 r1 <- 1 # intrinsic growth rate of species 1
@@ -488,9 +487,10 @@ text(0, K1+1, "K1", adj = c(0, 0))
 legend("top", c(expression("species1 "), expression("species2")), pch = c(1,16), bty = "n")
 ```
 
-  2) Allow the two carrying capacities to differ from each other, for instance, ```K1 < K2```. Does this alter your previous results? If yes, how?
+<!--
+2) Allow the two carrying capacities to differ from each other, for instance, ```K1 < K2```. Does this alter your previous results? If yes, how?
   
-<span style="color:red">Making the carrying capacities unequal slightly modifies the above results. Just as an example, let us look at a case where $\alpha<1<\beta$. According to our above simulation, species 2 is expected to win the competition. Let us additionally assume that $K_1>K_2$, more specifically, $K_1=120$ and $K_2=100$. The above simulation shows that in this case it is species 1 that wins the competition. This is again in line with the expectations based on the analytical results presented in the lecture.</span>
+<span style="color:red">Making the carrying capacities unequal, slightly modifies the above results. Just as an example, let us look at a case where $\alpha<1<\beta$. According to our above simulation, species 2 is expected to win the competition. Let us additionally assume that $K_1>K_2$, more specifically, $K_1=120$ and $K_2=100$. The above simulation shows that in this case it is species 1 that wins the competition. This is again in line with the expectations based on the analytical results presented in the lecture.</span>
   
 ```{r}
 N0 <- c(1, 1)
@@ -508,8 +508,9 @@ abline(h = K1, lty = 3) # plots a line indicating the carrying capacity of speci
 text(0, K1+1, "K1", adj = c(0, 0))
 legend("top", c(expression("species1 wins"), expression("species2 goes extinct")), pch = c(1,16), bty = "n")
 ```
+-->
   
-3) The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when *r>2* carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, ```r1 = r2``` and ```K1 = K2```. What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).
+2) The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when *r>2* carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, ```r1 = r2``` and ```K1 = K2```. What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).
   
 <span style="color:red">As an example, let us study the case that both competition coefficients are less than 1, that is we expect the two species to coexist. First, we run a simulation with ```r1 = 1.9 =r2``` and then a simulation with ```r1 = 2.1 = r2```. We see that in the first case the coexistence equilibrium is reached in an oscillating manner. In the second case, interestingly, the two species coexist but both species fluctuate in a 2-cycle.</span>
   
@@ -553,6 +554,8 @@ text(0, K1, "K1", adj = c(0, 0))
 legend("top", c(expression("species1 "), expression("species2")), lty = 1:2, bty = "n")
 ```  
 
+<!--
+# I removed this, I guess I am overambitious...
 <span style="color:red">In fact, one can prove mathematically that a stable equilibrium that allows two species to coexist, becomes unstable if at least one of the following two conditions is not fulfilled. And indeed, with the last set of parameters the second condition is false as is evident by the fluctuating dynamics.</span>
 
 ```{r}
@@ -562,4 +565,4 @@ c3 <- (1 + (c1*c2*(1-alpha*beta))/4)
 0 < (c1+c2)/2 # this is the first condition that has to be fulfilled for the coexistence equilibrium to be stable
 (c1+c2)/2 < min(c3, 2) # this is the second condition that has to be fulfilled for the coexistence equilibrium to be stable
 ```
-
+-->

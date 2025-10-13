@@ -154,11 +154,11 @@ legend("top", c(expression("species1 "), expression("species2")), pch =c(1,16), 
 
 ## Competition between two species
 
-In order to investigate competition between two species, both species need to have a non-zero density at *t=0*. Thus, in this tab you have to choose a starting vector lines this one, ```N0 <- c(10, 10)```, where both densities are different from zero.
+In order to properly investigate the competition between two species, both need to have a non-zero density at *t=0*. Thus, in this tab you have to choose a starting vector lines this one, ```N0 <- c(10, 10)```, where both densities are different from zero.
 
 In this part of the exercise, you investigate the effect of the various parameters on the *outcome of competition* between two species. Specifically, investigate the following questions.
 
-  1) First focus on the case that both carrying capacities are equal, ```K1=K2```, and that the intrinsic growth rates are relatively small, say, ```r1 < 1``` and ```r2 < 1```. Under this scenario, look at the following cases:
+  1) Let us focus on the case that both carrying capacities are equal, ```K1=K2```, and that the intrinsic growth rates are relatively small, say, ```r1 < 1``` and ```r2 < 1```. Under this scenario, look at the following cases:
 $$
 \begin{align}
   \mathrm{i)\,\,} & \alpha<1<\beta\\
@@ -168,9 +168,11 @@ $$
 \end{align}
 $$
 Note: It makes sense avoid parameter combinations where simultaneously ```K1 = K2```, ```r1 = r2```, and ```alpha = beta```, since under such *complete symmetry* the two species are perfectly neutral with respect to each other. Let us therefore ignore this extremely special case.
-  
+
+<!--
   2) Allow the two carrying capacities to differ from each other, for instance, ```K1 < K2```. Does this alter your previous results? If yes, how?
+  -->
   
-  3) The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when *r>2* carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, ```r1 = r2``` and and ```K1 = K2``` (but not ```alpha``` and ```beta```). What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).
+  2) The fact that the single-species logistic equation allows for overshooting and complicated population dynamical cycles when *r>2* carries over to the LV-competition model in discrete time (note, that this is not possible in the continuous time versions of both these models). Investigate this possibility for the special case that the intrinsic growth rates and carrying capacities of both species are equal to each other, ```r1 = r2``` and and ```K1 = K2``` (but not ```alpha``` and ```beta```). What happens if both growth rates are close to 2 but slightly less and what happens if you increase both growth rates slightly above 2? You could combine this investigation with the different configurations that the competition competition coefficients can take as listed under (1).
 
 You can investigate these questions, by re-using the code from the previous tab, change the parameters as needed, store the time series in different data frame that you can then use to plot the dynamics.
