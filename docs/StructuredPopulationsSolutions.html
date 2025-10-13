@@ -579,20 +579,6 @@ You can think of a data frame as an EXCEL sheet but in R. Thus, a data
 frame is a matrix where we can give names to rows and columns to
 describe what is stored in the different cells of the data frame.</p>
 <pre class="r"><code>pop.dev &lt;- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))</code></pre>
-<p>Let’s check how the data frame looks at the moment.</p>
-<pre class="r"><code>pop.dev</code></pre>
-<pre><code>##    time Seeds Juv Adults  N lambda
-## 1     0    NA  NA     NA NA     NA
-## 2     1    NA  NA     NA NA     NA
-## 3     2    NA  NA     NA NA     NA
-## 4     3    NA  NA     NA NA     NA
-## 5     4    NA  NA     NA NA     NA
-## 6     5    NA  NA     NA NA     NA
-## 7     6    NA  NA     NA NA     NA
-## 8     7    NA  NA     NA NA     NA
-## 9     8    NA  NA     NA NA     NA
-## 10    9    NA  NA     NA NA     NA
-## 11   10    NA  NA     NA NA     NA</code></pre>
 <p>Let us fill the first column of the data frame with the population
 vector at time zero.</p>
 <pre class="r"><code>pop.dev[1, &quot;Seeds&quot;] &lt;- N.0[1]
@@ -618,18 +604,18 @@ for (n in 2:11) # the loop &quot;runs&quot; from n=2 to n=11 (representing the y
 column in the data frame, for example, the total population size
 <em>N</em>.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$N, type=&quot;l&quot;, ylab=&quot;Total population size&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <p>In order to plot the entries of another column, we have to add the
 name of that column to the second <code>pop.dev$</code> in the last line
 of code. For example, if we want to plot the number of adults we have to
 replace <code>pop.dev$N</code> with <code>pop.dev$Adults</code> (and
 change the name of the label on the y-axis accordingly).</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <p>And here is the code if you wish to plot the growth factor <span
 class="math inline">\(\lambda\)</span> as a function of time.</p>
 <pre class="r"><code>plot(pop.dev$time, pop.dev$lambda, type=&quot;l&quot;, ylab=&quot;Growth factor lambda&quot;, xlab=&quot;Time (years)&quot;, las=1)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>Now you have to decide how you have to change the above code so that
 it takes into account the above two conservation strategies.</p>
 <p><span style="color:red">The following code produces the data for the
@@ -659,7 +645,7 @@ for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
 }
 
 plot(pop.dev.strategy.1$time, pop.dev.strategy.1$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1, col=&quot;green&quot;)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <p><span style="color:red">The following code produces the data for the
 SECOND conservation measurement. For this we have to change the first
 entry in the second column of population projection matrix from 0.01 to
@@ -688,7 +674,7 @@ for (n in 2:11) # the year runs second to 11th row (i.e, year 1 to 10)
 }
 
 plot(pop.dev.strategy.2$time, pop.dev.strategy.2$Adults, type=&quot;l&quot;, ylab=&quot;Number of Adults&quot;, xlab=&quot;Time (years)&quot;, las=1, col=&quot;blue&quot;)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>Once you have the time series for the three different scenarios
 (population without conservation, population with measurement 1 and
 population with measurement 2), you could use code like the following to
@@ -698,7 +684,7 @@ lines(pop.dev$time, pop.dev.strategy.1$Adults, col=&quot;green&quot;)
 lines(pop.dev$time, pop.dev.strategy.2$Adults, col=&quot;blue&quot;)
 legend(&quot;top&quot;, legend=c(&quot;no measure&quot;, &quot;Meth. 1&quot;, &quot;Meth. 2&quot;), 
        col=c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;), lty=c(1,1,1), bty=&quot;n&quot;, horiz=TRUE, cex=0.9)</code></pre>
-<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="StructuredPopulationsSolutions_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <!-- (Code to produce the data for the SECOND conservation measurement. Here, I added ```+30```in the for loop where the population size at the next year is determined.) -->
 </div>
 </div>

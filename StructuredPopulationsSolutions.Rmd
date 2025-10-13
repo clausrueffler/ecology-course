@@ -336,12 +336,6 @@ Before we "run" the for-loop to create a time series, we create a so-called *dat
 pop.dev <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11), N=rep(NA,11), lambda=rep(NA,11))
 ```
 
-Let's check how the data frame looks at the moment.
-
-```{r}
-pop.dev
-```
-
 Let us fill the first column of the data frame with the population vector at time zero.
 
 ```{r}
