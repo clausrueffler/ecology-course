@@ -32,15 +32,15 @@ knitr::kable(
 ```
 
 \
-Calculate the mean number of breeding pairs ($\bar x$), standard deviation ($s$), variance ($s^2$) and coefficient of variation ($C.V.$) for the two species. Which of the species is more sensitive to weather fluctuations?
+Calculate the mean number of breeding pairs ($\bar x$), variance ($\sigma^2$), standard deviation ($\sigma$) and coefficient of variation ($C.V.$) for the two species. Which of the species is more sensitive to weather fluctuations?
 If we denote the number of breeding pairs in a given year with $x_i$, then the required formulas are as follows.
 
 $$
 \begin{align}
 \bar x & = \frac{\sum_{i=1}^{n}x_i}{n} \\
-s^2 & = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n-1} \\
-s & = \sqrt{s^2} \\
-C.V. & = \frac{s}{\bar x}
+\sigma^2 & = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n - 1} \\
+\sigma & = \sqrt{\sigma^2} \\
+C.V. & = \frac{\sigma}{\bar x}
 \end{align}
 $$
 
@@ -50,20 +50,27 @@ The coefficient of variation expresses variation within a variable relative to t
 **Answer:**
 
 ```{r, eval=TRUE, echo=FALSE}
-answers <- data.frame(species = c('*G. fortis*', '*G. scandens*'), mean = c(mean(Darwin.finches$G.fortis), mean(Darwin.finches$G.scandens)), s = c(sd(Darwin.finches$G.fortis), sd(Darwin.finches$G.scandens)), var = c(var(Darwin.finches$G.fortis), var(Darwin.finches$G.scandens)), CV = c(sd(Darwin.finches$G.fortis)/mean(Darwin.finches$G.fortis), sd(Darwin.finches$G.scandens)/mean(Darwin.finches$G.scandens)))
+Var <- c(var(Darwin.finches$G.fortis), var(Darwin.finches$G.scandens))
+Mean <- c(mean(Darwin.finches$G.fortis), mean(Darwin.finches$G.scandens))
+SD <- c(sqrt(Var[1]), sqrt(Var[2]))
+CV <- c(SD[1]/Mean[1], SD[2]/Mean[2])
+
+answers <- data.frame(
+species = c('*G. fortis*', '*G. scandens*'),
+mean = Mean,
+var = Var, 
+s = SD,
+CV = CV
+)
 
 knitr::kable(
-  answers, digits = 2, format = "html", table.attr = "style='width:70%;'", col.names = c('species', 'mean', '$s$', '$s^2$', '$C.V.$')
+  answers, digits = 2, format = "html", table.attr = "style='width:70%;'", col.names = c('species', 'mean', '$s^2$', '$s$', '$C.V.$')
 )
 ```
 
 \
 *Geospiza fortis* is more sensitive to weather fluctuations because it has a higher $C.V.$
 
-Note, that it could actually be argued that the data reported here constitute the whole population, in which case the appropriate measure of variance is not the *sample variance* but the *population variance*, which we calculate according to
-$$
-\sigma^2 = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n}.
-$$
 
 ## Question 2
 

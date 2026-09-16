@@ -32,15 +32,15 @@ knitr::kable(
 ```
 
 \
-Calculate the mean number of breeding pairs ($\bar x$), standard deviation ($s$), variance ($s^2$) and coefficient of variation ($C.V.$) for the two species. Which of the species is more sensitive to weather fluctuations?
+Calculate the mean number of breeding pairs ($\bar x$), variance ($\sigma^2$), standard deviation ($\sigma$) and coefficient of variation ($C.V.$) for the two species. Which of the species is more sensitive to weather fluctuations?
 If we denote the number of breeding pairs in a given year with $x_i$, then the required formulas are as follows.
 
 $$
 \begin{align}
 \bar x & = \frac{\sum_{i=1}^{n}x_i}{n} \\
-s^2 & = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n-1} \\
-s & = \sqrt{s^2} \\
-C.V. & = \frac{s}{\bar x}
+\sigma^2 & = \frac{\sum_{i=1}^{n}(x_i-\bar x)^2}{n - 1} \\
+\sigma & = \sqrt{\sigma^2} \\
+C.V. & = \frac{\sigma}{\bar x}
 \end{align}
 $$
 
