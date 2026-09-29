@@ -7,8 +7,8 @@ left:
     menu:
       - text: "1. Excercise: Population Dynamics"
         href: ./PopulationDynamics.html
-#      - text: "1. Excercise: Population Dynamics Solutions"
-#        href: ./PopulationDynamicsSolutions.html
+      - text: "1. Excercise: Population Dynamics Solutions"
+        href: ./PopulationDynamicsSolutions.html
       - text: "2. Excercise: Demography I"
         href: ./Demography.html
 #      - text: "2. Excercise: Demography I Solutions"
