@@ -306,9 +306,6 @@ for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 
 
 ts.strategy2$N <- rowSums(ts.strategy2[, -1])
 ts.strategy2$lambda <- append(ts.strategy2$N[-1]/ts.strategy2$N[-length(ts.strategy2$N)], NA)
-
-ts.strategy1$lambda
-ts.strategy2$lambda
 ```
 
 ```{r echo=FALSE}
