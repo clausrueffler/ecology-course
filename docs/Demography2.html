@@ -264,7 +264,13 @@ $(document).ready(function () {
       <a href="./PopulationDynamics.html">1. Excercise: Population Dynamics</a>
     </li>
     <li>
+      <a href="./PopulationDynamicsSolutions.html">1. Excercise: Population Dynamics Solutions</a>
+    </li>
+    <li>
       <a href="./Demography.html">2. Excercise: Demography I</a>
+    </li>
+    <li>
+      <a href="./DemographySolutions.html">2. Excercise: Demography I Solutions</a>
     </li>
     <li>
       <a href="./Demography2.html">3. Excercise: Demography II</a>
@@ -382,8 +388,8 @@ r \approx \frac{\ln(R_0)}{T_c}.
 </div>
 <div id="doing-it-in-r" class="section level2">
 <h2>Doing it in <em>R</em></h2>
-<p>Our purpose here is to show how survivorship curves are generated and what they mean. You will use survivorship schedules to calculate and graph <span class="math inline">\(l_x\)</span>, <span class="math inline">\(g_x\)</span>, and <span class="math inline">\(e_x\)</span>, resulting in survivorship curves of type I, II, or III.</p>
-<p>We start by creating a data frame data frame with the survivorship schedule for three hypothetical species that reach an age of up to 11 years. A data frame is R’s equivalent to an EXCEL spreadsheet. It consists of columns and rows, where objects of the same type are stored in columns and where these columns have names.</p>
+<p>We here present how survivorship curves are generated and what they mean. You will use survivorship schedules to calculate and graph <span class="math inline">\(l_x\)</span>, <span class="math inline">\(g_x\)</span>, and <span class="math inline">\(e_x\)</span>, resulting in survivorship curves of type I, II, or III.</p>
+<p>We start by creating a data frame with the survivorship schedule for three hypothetical species that reach an age of up to 11 years. A data frame is R’s equivalent to an EXCEL spreadsheet. It consists of columns and rows, where objects of the same type are stored in columns and where these columns have names.</p>
 <p>Here are the data for the three species, each collected in a vector.</p>
 <pre class="r"><code>axSpecies1 &lt;- c(1000, 990, 970, 940, 900, 850, 750, 500, 200, 40, 1, 0)
 axSpecies2 &lt;- c(2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 0)

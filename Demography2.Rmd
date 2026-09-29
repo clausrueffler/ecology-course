@@ -135,9 +135,9 @@ Finally, we can use our estimate of $r$ to predict the size of the population in
 
 ## Doing it in *R*
 
-Our purpose here is to show how survivorship curves are generated and what they mean. You will use survivorship schedules to calculate and graph $l_x$, $g_x$, and $e_x$, resulting in survivorship curves of type I, II, or III.
+We here present how survivorship curves are generated and what they mean. You will use survivorship schedules to calculate and graph $l_x$, $g_x$, and $e_x$, resulting in survivorship curves of type I, II, or III.
 
-We start by creating a data frame data frame with the survivorship schedule for three hypothetical species that reach an age of up to 11 years. A data frame is R's equivalent to an EXCEL spreadsheet. It consists of columns and rows, where objects of the same type are stored in columns and where these columns have names.
+We start by creating a data frame with the survivorship schedule for three hypothetical species that reach an age of up to 11 years. A data frame is R's equivalent to an EXCEL spreadsheet. It consists of columns and rows, where objects of the same type are stored in columns and where these columns have names.
 
 Here are the data for the three species, each collected in a vector.
 ```{r}
@@ -145,28 +145,36 @@ axSpecies1 <- c(1000, 990, 970, 940, 900, 850, 750, 500, 200, 40, 1, 0)
 axSpecies2 <- c(2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 0)
 axSpecies3 <- c(10000, 100, 30, 20, 18, 17, 16, 15, 14, 13, 12, 0)
 ```
+
 Next, let us collect these vectors in a data frame, called *Counts*, and let us add a first column to it, called *age*:
+
 ```{r}
 Counts <- data.frame(age=0:11, axSpecies1, axSpecies2, axSpecies3)
 ```
+
 This is how this data frame looks:
+
 ```{r}
 Counts
 ```
 
 This data frame contains the original counts from a *cohort life table*. Next, let us calculate $l_x$, the proportion of individuals present in the original cohort surviving to the start of each age class, by dividing each count by the first count. In R, this can simply be done by dividing the vector of counts, by the first entry in the respective vector, which produced a new vector.
+
 ```{r}
 lxSpecies1 <- axSpecies1/axSpecies1[1]
 lxSpecies2 <- axSpecies2/axSpecies2[1]
 lxSpecies3 <- axSpecies3/axSpecies3[1]
 ```
+
 Let us again collect these in a data frame, called *Relative.Counts*.
+
 ```{r}
 Relative.Counts <- data.frame(age=0:11, lxSpecies1, lxSpecies2, lxSpecies3)
 Relative.Counts
 ```
 
 Now we everything to plot the survivorship curves for our three hypothetical species. Note that I here use *base R* for plotting. One way to plot several curves in the same graph is by "putting them on top of each other". This means that we first create a plot with the first curve, to which we can add a name for the figure (*Survivorship Curves*) and axes labels. Then, using the command ```lines```, we can add the curves for species two and three. For each line, we can specify the the color (```col```) and the symbol (```pch```). Finally, we can add a legend to the figure.
+
 ```{r}
 plot(Relative.Counts$age, Relative.Counts$lxSpecies1, type = "b", pch = 0, col="red", xlab = "age", ylab = "standardized survivorship, lx", main="Survivorship Curves")
 lines(Relative.Counts$age, Relative.Counts$lxSpecies2, type = "b", pch = 1, col="blue")
@@ -176,6 +184,7 @@ legend("topright", c("lx, type 1", "lx, type 2", "lx, type 3"), col =c("red", "b
 ```
 
 It is now very easy to plot the survivorship curves with $l_x$-values on a log-scale. This is indeed the standard way to plot survivorship curves. All that we have to do is to add the command (```log="y"```) to the plot command.
+
 ```{r warning=FALSE}
 plot(Relative.Counts$age, Relative.Counts$lxSpecies1, log="y", type = "b", pch = 0, col="red", xlab = "age", ylab = "standardized survivorship, lx", main="Survivorship Curves (log-scale)")
 lines(Relative.Counts$age, Relative.Counts$lxSpecies2, type = "b", pch = 1, col="blue")
