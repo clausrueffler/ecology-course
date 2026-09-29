@@ -292,7 +292,7 @@ for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 
 }
 
 ts.strategy1$N <- rowSums(ts.strategy1[, -1])
-ts.strategy1$lambda <- append(ts.strategy1$N[-length(ts.strategy1$N)]/ts.strategy1$N[-1], NA)
+ts.strategy1$lambda <- append(ts.strategy1$N[-1]/ts.strategy1$N[-length(ts.strategy1$N)], NA)
 
 ts.strategy2 <- data.frame(time=c(0:10), Seeds=rep(NA,11), Juv=rep(NA,11), Adults=rep(NA,11))
 N.0 <- matrix(c(3000,180,30), nrow=3, ncol=1, byrow=T)
@@ -305,7 +305,10 @@ for (i in 1:10) # the loop "runs" from i=1 to n=10 (representing the years 1 to 
 }
 
 ts.strategy2$N <- rowSums(ts.strategy2[, -1])
-ts.strategy2$lambda <- append(ts.strategy2$N[-length(ts.strategy2$N)]/ts.strategy2$N[-1], NA)
+ts.strategy2$lambda <- append(ts.strategy2$N[-1]/ts.strategy2$N[-length(ts.strategy2$N)], NA)
+
+ts.strategy1$lambda
+ts.strategy2$lambda
 ```
 
 ```{r echo=FALSE}
@@ -315,7 +318,7 @@ lines(0:10, ts.strategy2$N, col="blue")
 legend("top", legend=c("no measure", "Method 1", "Method 2"), 
        col=c("red", "green", "blue"), lty=c(1,1,1), bty="n", horiz=TRUE, cex=0.9)
 
-plot(0:10, ts$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1, col="red", ylim = c(0, 3.5))
+plot(0:10, ts$lambda, type="l", ylab="Growth factor lambda", xlab="Time (years)", las=1, col="red", ylim = c(0, 9))
 lines(0:10, ts.strategy1$lambda, col="green")
 lines(0:10, ts.strategy2$lambda, col="blue")
 legend("top", legend=c("no measure", "Method 1", "Method 2"), 
