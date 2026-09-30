@@ -157,7 +157,7 @@ At the end of this part, you should complete the following tasks.
 
 2) Compute the growth factor $\lambda$ for ten years and describe how it changes over time. What do you observe.
 
-3) Execute the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. Can you make a figure that shows the time series for the three different starting values together? Similarly, can the time series for the three different starting values together in the same figure? Can you do a similar figure but with the $\lambda$-values as computed from the different starting vectors? Summarize your observations.
+3) Execute the computations under (1) and (2) for three different initial population vectors $N_0$, namely: $N_0=(1000, 30, 15)$, $N_0=(10, 0, 0)$ and $N_0=(0, 10, 0)$. Can you make a figure that shows the time series for the three different starting values together? Can you do a similar figure but with the $\lambda$-values as computed from the different starting vectors? Summarize your observations.
 
 ## Conservation measures
 
