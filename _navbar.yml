@@ -15,8 +15,8 @@ left:
         href: ./DemographySolutions.html
       - text: "3. Excercise: Demography II"
         href: ./Demography2.html
-#      - text: "3. Excercise: Demography II Solutions"
-#        href: ./Demography2Solutions.html
+      - text: "3. Excercise: Demography II Solutions"
+        href: ./Demography2Solutions.html
       - text: "4. Excercise: Structured Populations"
         href: ./StructuredPopulations.html
 #      - text: "4. Excercise: Structured Populations Solutions"
